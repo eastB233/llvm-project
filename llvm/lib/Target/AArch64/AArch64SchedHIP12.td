@@ -1287,12 +1287,12 @@ def : InstRW<[WriteAdr, HIP12Write_8c_1LD_2V], (instregex "LD2Rv(16b|8h|4s|2d)_P
 
 // SIMD load LD3 (multiple structures), Q-form, B/H/S
 // instrs LD3
-def : InstRW<[HIP12Write_10c_4LD_6V], (instregex "LD3Threev(16b|8h|4s)$")>;
-def : InstRW<[WriteAdr, HIP12Write_10c_4LD_6V], (instregex ""LD3Threev(16b|8h|4s)_POST$")>;
+def : InstRW<[HIP12Write_10c_4LD_6V],           (instregex "LD3Threev(16b|8h|4s)$")>;
+def : InstRW<[WriteAdr, HIP12Write_10c_4LD_6V], (instregex "LD3Threev(16b|8h|4s)_POST$")>;
 
 // SIMD load LD3 (multiple structures), Q-form,D
 // instrs LD3
-def : InstRW<[HIP12Write_8c_3LD_4V], (instregex "LD3Threev2d$")>;
+def : InstRW<[HIP12Write_8c_3LD_4V],           (instregex "LD3Threev2d$")>;
 def : InstRW<[WriteAdr, HIP12Write_8c_3LD_4V], (instregex "LD3Threev2d_POST$")>;
 
 // SIMD load LD3 (multiple structures), D-form
@@ -1323,8 +1323,8 @@ def : InstRW<[WriteAdr, HIP12Write_11c_6LD_8V], (instregex "LD4Fourv(16b|8h|4s)_
 // instrs LD4
 def : InstRW<[HIP12Write_9c_4LD_5V],           (instregex "LD4Fourv2d$")>;
 def : InstRW<[WriteAdr, HIP12Write_9c_4LD_5V], (instregex "LD4Fourv2d_POST$")>;
-def : InstRW<[HIP12Write_9c_4LD_5V],           (instregex "LD4Fourv(8b|4h|2s)$")>;
-def : InstRW<[WriteAdr, HIP12Write_9c_4LD_5V], (instregex "LD4Fourv(8b|4h|2s)_POST$")>;
+def : InstRW<[HIP12Write_8c_3LD_4V],           (instregex "LD4Fourv(8b|4h|2s)$")>;
+def : InstRW<[WriteAdr, HIP12Write_8c_3LD_4V], (instregex "LD4Fourv(8b|4h|2s)_POST$")>;
 
 // SIMD load, 4-element, single, 1 lane
 // instrs LD4

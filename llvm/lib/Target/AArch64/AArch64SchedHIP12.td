@@ -12,11 +12,11 @@
 //===----------------------------------------------------------------------===//
 
 def HIP12Model : SchedMachineModel {
-  let IssueWidth            =   8; // HIP12 can dispatch 8 micro-ops per cycle.
-  let MicroOpBufferSize     = 320; // Based on the reorder buffer.
-  let LoadLatency           =   4; // Basic latency for most load instructions.
-  let MispredictPenalty     =  10; // Based on ALU pipeline depth.
-  let LoopMicroOpBufferSize =  16; // Based on the instruction queue size.
+  let IssueWidth            =   8; // Micro-ops dispatched at a time.
+  let MicroOpBufferSize     = 320; // Entries in micro-op re-order buffer.
+  let LoadLatency           =   4; // Optimistic load latency.
+  let MispredictPenalty     =  10; // Extra cycles for mispredicted branch.
+  let LoopMicroOpBufferSize =  16; // NOTE: Copied from Cortex-A57.
   let CompleteModel         =   1;
 
   list<Predicate> UnsupportedFeatures = !listconcat(SVE2Unsupported.F,
@@ -86,7 +86,6 @@ def HIP12Rd_FMA : SchedReadAdvance<2, [HIP12Write_3c_1V, HIP12Write_4c_1V]>;
 
 // ASIMD absolute diff accum
 // ASIMD absolute diff accum long
-
 def HIP12Rd_AbsAcc : SchedReadAdvance<1, [HIP12Write_2c_1V]>;
 
 // ASIMD dot product
@@ -213,7 +212,7 @@ def : InstRW<[HIP12Write_1c_1B_1ALU14], (instrs BLR)>;
 // alias to WriteBr
 
 //===----------------------------------------------------------------------===//
-// 3.4 Arithmetic and Logical instructions
+// 3.4 Arithmetic and Logical Instructions
 //===----------------------------------------------------------------------===//
 
 // ALU, basic
@@ -272,9 +271,8 @@ def : InstRW<[HIP12Write_2c_1ALU25], (instregex "^(AND|BIC)S[WX]rr$")>;
 def : InstRW<[HIP12Write_2c_1ALU25], (instregex "^(AND|BIC)S[WX]rs$")>;
 
 //===----------------------------------------------------------------------===//
-// 3.5 Divide and Multiply instructions
+// 3.5 Divide and Multiply Instructions
 //===----------------------------------------------------------------------===//
-
 
 def : SchedAlias<WriteIM32, HIP12Write_2c_1ALU25>;
 def : SchedAlias<WriteIM64, HIP12Write_3c_1ALU25>;
@@ -420,7 +418,7 @@ def : InstRW<[HIP12Write_4c_1LD], (instrs PRFUMi)>;
 // instrs LDTR, LDTRB, LDTRH, LDTRSB, LDTRSH, LDTRSW
 def : InstRW<[HIP12Write_4c_1LD_2ALU], (instregex "^LDTR")>;
 
-// load register, unsigned immed
+// Load register, unsigned immed
 // instrs LDR, LDRB, LDRH, LDRSB, LDRSH, LDRSW, PRFM
 def : InstRW<[HIP12Write_4c_1LD], (instrs PRFMui)>;
 
@@ -863,7 +861,7 @@ def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VMAL], (instregex "^[SU]MLALv", "^[SU]ML
 // instrs SQDMLAL{2}, SQDMLSL{2}
 def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VMASL], (instregex "^SQDML[AS]L[iv]")>;
 
-// ASIMD multiply/multiply long(8x8) polynomial
+// ASIMD multiply/multiply long (8x8) polynomial
 // instrs PMUL, PMULL{2}
 def : InstRW<[HIP12Write_2c_1V], (instregex "^PMULL?(v8i8|v16i8)$")>;
 
@@ -890,7 +888,7 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^SLI[dv]", "^SRI[dv]")>;
 def : InstRW<[HIP12Write_3c_1V], (instregex "^RSHRNv", "^UQRSHRN[bhsv]",
                                                 "^SQRSHRU?N[bhsv]", "^[SU]RSHR[dv]")>;
 
-// ASIMD shift by immed, Complex
+// ASIMD shift by immed, complex
 // instrs SQSHRN{2}, SQSHRUN{2}, SQSHLU, UQSHRN{2},
 // ASIMD shift by immed, complex
 // instrs SQSHL, UQSHL
@@ -899,16 +897,16 @@ def : InstRW<[HIP12Write_3c_1V],
                         "^(SQSHLU?|UQSHL)(v8i8|v16i8|v4i16|v8i16|v2i32|v4i32|v2i64)_shift$",
                         "^SQSHRU?N[bhsv]", "^UQSHRN[bhsv]")>;
 
-// ASMID shift by register, basic
+// ASIMD shift by register, basic
 // instrs SSHL, USHL
 def : InstRW<[HIP12Write_2c_1V], (instregex "^[SU]SHLv")>;
 
-// ASMID shift by register, complex
+// ASIMD shift by register, complex
 // instrs SRSHL, SQRSHL, URSHL, UQRSHL,
 def : InstRW<[HIP12Write_3c_1V],
              (instregex "^[SU]RSHLv", "^[SU]QRSHLv")>;
 
-// ASMID shift by register, complex
+// ASIMD shift by register, complex
 // instrs SQSHL, UQSHL
 def : InstRW<[HIP12Write_2c_1V],
              (instregex "^[SU]QSHL(v1i8|v1i16|v1i32|v1i64|v8i8|v16i8|v4i16|v8i16|v2i32|v4i32|v2i64)$")>;
@@ -1104,7 +1102,7 @@ def : InstRW<[HIP12Write_1c_1V], (instregex "^(BIF|BIT|BSL)v")>;
 // instrs CLZ, CLS
 def : InstRW<[HIP12Write_1c_1V], (instregex "^CL[Z|S]v")>;
 
-// ASIMD count, D/s
+// ASIMD count, D/S
 // instrs CNT
 def : InstRW<[HIP12Write_2c_1V], (instrs CNTv16i8)>;
 
@@ -1112,7 +1110,7 @@ def : InstRW<[HIP12Write_2c_1V], (instrs CNTv16i8)>;
 // instrs CNT
 def : InstRW<[HIP12Write_1c_1V], (instrs CNTv8i8)>;
 
-// ASIMD  duplicate, gen reg
+// ASIMD duplicate, gen reg
 // instrs DUP
 def : InstRW<[HIP12Write_6c_2ALU0134_2V], (instregex "^DUPv.+gpr")>;
 
@@ -1243,12 +1241,12 @@ def : InstRW<[WriteAdr, HIP12Write_6c_1LD], (instregex "^LD1Twov(8b|4h|2s|1d)_PO
 
 // SIMD load, 1-element, multiple, 3-reg
 // instrs LD1
-def : InstRW<[HIP12Write_7c_2LD],           (instregex "^LD1Threev(8b|4h|2s|1d)$",    "^LD1Threev(16b|8h|4s|2d)$")>;
+def : InstRW<[HIP12Write_7c_2LD],           (instregex "^LD1Threev(8b|4h|2s|1d)$",      "^LD1Threev(16b|8h|4s|2d)$")>;
 def : InstRW<[WriteAdr, HIP12Write_7c_2LD], (instregex "^LD1Threev(8b|4h|2s|1d)_POST$", "^LD1Threev(16b|8h|4s|2d)_POST$")>;
 
 // SIMD load, 1-element, multiple, 4-reg
 // instrs LD1
-def : InstRW<[HIP12Write_7c_2LD],           (instregex "^LD1Fourv(8b|4h|2s|1d)$",       "^LD1Fourv(16b|8h|4s|2d)$")>;
+def : InstRW<[HIP12Write_7c_2LD],           (instregex "^LD1Fourv(8b|4h|2s|1d)$",      "^LD1Fourv(16b|8h|4s|2d)$")>;
 def : InstRW<[WriteAdr, HIP12Write_7c_2LD], (instregex "^LD1Fourv(8b|4h|2s|1d)_POST$", "^LD1Fourv(16b|8h|4s|2d)_POST$")>;
 
 // SIMD load, 1-element, single, 1 lane
@@ -1416,27 +1414,27 @@ def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD], (instregex "ST2i(8|16|32|64)_PO
 // instrs ST3
 // SIMD store, 3-element, multiple, Q-form,D
 // instrs ST3
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD], (instregex "ST3Threev(16b|8h|4s|2d)$")>;
+def : InstRW<[HIP12Write_4c_4V_2ST_2STD],           (instregex "ST3Threev(16b|8h|4s|2d)$")>;
 def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST3Threev(16b|8h|4s|2d)_POST$")>;
 
 // SIMD store, 3-element, multiple, D-form
 // instrs ST3
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD], (instregex "ST3Threev(8b|4h|2s)$")>;
+def : InstRW<[HIP12Write_4c_4V_2ST_2STD],           (instregex "ST3Threev(8b|4h|2s)$")>;
 def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST3Threev(8b|4h|2s)_POST$")>;
 
 // SIMD store, 3-element, single, 1 lane
 // instrs ST3
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD], (instregex "ST3i(8|16|32|64)$")>;
+def : InstRW<[HIP12Write_4c_4V_2ST_2STD],           (instregex "ST3i(8|16|32|64)$")>;
 def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST3i(8|16|32|64)_POST$")>;
 
 // SIMD store, 4-element, multiple, Q-form
 // instrs ST4
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD], (instregex "ST4Fourv(16b|8h|4s|2d)$")>;
+def : InstRW<[HIP12Write_4c_4V_2ST_2STD],           (instregex "ST4Fourv(16b|8h|4s|2d)$")>;
 def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST4Fourv(16b|8h|4s|2d)_POST$")>;
 
 // SIMD store, 4-element, multiple, D-form
 // instrs ST4
-def : InstRW<[HIP12Write_4c_2V_1ST_1STD], (instregex "ST4Fourv(8b|4h|2s)$")>;
+def : InstRW<[HIP12Write_4c_2V_1ST_1STD],           (instregex "ST4Fourv(8b|4h|2s)$")>;
 def : InstRW<[WriteAdr, HIP12Write_4c_2V_1ST_1STD], (instregex "ST4Fourv(8b|4h|2s)_POST$")>;
 
 // SIMD store, 4-element, single, 1 lane,B/H/S
@@ -1447,7 +1445,7 @@ def : InstRW<[HIP12Write_4c_2V_1ST_1STD],           (instregex "ST4i(8|16|32|64)
 def : InstRW<[WriteAdr, HIP12Write_4c_2V_1ST_1STD], (instregex "ST4i(8|16|32|64)_POST$")>;
 
 //===----------------------------------------------------------------------===//
-// 3.20 Cryptography extensions
+// 3.20 Cryptography Extensions
 //===----------------------------------------------------------------------===//
 
 // crypto AES ops
@@ -1663,7 +1661,7 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^[SU]H(ADD|SUB|SUBR)_ZPmZ_[BHSD]")>
 def : InstRW<[HIP12Write_1c_2V], (instregex "^[SU](ADD|SUB)W[BT]_ZZZ_[HSD]")>;
 
 // Arithmetic, basic SVE256
-// instrs SADDLB, SADDLBT, SADDLT, SSUBLB, SSUBLBT, SSUBLT, SSUBLTB, UADDLB, UADDLT,USUBLB, USUBLT
+// instrs SADDLB, SADDLBT, SADDLT, SSUBLB, SSUBLBT, SSUBLT, SSUBLTB, UADDLB, UADDLT, USUBLB, USUBLT
 def : InstRW<[HIP12Write_3c_2V], (instregex "^[SU](ADD|SUB)L[BT]_ZZZ_[HSD]")>;
 
 // Arithmetic, complex SVE256
@@ -2156,7 +2154,7 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^[SU]UNPK(HI|LO)_ZZ_[HSD]")>;
 def : InstRW<[HIP12Write_2c_2V], (instregex "^(UZP|ZIP)[12]_ZZZ_[BHSDQ]")>;
 
 //===----------------------------------------------------------------------===//
-// 3.24 SVE Floating-point instructions
+// 3.24 SVE Floating-point Instructions
 //===----------------------------------------------------------------------===//
 
 // Floating point absolute value SVE256
@@ -2343,7 +2341,7 @@ def : InstRW<[HIP12Write_3c_2V], (instregex "^FTSMUL_ZZZ_[HSD]")>;
 def : InstRW<[HIP12Write_1c_2V], (instregex "^FTSSEL_ZZZ_[HSD]")>;
 
 //===----------------------------------------------------------------------===//
-// 3.25 SVE BFlot16(BF16) instructions
+// 3.25 SVE BFlot16 (BF16) Instructions
 //===----------------------------------------------------------------------===//
 
 // Convert, F32 to BF16 SVE256
@@ -2363,7 +2361,7 @@ def : InstRW<[HIP12Write_8c_8V], (instrs BFMMLA_ZZZ)>;
 def : InstRW<[HIP12Write_4c_2V, HIP12Rd_ZBFMAL], (instregex "^BFMLAL[BT]_ZZZI?")>;
 
 //===----------------------------------------------------------------------===//
-// 3.26 SVE Load instructions
+// 3.26 SVE Load Instructions
 //===----------------------------------------------------------------------===//
 
 // Load vector
@@ -2413,7 +2411,7 @@ def : InstRW<[HIP12Write_6c_1LD], (instregex "^LDNT1[BHWD]_ZR[IR]$")>;
 // Non-temporal gather load, vector + scalar 32-bit element size
 // instrs LDNT1B, LDNT1H, LDNT1W, LDNT1SB, LDNT1SH
 def : InstRW<[HIP12Write_6c_1LD], (instregex "^LDNT1[BHW]_ZZR_S$",
-                                             "^LDNT1S[BH]_ZZR_S$")>;
+                                                 "^LDNT1S[BH]_ZZR_S$")>;
 
 // Non-temporal gather load, vector + scalar 64-bit element size
 // instrs LDNT1B, LDNT1H, LDNT1W, LDNT1SB, LDNT1SH, LDNT1SW
@@ -2509,7 +2507,7 @@ def : InstRW<[HIP12Write_9c_4LD],
                         "^GLD(FF)?1D(_[SU]XTW)?$")>;
 
 //===----------------------------------------------------------------------===//
-// 3.27 SVE Store instructions
+// 3.27 SVE Store Instructions
 //===----------------------------------------------------------------------===//
 
 // Store from predicate reg
@@ -2568,11 +2566,11 @@ def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^STNT1[BHWD]_ZRI$")>;
 def : InstRW<[HIP12Write_1c_1ST_1STD], (instrs STNT1H_ZRR)>;
 def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^STNT1[BWD]_ZRR$")>;
 
-// Scatter Non-temporal store, vector + scalar 32-bit element size SVE256
+// Scatter non-temporal store, vector + scalar 32-bit element size SVE256
 // instrs STNT1B, STNT1H, STNT1W
 def : InstRW<[HIP12Write_8c_8ST_8STD], (instregex "^STNT1[BHW]_ZZR_S")>;
 
-// Scatter Non-temporal store, vector + scalar 64-bit element size SVE256
+// Scatter non-temporal store, vector + scalar 64-bit element size SVE256
 // instrs STNT1B, STNT1H, STNT1W, STNT1D
 def : InstRW<[HIP12Write_4c_4ST_4STD], (instregex "^STNT1[BHWD]_ZZR_D")>;
 
@@ -2640,7 +2638,7 @@ def : InstRW<[HIP12Write_10c_40V_20ALU25], (instrs SETFFR, WRFFR)>;
 // Prefetch
 //===----------------------------------------------------------------------===//
 
-// NOTE: this is not specified in the SOG.
+// NOTE: This is not specified in the SOG.
 def : InstRW<[HIP12Write_4c_1LD], (instregex "^PRF[BHWD]")>;
 
 //===----------------------------------------------------------------------===//
@@ -2656,6 +2654,7 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^AES[DE]_ZZZ_B$",
 // instrs BCAX, EOR3, RAX1
 def : InstRW<[HIP12Write_1c_2V], (instregex "^(BCAX|EOR3)_ZZZZ$",
                                             "^RAX1_ZZZ_D$")>;
+
 // Crypto SHA3 ops SVE256
 // instrs XAR
 def : InstRW<[HIP12Write_2c_2V], (instregex "^XAR_ZZZI_[BHSD]$")>;
@@ -2663,4 +2662,5 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^XAR_ZZZI_[BHSD]$")>;
 // Crypto SM4 ops SVE256
 // instrs SM4E, SM4EKEY
 def : InstRW<[HIP12Write_4c_2V], (instregex "^SM4E(KEY)?_ZZZ_S$")>;
+
 } // SchedModel = HIP12Model

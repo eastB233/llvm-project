@@ -266,6 +266,16 @@ def HIP12Write_10c_5LD_6V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
   let ReleaseAtCycles = [5, 6];
 }
 
+let Latency = 10, NumMicroOps = 10 in
+def HIP12Write_10c_4LD_6V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
+  let ReleaseAtCycles = [4, 6];
+}
+
+let Latency = 8, NumMicroOps = 5 in
+def HIP12Write_8c_2LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
+  let ReleaseAtCycles = [2, 3];
+}
+
 let Latency = 8, NumMicroOps = 6 in
 def HIP12Write_8c_3LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
   let ReleaseAtCycles = [3, 3];
@@ -503,6 +513,11 @@ def HIP12Write_9c_4LD : SchedWriteRes<[HIP12UnitLD]> {
   let ReleaseAtCycles = [4];
 }
 
+let Latency = 9, NumMicroOps = 9 in
+def HIP12Write_9c_4LD_5V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
+  let ReleaseAtCycles = [4, 5];
+}
+
 let Latency = 10, NumMicroOps = 8 in
 def HIP12Write_10c_8LD : SchedWriteRes<[HIP12UnitLD]> {
   let ReleaseAtCycles = [8];
@@ -511,6 +526,11 @@ def HIP12Write_10c_8LD : SchedWriteRes<[HIP12UnitLD]> {
 let Latency = 8, NumMicroOps = 2 in
 def HIP12Write_8c_2LD : SchedWriteRes<[HIP12UnitLD]> {
   let ReleaseAtCycles = [2];
+}
+
+let Latency = 8, NumMicroOps = 2 in
+def HIP12Write_8c_1LD_1V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
+  let ReleaseAtCycles = [1, 1];
 }
 
 let Latency = 1, NumMicroOps = 4 in

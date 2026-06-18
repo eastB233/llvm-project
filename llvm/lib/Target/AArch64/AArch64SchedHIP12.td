@@ -19,12 +19,9 @@ def HIP12Model : SchedMachineModel {
   let LoopMicroOpBufferSize =  16; // NOTE: Copied from Cortex-A57.
   let CompleteModel         =   1;
 
-  list<Predicate> UnsupportedFeatures = !listconcat(SVE2Unsupported.F,
-                                                    PAUnsupported.F,
-                                                    SMEUnsupported.F,
-                                                    [HasMTE, HasCSSC,
-                                                     HasSVE2p1_or_SME,
-                                                     HasCPA]);
+  list<Predicate> UnsupportedFeatures = !listconcat(SMEUnsupported.F,
+                                                    [HasSVE2p1, HasSVEB16B16, HasMTE,
+                                                     HasCPA, HasCSSC, HasMOPS, HasMOPS_GO]);
 }
 
 let SchedModel = HIP12Model in {
@@ -329,8 +326,8 @@ def : InstRW<[HIP12Write_5c_2ALU25_2B], (instrs BLRAA, BLRAAZ, BLRAB, BLRABZ)>;
 def : InstRW<[HIP12Write_5c_2ALU25_2B], (instrs BRAA, BRAAZ, BRAB, BRABZ)>;
 
 // Branch, return, with pointer authentication
-// instrs RETA, RETB
-def : InstRW<[HIP12Write_5c_2ALU25_2B], (instrs RETAA, RETAB)>;
+// instrs RETAA, RETAB, ERETAA, ERETAB
+def : InstRW<[HIP12Write_5c_2ALU25_2B], (instrs RETAA, RETAB, ERETAA, ERETAB)>;
 
 // Authenticate data address
 // instrs AUTDA, AUTDB, AUTDZA, AUTDZB
@@ -1600,7 +1597,7 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^PFIRST_B", "^PNEXT_[BHSD]")>;
 
 // Predicate test
 // instrs PTEST
-def : InstRW<[HIP12Write_2c_2V], (instrs PTEST_PP)>;
+def : InstRW<[HIP12Write_2c_2V], (instrs PTEST_PP, PTEST_PP_ANY, PTEST_PP_FIRST)>;
 
 // Predicate transpose
 // instrs TRN1, TRN2
@@ -1653,7 +1650,7 @@ def : InstRW<[HIP12Write_1c_2V],
 
 // Arithmetic, basic SVE256
 // instrs SHADD, SHSUB, SHSUBR, SUBHNB, SUBHNT, UHADD, UHSUB, UHSUBR
-def : InstRW<[HIP12Write_2c_2V], (instregex "^[SU]H(ADD|SUB|SUBR)_ZPmZ_[BHSD]")>;
+def : InstRW<[HIP12Write_2c_2V], (instregex "^[SU]H(ADD|SUB|SUBR)_(ZPmZ|ZPZZ)_[BHSD]")>;
 
 // Arithmetic, basic SVE256
 // instrs SADDWB, SADDWT, SSUBWB, SSUBWT, UADDWB, USUBWB, USUBWT
@@ -1755,7 +1752,8 @@ def : InstRW<[HIP12Write_6c_4V], (instregex "^BGRP_ZZZ_[BHSD]")>;
 
 // Bitwise select SVE256
 // instrs BSL, BSL1N, BSL2N, NBSL
-def : InstRW<[HIP12Write_1c_2V], (instregex "^(BSL|BSL1N|BSL2N|NBSL)_ZZZZ")>;
+def : InstRW<[HIP12Write_1c_2V], (instregex "^(BSL|BSL1N|BSL2N|NBSL)_ZZZZ",
+                                                "^(EON|NAND|NOR)_ZZZ")>;
 
 // Count/reverse bits SVE256
 // instrs CLS, CLZ, RBIT
@@ -1849,7 +1847,8 @@ def : InstRW<[HIP12Write_9c_4V], (instregex "^[SU]DIVR?_ZPmZ_D",
 
 // Dot product SVE256
 // instrs SDOT, UDOT
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZDOTB], (instregex "^[SU]DOT_ZZZI?_[DS]")>;
+def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZDOTB], (instregex "^[SU]DOT_ZZZI?_BtoS",
+                                                               "^[SU]DOT_ZZZI?_HtoD")>;
 
 // Dot product, 8-bit, using signed and unsigned integers SVE256
 // instrs SUDOT, USDOT
@@ -1874,7 +1873,7 @@ def : InstRW<[HIP12Write_1c_2V], (instregex "^[SU]XTB_ZPmZ_[HSD]",
 
 // Extract SVE256
 // instrs EXT
-def : InstRW<[HIP12Write_2c_2V], (instrs EXT_ZZI, EXT_ZZI_B)>;
+def : InstRW<[HIP12Write_2c_2V], (instrs EXT_ZZI, EXT_ZZI_CONSTRUCTIVE, EXT_ZZI_B)>;
 
 // Extract narrow saturating SVE256
 // instrs SQXTNB, SQXTNT, SQXTUNB, SQXTUNT, UQXTNB, UQXTNT
@@ -2353,7 +2352,7 @@ def : InstRW<[HIP12Write_6c_4V], (instrs BFDOT_ZZI, BFDOT_ZZZ)>;
 
 // Matrix multiply accumulate SVE256
 // instrs BFMMLA
-def : InstRW<[HIP12Write_8c_8V], (instrs BFMMLA_ZZZ)>;
+def : InstRW<[HIP12Write_8c_8V], (instrs BFMMLA_ZZZ_HtoS)>;
 
 // Multiply accumulate long SVE256
 // instrs BFMLALB, BFMLALT, BFMLALB, BFMLALT

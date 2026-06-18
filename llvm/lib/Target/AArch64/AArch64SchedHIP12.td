@@ -224,8 +224,8 @@ def : InstRW<[HIP12Write_1c_1ALU14], (instregex "^(ADC|SBC)[WX]r$")>;
 // instrs ADDS, ADCS, ANDS, BICS, SUBS, SBCS
 def : SchedAlias<WriteIEReg, HIP12Write_1c_1ALU1425>;
 def : InstRW<[HIP12Write_1c_1ALU1425], (instregex "^(ADD|SUB)S[WX]r[si]$",
-                                                      "^(ADC|SBC)S[WX]r$",
-                                                      "^(AND|BIC)S[WX]ri$")>;
+                                                  "^(ADC|SBC)S[WX]r$",
+                                                  "^(AND|BIC)S[WX]ri$")>;
 
 // ALU, extend and shift (shift!=0)
 // instrs ADD{S},SUB{S}
@@ -565,7 +565,7 @@ def : InstRW<[HIP12Write_3c_1V], (instregex "^FN?MUL[HSD]rr$")>;
 // FP round to FP integral
 // instrs FRINTA, FRINTI, FRINTM, FRINTN, FRINTP, FRINTX, FRINTZ, FRINT32Z, FRINT32X, FRINT64Z, FRINT64X
 def : InstRW<[HIP12Write_3c_1V], (instregex "^FRINT[AIMNPXZ][HSD]r$",
-                                                "^FRINT(32|64)[XZ][SD]r$")>;
+                                            "^FRINT(32|64)[XZ][SD]r$")>;
 
 //===----------------------------------------------------------------------===//
 // 3.11 FP Miscellaneous Instructions
@@ -751,7 +751,7 @@ def : InstRW<[HIP12Write_1c_1V], (instregex "^(ABS|ADD|NEG|SUB)v")>;
 // ASIMD arith, basic
 // instrs SADDL{2}, SHADD, SHSUB, SSUBL{2}, UADDL{2}, UHADD, UHSUB, USUBL{2}
 def : InstRW<[HIP12Write_2c_1V], (instregex "^[SU]H(ADD|SUB)v",
-                                                "^[SU](ADD|SUB)Lv")>;
+                                            "^[SU](ADD|SUB)Lv")>;
 
 // ASIMD arith wide
 // instrs SADDW{2}, SSUBW{2}, UADDW{2}, USUBW{2}
@@ -826,12 +826,12 @@ def : InstRW<[HIP12Write_6c_2V], (instregex "^[SU](MAX|MIN)Vv4i32v$")>;
 // ASIMD max/min, reduce, H form
 // instrs SMAXV, SMINV, UMAXV, UMINV
 def : InstRW<[HIP12Write_9c_3V], (instregex "^[SU](MAX|MIN)Vv4i16v$",
-                                                "^[SU](MAX|MIN)Vv8i16v$")>;
+                                            "^[SU](MAX|MIN)Vv8i16v$")>;
 
 // ASIMD max/min, reduce, B form
 // instrs SMAXV, SMINV, UMAXV, UMINV
 def : InstRW<[HIP12Write_12c_4V], (instregex "^[SU](MAX|MIN)Vv8i8v$",
-                                                "^[SU](MAX|MIN)Vv16i8v$")>;
+                                             "^[SU](MAX|MIN)Vv16i8v$")>;
 
 // ASIMD multiply, B/H/S form
 // instrs MUL, SQDMULH, SQRDMULH
@@ -872,8 +872,8 @@ def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VSA], (instregex "^[SU]SRA[dv]", "^[SU]R
 // ASIMD shift by immed, basic
 // instrs SHL, SHLL{2}, SHRN{2}, SSHLL{2}, SSHR, SXTL{2}, USHLL{2}, USHR, UXTL{2}
 def : InstRW<[HIP12Write_2c_1V], (instregex "^SHL[dv]", "^SHLLv", "^SHRNv",
-                                                "^SSHLLv", "^SSHR[dv]", "^USHLLv",
-                                                "^USHR[dv]")>;
+                                            "^SSHLLv", "^SSHR[dv]", "^USHLLv",
+                                            "^USHR[dv]")>;
 
 // ASIMD shift by immed and insert, basic
 // instrs SLI, SRI
@@ -882,7 +882,7 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^SLI[dv]", "^SRI[dv]")>;
 // ASIMD shift by immed, complex
 // instrs RSHRN{2}, SQRSHRN{2}, SQRSHRUN{2}, SRSHR, UQRSHRN{2}, URSHR
 def : InstRW<[HIP12Write_3c_1V], (instregex "^RSHRNv", "^UQRSHRN[bhsv]",
-                                                "^SQRSHRU?N[bhsv]", "^[SU]RSHR[dv]")>;
+                                            "^SQRSHRU?N[bhsv]", "^[SU]RSHR[dv]")>;
 
 // ASIMD shift by immed, complex
 // instrs SQSHRN{2}, SQSHRUN{2}, SQSHLU, UQSHRN{2},
@@ -933,7 +933,7 @@ def : SchedAlias<WriteFCmp, HIP12Write_2c_1V>;
 // ASIMD FP compare
 // instrs FACGE, FACGT, FCMEQ, FCMGE, FCMGT, FCMLE, FCMLT
 def : InstRW<[HIP12Write_2c_1V], (instregex "^FACG[ET]v",
-                                                "^FCM(EQ|GE|GT|LE|LT)v")>;
+                                            "^FCM(EQ|GE|GT|LE|LT)v")>;
 
 // ASIMD FP convert long
 // instrs FCVTL{2}
@@ -1483,7 +1483,7 @@ def : InstRW<[HIP12Write_2c_1V], (instrs XAR)>;
 // Crypto SM3 ops
 // instrs SM3PARTW1, SM3PARTW2, SM3SS1, SM3TT1A, SM3TT1B, SM3TT2A, SM3TT2B
 def : InstRW<[HIP12Write_2c_1V02], (instregex "^SM3PARTW[12]$", "^SM3SS1$",
-                                                  "^SM3TT[12][AB]$")>;
+                                              "^SM3TT[12][AB]$")>;
 
 // Crypto SM4 ops
 // instrs SM4E, SM4EKEY
@@ -1636,7 +1636,7 @@ def : InstRW<[HIP12Write_3c_2V], (instregex "^[SU]ABDL[TB]_ZZZ_[HSD]")>;
 // instrs ADR
 
 def : InstRW<[HIP12Write_1c_2V], (instregex "^ADR_[SU]XTW_ZZZ_D_[0123]",
-                                                "^ADR_LSL_ZZZ_[SD]_[0123]")>;
+                                            "^ADR_LSL_ZZZ_[SD]_[0123]")>;
 
 // Arithmetic, basic SVE256
 // instrs ABS, ADD, SUB, SUBR, NEG, CNOT
@@ -1704,7 +1704,7 @@ def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZSA], (instregex "^[SU]R?SRA_ZZI_[BHSD]"
 // instrs SHRNB, SHRNT, SSHLLB, SSHLLT, USHLLB, USHLLT
 
 def : InstRW<[HIP12Write_2c_2V], (instregex "^SHRN[BT]_ZZI_[BHS]",
-                                                "^[SU]SHLL[BT]_ZZI_[HSD]")>;
+                                            "^[SU]SHLL[BT]_ZZI_[HSD]")>;
 
 // Arithmetic, shift by immediate and insert SVE256
 // instrs SLI, SRI
@@ -1739,8 +1739,8 @@ def : InstRW<[HIP12Write_3c_2V], (instregex "^ASRD_(ZPmI|ZPZI)_[BHSD]")>;
 // Arithmetic, shift rounding SVE256
 // instrs SRSHR, URSHR
 def : InstRW<[HIP12Write_3c_2V], (instregex "^[SU]RSHLR?_ZPmZ_[BHSD]",
-                                                "^[SU]RSHL_ZPZZ_[BHSD]",
-                                                "^[SU]RSHR_(ZPmI|ZPZI)_[BHSD]")>;
+                                            "^[SU]RSHL_ZPZZ_[BHSD]",
+                                            "^[SU]RSHR_(ZPmI|ZPZI)_[BHSD]")>;
 
 // Bit manipulation SVE256
 // instrs BDEP, BEXT
@@ -1753,7 +1753,7 @@ def : InstRW<[HIP12Write_6c_4V], (instregex "^BGRP_ZZZ_[BHSD]")>;
 // Bitwise select SVE256
 // instrs BSL, BSL1N, BSL2N, NBSL
 def : InstRW<[HIP12Write_1c_2V], (instregex "^(BSL|BSL1N|BSL2N|NBSL)_ZZZZ",
-                                                "^(EON|NAND|NOR)_ZZZ")>;
+                                            "^(EON|NAND|NOR)_ZZZ")>;
 
 // Count/reverse bits SVE256
 // instrs CLS, CLZ, RBIT
@@ -1820,9 +1820,9 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^COMPACT_ZPZ_[SD]")>;
 // Convert to floating point SVE256
 // instrs SCVTF, UCVTF
 def : InstRW<[HIP12Write_4c_4V], (instregex "^[SU]CVTF_ZPmZ_Dto[HSD]",
-                                                "^[SU]CVTF_ZPmZ_StoD",
-                                                "^[SU]CVTF_ZPmZ_Sto[HS]",
-                                                "^[SU]CVTF_ZPmZ_HtoH")>;
+                                            "^[SU]CVTF_ZPmZ_StoD",
+                                            "^[SU]CVTF_ZPmZ_Sto[HS]",
+                                            "^[SU]CVTF_ZPmZ_HtoH")>;
 
 // Copy, scalar SVE256
 // instrs CPY
@@ -1833,22 +1833,22 @@ def : InstRW<[HIP12Write_6c_2ALU0134_2V], (instregex "^CPY_ZPmR_[BHSD]")>;
 // Copy, scalar SIMD&FP SVE256
 // instrs CPY
 def : InstRW<[HIP12Write_2c_2V], (instregex "^CPY_ZPm[IV]_[BHSD]",
-                                                "^CPY_ZPzI_[BHSD]")>;
+                                            "^CPY_ZPzI_[BHSD]")>;
 
 // Divides, 32-bit SVE256
 // instrs SDIV, SDIVR, UDIV, UDIVR
 def : InstRW<[HIP12Write_7c_4V], (instregex "^[SU]DIVR?_ZPmZ_S",
-                                                "^[SU]DIV_ZPZZ_S")>;
+                                            "^[SU]DIV_ZPZZ_S")>;
 
 // Divides, 64-bit SVE256
 // instrs SDIV, SDIVR, UDIV, UDIVR
 def : InstRW<[HIP12Write_9c_4V], (instregex "^[SU]DIVR?_ZPmZ_D",
-                                                "^[SU]DIV_ZPZZ_D")>;
+                                            "^[SU]DIV_ZPZZ_D")>;
 
 // Dot product SVE256
 // instrs SDOT, UDOT
 def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZDOTB], (instregex "^[SU]DOT_ZZZI?_BtoS",
-                                                               "^[SU]DOT_ZZZI?_HtoD")>;
+                                                           "^[SU]DOT_ZZZI?_HtoD")>;
 
 // Dot product, 8-bit, using signed and unsigned integers SVE256
 // instrs SUDOT, USDOT
@@ -1859,7 +1859,7 @@ def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZDOTB], (instrs SUDOT_ZZZI, USDOT_ZZZI, 
 // Duplicate, immediate SVE256
 // instrs DUP, MOV
 def : InstRW<[HIP12Write_2c_2V], (instregex "^DUP_ZI_[BHSD]",
-                                                "^DUP_ZZI_[BHSDQ]")>;
+                                            "^DUP_ZZI_[BHSDQ]")>;
 
 // Duplicate, scalar SVE256
 // instrs DUP, MOV                              
@@ -1868,8 +1868,8 @@ def : InstRW<[HIP12Write_6c_2ALU0134_2V], (instregex "^DUP_ZR_[BHSD]")>;
 // Extend, sign or zero SVE256
 // instrs SXTB, SXTH, SXTW, UXTB, UXTH, UXTW
 def : InstRW<[HIP12Write_1c_2V], (instregex "^[SU]XTB_ZPmZ_[HSD]",
-                                                "^[SU]XTH_ZPmZ_[SD]",
-                                                "^[SU]XTW_ZPmZ_[D]")>;
+                                            "^[SU]XTH_ZPmZ_[SD]",
+                                            "^[SU]XTW_ZPmZ_[D]")>;
 
 // Extract SVE256
 // instrs EXT
@@ -1879,7 +1879,7 @@ def : InstRW<[HIP12Write_2c_2V], (instrs EXT_ZZI, EXT_ZZI_CONSTRUCTIVE, EXT_ZZI_
 // instrs SQXTNB, SQXTNT, SQXTUNB, SQXTUNT, UQXTNB, UQXTNT
 
 def : InstRW<[HIP12Write_2c_2V], (instregex "^[SU]QXTN[BT]_ZZ_[BHS]",
-                                                "^SQXTUN[BT]_ZZ_[BHS]")>;
+                                            "^SQXTUN[BT]_ZZ_[BHS]")>;
 
 // Insert operation, scalar SVE256
 // instrs INSR
@@ -1900,7 +1900,7 @@ def : InstRW<[HIP12Write_5c_2ALU0134_2V], (instregex "^LAST[AB]_RPZ_[BHSD]")>;
 // Histogram operations SVE256
 // instrs HISTCNT, HISTSEG
 def : InstRW<[HIP12Write_2c_2V], (instregex "^HISTCNT_ZPzZZ_[SD]",
-                                                "^HISTSEG_ZZZ")>;
+                                            "^HISTSEG_ZZZ")>;
 
 // Horizontal operations, B, H, S form, immediate operands only SVE256
 // instrs INDEX
@@ -1948,8 +1948,8 @@ def : InstRW<[HIP12Write_1c_2V],
 // Max/min, basic and pairwise SVE256
 // instrs SMAX, SMIN, UMAX, UMIN,
 def : InstRW<[HIP12Write_2c_2V], (instregex "^[SU](MAX|MIN)_ZI_[BHSD]",
-                                                "^[SU](MAX|MIN)_ZPmZ_[BHSD]",
-                                                "^[SU](MAX|MIN)_ZPZZ_[BHSD]")>;
+                                            "^[SU](MAX|MIN)_ZPmZ_[BHSD]",
+                                            "^[SU](MAX|MIN)_ZPZZ_[BHSD]")>;
 
 // Max/Min, basic and pairwise SVE256
 // instrs SMAXP, SMINP, UMAXP, UMINP
@@ -1967,26 +1967,26 @@ def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZBFMMA],
 // Move prefix SVE256
 // instrs MOVPRFX
 def : InstRW<[HIP12Write_2c_2V], (instregex "^MOVPRFX_ZP[mz]Z_[BHSD]",
-                                                "^MOVPRFX_ZZ")>;
+                                            "^MOVPRFX_ZZ")>;
 
 // Multiply, B, H, S element size SVE256
 // instrs MUL, SMULH, UMULH
 def : InstRW<[HIP12Write_3c_2V], (instregex "^MUL_(ZI|ZPmZ|ZZZI|ZZZ)_[BHS]",
-                                                "^MUL_ZPZZ_[BHS]",
-                                                "^[SU]MULH_(ZPmZ|ZZZ)_[BHS]",
-                                                "^[SU]MULH_ZPZZ_[BHS]")>;
+                                            "^MUL_ZPZZ_[BHS]",
+                                            "^[SU]MULH_(ZPmZ|ZZZ)_[BHS]",
+                                            "^[SU]MULH_ZPZZ_[BHS]")>;
 
 // Multiply, D element size SVE256
 // instrs MUL, SMULH, UMULH
 def : InstRW<[HIP12Write_4c_4V], (instregex "^MUL_(ZI|ZPmZ|ZZZI|ZZZ)_D",
-                                                "^MUL_ZPZZ_D",
-                                                "^[SU]MULH_(ZPmZ|ZZZ)_D",
-                                                "^[SU]MULH_ZPZZ_D")>;
+                                            "^MUL_ZPZZ_D",
+                                            "^[SU]MULH_(ZPmZ|ZZZ)_D",
+                                            "^[SU]MULH_ZPZZ_D")>;
 
 // Multiply long, B, H, S element size SVE256
 // instrs SMULLB, SMULLT, UMULLB, UMULLT
 def : InstRW<[HIP12Write_3c_2V], (instregex "^[SU]MULL[BT]_ZZZI_[SD]",
-                                                "^[SU]MULL[BT]_ZZZ_[HSD]")>;
+                                            "^[SU]MULL[BT]_ZZZ_[HSD]")>;
 
 // Multiply accumulate, B, H, S element size SVE256
 // instrs MLA, MLS, MAD, MSB
@@ -2028,7 +2028,7 @@ def : InstRW<[HIP12Write_4c_4V, HIP12Rd_ZMASQ],
 // Multiply saturating doubling high, B, H, S element size SVE256
 // instrs SQDMULH
 def : InstRW<[HIP12Write_3c_2V], (instregex "^SQDMULH_ZZZ_[BHS]",
-                                                "^SQDMULH_ZZZI_[HS]")>;
+                                            "^SQDMULH_ZZZI_[HS]")>;
 
 // Multiply saturating doubling high, D element size SVE256
 // instrs SQDMULH
@@ -2037,33 +2037,33 @@ def : InstRW<[HIP12Write_4c_4V], (instrs SQDMULH_ZZZ_D, SQDMULH_ZZZI_D)>;
 // Multiply saturating doubling long, B, H, S element size SVE256
 // instrs SQDMULLB, SQDMULLT
 def : InstRW<[HIP12Write_3c_2V], (instregex "^SQDMULL[BT]_ZZZ_[HS]",
-                                                "^SQDMULL[BT]_ZZZI_S")>;
+                                            "^SQDMULL[BT]_ZZZI_S")>;
 
 // Multiply saturating doubling long, D element size SVE256
 // instrs SQDMULLB, SQDMULLT
 def : InstRW<[HIP12Write_4c_4V], (instregex "^SQDMULL[BT]_ZZZ_D",
-                                                "^SQDMULL[BT]_ZZZI_D")>;
+                                            "^SQDMULL[BT]_ZZZI_D")>;
 
 // Multiply saturating rounding doubling regular/complex accumulate, B, H, S element size SVE256
 // instrs SQRDMLAH, SQRDMLSH
 // Multiply saturating rounding doubling regular/complex accumulate, B, H, S element size SVE256
 // instrs SQRDCMLAH
 def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZMASQ], (instregex "^SQRDML[AS]H_ZZZ_[BHS]",
-                                                "^SQRDCMLAH_ZZZ_[BHS]",
-                                                "^SQRDML[AS]H_ZZZI_[HS]",
-                                                "^SQRDCMLAH_ZZZI_[HS]")>;
+                                                           "^SQRDCMLAH_ZZZ_[BHS]",
+                                                           "^SQRDML[AS]H_ZZZI_[HS]",
+                                                           "^SQRDCMLAH_ZZZI_[HS]")>;
 
 // Multiply saturating rounding doubling regular/complex accumulate, D element size SVE256
 // instrs SQRDMLAH, SQRDMLSH
 // Multiply saturating rounding doubling regular/complex accumulate, D element size SVE256
 // instrs SQRDCMLAH
 def : InstRW<[HIP12Write_4c_4V, HIP12Rd_ZMASQ], (instregex "^SQRDML[AS]H_ZZZI?_D",
-                                                "^SQRDCMLAH_ZZZ_D")>;
+                                                           "^SQRDCMLAH_ZZZ_D")>;
 
 // Multiply saturating rounding doubling regular/complex, B, H, S element size SVE256
 // instrs SQRDMULH
 def : InstRW<[HIP12Write_3c_2V], (instregex "^SQRDMULH_ZZZ_[BHS]",
-                                                "^SQRDMULH_ZZZI_[HS]")>;
+                                            "^SQRDMULH_ZZZI_[HS]")>;
 
 // Multiply saturating rounding doubling regular/complex, D element size SVE256
 // instrs SQRDMULH
@@ -2072,7 +2072,7 @@ def : InstRW<[HIP12Write_4c_4V], (instregex "^SQRDMULH_ZZZI?_D")>;
 // Multiply/multiply long, (8x8) polynomial SVE256
 // instrs PMUL, PMULLB, PMULLT
 def : InstRW<[HIP12Write_2c_2V], (instregex "^PMUL_ZZZ_B",
-                                                "^PMULL[BT]_ZZZ_[HDQ]")>;
+                                            "^PMULL[BT]_ZZZ_[HDQ]")>;
 
 // Predicate counting vector SVE256
 // instrs SQINCH, SQINCW, SQINCD, SQDECH, SQDECW, SQDECD, INCH, INCW, INCD, DECH, DECW, DECD, UQINCH, UQINCW, UQINCD, UQDECH, UQDECW, UQDECD
@@ -2123,9 +2123,9 @@ def : InstRW<[HIP12Write_4c_4V], (instregex "^(AND|EOR|OR)V_VPZ_[BHSD]")>;
 // Reverse, vector SVE256
 // instrs REVB, REVH, REVW
 def : InstRW<[HIP12Write_2c_2V], (instregex "^REV_ZZ_[BHSD]",
-                                                "^REVB_ZPmZ_[HSD]",
-                                                "^REVH_ZPmZ_[SD]",
-                                                "^REVW_ZPmZ_D")>;
+                                            "^REVB_ZPmZ_[HSD]",
+                                            "^REVH_ZPmZ_[SD]",
+                                            "^REVW_ZPmZ_D")>;
 
 // Select, vector form SVE256
 // instrs MOV, SEL
@@ -2194,9 +2194,9 @@ def : InstRW<[HIP12Write_20c_24V], (instrs FADDA_VPZ_D)>;
 // Floating point compare SVE256
 // instrs FACGE, FACGT, FACLE, FACLT, FCMEQ, FCMGE, FCMGT, FCMLE, FCMLT, FCMNE, FCMUO
 def : InstRW<[HIP12Write_2c_2V], (instregex "^FACG[ET]_PPzZZ_[HSD]",
-                                                "^FCM(EQ|GE|GT|NE)_PPzZ[0Z]_[HSD]",
-                                                "^FCM(LE|LT)_PPzZ0_[HSD]",
-                                                "^FCMUO_PPzZZ_[HSD]")>;
+                                            "^FCM(EQ|GE|GT|NE)_PPzZ[0Z]_[HSD]",
+                                            "^FCM(LE|LT)_PPzZ0_[HSD]",
+                                            "^FCMUO_PPzZZ_[HSD]")>;
 
 // Floating point complex add
 // instrs FCADD
@@ -2215,11 +2215,11 @@ def : InstRW<[HIP12Write_4c_2V, HIP12Rd_ZFCMA], (instregex "^FCMLA_ZZZI_[HS]")>;
 // Floating point convert, long or narrow SVE256
 // instrs FCVTLT, FCVTNT
 def : InstRW<[HIP12Write_4c_4V], (instregex "^FCVT_ZPmZ_(HtoS|StoH)",
-                                                "^FCVTLT_ZPmZ_HtoS",
-                                                "^FCVTNT_ZPmZ_StoH",
-                                                "^FCVT_ZPmZ_(HtoD|StoD|DtoS|DtoH)",
-                                                "^FCVTLT_ZPmZ_StoD",
-                                                "^FCVTNT_ZPmZ_DtoS")>;
+                                            "^FCVTLT_ZPmZ_HtoS",
+                                            "^FCVTNT_ZPmZ_StoH",
+                                            "^FCVT_ZPmZ_(HtoD|StoD|DtoS|DtoH)",
+                                            "^FCVTLT_ZPmZ_StoD",
+                                            "^FCVTNT_ZPmZ_DtoS")>;
 
 // Floating point convert, round to odd SVE256
 // instrs FCVTX, FCVTXNT
@@ -2232,8 +2232,8 @@ def : InstRW<[HIP12Write_4c_4V], (instregex "^FLOGB_(ZPmZ|ZPZZ)_[HSD]")>;
 // Floating point convert to integer SVE256
 // instrs FCVTZS, FCVTZU
 def : InstRW<[HIP12Write_4c_4V], (instregex "^FCVTZ[SU]_ZPmZ_HtoH",
-                                                "^FCVTZ[SU]_ZPmZ_(HtoS|StoS)",
-                                                "^FCVTZ[SU]_ZPmZ_(HtoD|StoD|DtoS|DtoD)")>;
+                                            "^FCVTZ[SU]_ZPmZ_(HtoS|StoS)",
+                                            "^FCVTZ[SU]_ZPmZ_(HtoD|StoD|DtoS|DtoD)")>;
 
 // Floating point copy SVE256
 // instrs FCPY, FDUP, FMOV
@@ -2258,15 +2258,15 @@ def : InstRW<[HIP12Write_3c_2V], (instregex "^F(MAX|MIN)(NM)?P_ZPmZZ_[HSD]")>;
 // Floating point min/max SVE256
 // instrs FMAX, FMIN, FMAXNM, FMINNM
 def : InstRW<[HIP12Write_2c_2V], (instregex "^F(MAX|MIN)(NM)?_ZPm[IZ]_[HSD]",
-                                                "^F(MAX|MIN)(NM)?_ZPZ[IZ]_[HSD]")>;
+                                            "^F(MAX|MIN)(NM)?_ZPZ[IZ]_[HSD]")>;
 
 // Floating point multiply SVE256
 // instrs FMUL
 // instrs FSCALE, FMULX
 def : InstRW<[HIP12Write_3c_2V], (instregex "^(FSCALE|FMULX)_ZPmZ_[HSD]",
-                                                "^FMULX_ZPZZ_[HSD]",
-                                                "^FMUL_(ZPm[IZ]|ZZZI?)_[HSD]",
-                                                "^FMUL_ZPZ[IZ]_[HSD]")>;
+                                            "^FMULX_ZPZZ_[HSD]",
+                                            "^FMUL_(ZPm[IZ]|ZZZI?)_[HSD]",
+                                            "^FMUL_ZPZ[IZ]_[HSD]")>;
 
 // Floating point multiply accumulate SVE256
 // instrs FMLA, FMLS, FMAD, FMSB, FNMAD, FNMLA, FNMLS, FNMSB
@@ -2284,7 +2284,7 @@ def : InstRW<[HIP12Write_4c_2V], (instregex "^FML[AS]L[BT]_ZZZI?_SHH")>;
 // Floating point reciprocal estimate SVE256
 // instrs FRECPE, FRECPX, FRSQRTE
 def : InstRW<[HIP12Write_4c_4V], (instregex "^FR(ECP|SQRT)E_ZZ_[HSD]",
-                                                "^FRECPX_ZPmZ_[HSD]")>;
+                                            "^FRECPX_ZPmZ_[HSD]")>;
 
 // Floating point reciprocal step SVE256
 // instrs FRECPS, FRSQRTS
@@ -2373,24 +2373,24 @@ def : InstRW<[HIP12Write_8c_2LD_2V], (instrs LDR_PXI)>;
 // Contiguous load, scalar + imm
 // instrs LD1B, LD1H, LD1W, LD1D, LD1SB, LD1SH, LD1SW
 def : InstRW<[HIP12Write_6c_1LD], (instregex "^LD1[BHWD]_IMM$",
-                                                 "^LD1S?B_[HSD]_IMM$",
-                                                 "^LD1S?H_[SD]_IMM$",
-                                                 "^LD1S?W_D_IMM$" )>;
+                                             "^LD1S?B_[HSD]_IMM$",
+                                             "^LD1S?H_[SD]_IMM$",
+                                             "^LD1S?W_D_IMM$" )>;
 
 // Contiguous load, scalar + scalar
 // instrs LD1B, LD1H, LD1W, LD1D, LD1SB, LD1SH, LD1SW
 def : InstRW<[HIP12Write_6c_1LD], (instregex "^LD1[BHWD]$",
-                                                 "^LD1S?B_[HSD]$",
-                                                 "^LD1S?H_[SD]$",
-                                                 "^LD1S?W_D$" )>;
+                                             "^LD1S?B_[HSD]$",
+                                             "^LD1S?H_[SD]$",
+                                             "^LD1S?W_D$" )>;
 
 // Contiguous load broadcast, scalar + imm SVE256
 // instrs LD1RB, LD1RH, LD1RW, LD1RD, LD1RSB, LD1RSH, LD1RSW
 def : InstRW<[HIP12Write_8c_2LD_2V], (instregex "^LD1R[BHWD]_IMM$",
-                                                    "^LD1RS?B_[HSD]_IMM$",
-                                                    "^LD1RS?H_[SD]_IMM$",
-                                                    "^LD1RW_D_IMM$",
-                                                    "^LD1RSW_IMM$")>;
+                                                "^LD1RS?B_[HSD]_IMM$",
+                                                "^LD1RS?H_[SD]_IMM$",
+                                                "^LD1RW_D_IMM$",
+                                                "^LD1RSW_IMM$")>;
 
 // Contiguous load broadcast, scalar + imm
 // instrs LD1RQB, LD1RQH, LD1RQW, LD1RQD
@@ -2409,7 +2409,7 @@ def : InstRW<[HIP12Write_6c_1LD], (instregex "^LDNT1[BHWD]_ZR[IR]$")>;
 // Non-temporal gather load, vector + scalar 32-bit element size
 // instrs LDNT1B, LDNT1H, LDNT1W, LDNT1SB, LDNT1SH
 def : InstRW<[HIP12Write_6c_1LD], (instregex "^LDNT1[BHW]_ZZR_S$",
-                                                 "^LDNT1S[BH]_ZZR_S$")>;
+                                             "^LDNT1S[BH]_ZZR_S$")>;
 
 // Non-temporal gather load, vector + scalar 64-bit element size
 // instrs LDNT1B, LDNT1H, LDNT1W, LDNT1SB, LDNT1SH, LDNT1SW
@@ -2419,16 +2419,16 @@ def : InstRW<[HIP12Write_6c_1LD], (instrs LDNT1D_ZZR_D)>;
 // Contiguous first faulting load, scalar + scalar
 // instrs LDFF1B, LDFF1H, LDFF1W, LDFF1D, LDFF1SB, LDFF1SH, LDFF1SW, LDFF1SD
 def : InstRW<[HIP12Write_6c_1LD], (instregex "^LDFF1[BHWD]$",
-                                                 "^LDFF1S?B_[HSD]$",
-                                                 "^LDFF1S?H_[SD]$",
-                                                 "^LDFF1S?W_D$")>;
+                                             "^LDFF1S?B_[HSD]$",
+                                             "^LDFF1S?H_[SD]$",
+                                             "^LDFF1S?W_D$")>;
 
 // Contiguous non-faulting load, scalar + imm
 // instrs LDNF1B, LDNF1D, LDNF1H, LDNF1W, LDNF1SB, LDNF1SH, LDNF1SW
 def : InstRW<[HIP12Write_6c_1LD],  (instregex "^LDNF1[BHWD]_IMM$",
-                                                  "^LDNF1S?B_[HSD]_IMM$",
-                                                  "^LDNF1S?H_[SD]_IMM$",
-                                                  "^LDNF1S?W_D_IMM$")>;
+                                              "^LDNF1S?B_[HSD]_IMM$",
+                                              "^LDNF1S?H_[SD]_IMM$",
+                                              "^LDNF1S?W_D_IMM$")>;
 
 // Contiguous Load two structures to two vectors, scalar + imm SVE256
 // instrs LD2B, LD2D, LD2H, LD2W
@@ -2473,12 +2473,12 @@ def : InstRW<[HIP12Write_11c_6LD_8V], (instregex "^LD4D$")>;
 // Gather load, vector + imm, 32- bit element size SVE256
 // instrs LD1B, LD1H, LD1W, LD1SB, LD1SH, LD1SW, LDFF1B, LDFF1H, LDFF1W, LDFF1SB, LDFF1SH, LDFF1SW
 def : InstRW<[HIP12Write_10c_8LD], (instregex "^GLD(FF)?1S?[BH]_S_IMM$",
-                                                  "^GLD(FF)?1W_IMM$")>;
+                                              "^GLD(FF)?1W_IMM$")>;
 
 // Gather load, vector + imm, 64- bit element size SVE256
 // instrs LD1B, LD1H, LD1W, LD1D, LD1SB, LD1SH, LD1SW, LDFF1B, LDFF1D, LDFF1H, LDFF1W, LDFF1SB, LDFF1SD, LDFF1SH, LDFF1SW
 def : InstRW<[HIP12Write_9c_4LD],  (instregex "^GLD(FF)?1S?[BHW]_D_IMM$",
-                                                  "^GLD(FF)?1D_IMM$")>;
+                                              "^GLD(FF)?1D_IMM$")>;
 
 // Gather load, 32-bit scaled offset SVE256
 // instrs LD1H, LD1SH, LDFF1H, LDFF1SH, LD1W, LDFF1W, LDFF1SW
@@ -2519,16 +2519,16 @@ def : InstRW<[HIP12Write_1c_1ST_1STD], (instrs STR_ZXI)>;
 // Contiguous store, scalar + imm
 // instrs ST1B, ST1H, ST1W, ST1D
 def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^ST1[BHWD]_IMM$",
-                                                      "^ST1B_[HSD]_IMM$",
-                                                      "^ST1H_[SD]_IMM$",
-                                                      "^ST1W_D_IMM$")>;
+                                                  "^ST1B_[HSD]_IMM$",
+                                                  "^ST1H_[SD]_IMM$",
+                                                  "^ST1W_D_IMM$")>;
 
 // Contiguous store, scalar + scalar
 // instrs ST1B, ST1H, ST1W, ST1D
 def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^ST1H(_[SD])?$")>;
 def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^ST1[BWD]$",
-                                                      "^ST1B_[HSD]$",
-                                                      "^ST1W_D$")>;
+                                                  "^ST1B_[HSD]$",
+                                                  "^ST1W_D$")>;
 
 // Contiguous store two structures from two vectors, scalar + imm SVE256
 // instrs ST2B, ST2H, ST2W, ST2D
@@ -2575,12 +2575,12 @@ def : InstRW<[HIP12Write_4c_4ST_4STD], (instregex "^STNT1[BHWD]_ZZR_D")>;
 // Scatter store vector + imm 32-bit element size SVE256
 // instrs ST1B, ST1H, ST1W
 def : InstRW<[HIP12Write_8c_8ST_8STD], (instregex "^SST1[BH]_S_IMM$",
-                                                      "^SST1W_IMM$")>;
+                                                  "^SST1W_IMM$")>;
 
 // Scatter store vector + imm 64-bit element size SVE256
 // instrs ST1B, ST1H, ST1W, ST1D
 def : InstRW<[HIP12Write_4c_4ST_4STD],  (instregex "^SST1[BHW]_D_IMM$",
-                                                       "^SST1D_IMM$")>;
+                                                   "^SST1D_IMM$")>;
 
 // Scatter store, 32-bit scaled offset SVE256
 // instrs ST1H, ST1W
@@ -2590,27 +2590,27 @@ def : InstRW<[HIP12Write_8c_8ST_8STD],
 // Scatter store, 32-bit unpacked unscaled offset SVE256
 // instrs ST1B, ST1H, ST1W, ST1D
 def : InstRW<[HIP12Write_8c_8ST_8STD], (instregex "^SST1[BHW]_D_[SU]XTW$",
-                                                      "^SST1D_[SU]XTW$")>;
+                                                  "^SST1D_[SU]XTW$")>;
 
 // Scatter store, 32-bit unpacked scaled offset SVE256
 // instrs ST1H, ST1W, ST1D
 def : InstRW<[HIP12Write_8c_8ST_8STD], (instregex "^SST1[HW]_D_[SU]XTW_SCALED$",
-                                                      "^SST1D_[SU]XTW_SCALED$")>;
+                                                  "^SST1D_[SU]XTW_SCALED$")>;
 
 // Scatter store, 32-bit unscaled offset SVE256
 // instrs ST1B, ST1H, ST1W
 def : InstRW<[HIP12Write_8c_8ST_8STD], (instregex "^SST1[BH]_S_[SU]XTW$",
-                                                      "^SST1W_[SU]XTW$")>;
+                                                  "^SST1W_[SU]XTW$")>;
 
 // Scatter store, 64-bit scaled offset SVE256
 // instrs ST1H, ST1W, ST1D
 def : InstRW<[HIP12Write_4c_4ST_4STD], (instregex "^SST1[HW]_D_SCALED$",
-                                                      "^SST1D_SCALED$")>;
+                                                  "^SST1D_SCALED$")>;
 
 // Scatter store, 64-bit unscaled offset SVE256
 // instrs ST1B, ST1H, ST1W, ST1D
 def : InstRW<[HIP12Write_4c_4ST_4STD], (instregex "^SST1[BHW]_D$",
-                                                      "^SST1D$")>;
+                                                  "^SST1D$")>;
 
 //===----------------------------------------------------------------------===//
 // 3.28 SVE Miscellaneous Instructions
@@ -2646,7 +2646,7 @@ def : InstRW<[HIP12Write_4c_1LD], (instregex "^PRF[BHWD]")>;
 // crypto AES ops SVE256
 // instrs AESD, AESE, AESMC, AESIMC
 def : InstRW<[HIP12Write_2c_2V], (instregex "^AES[DE]_ZZZ_B$",
-                                                "^AESI?MC_ZZ_B$")>;
+                                            "^AESI?MC_ZZ_B$")>;
 
 // Crypto SHA3 ops SVE256
 // instrs BCAX, EOR3, RAX1

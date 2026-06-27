@@ -79,89 +79,129 @@ def : InstRW<[WriteI], (instrs COPY)>;
 // Define forwarded types
 //===----------------------------------------------------------------------===//
 
-def HIP12Rd_FMA : SchedReadAdvance<2, [HIP12Write_3c_1V, HIP12Write_4c_1V]>;
+// FP multiply
+// FP fused multiply-add
+def HIP12Wr_FMA : SchedWriteRes<[HIP12UnitV]> { let Latency = 4; }
+def HIP12Rd_FMA : SchedReadAdvance<2, [WriteFMul, HIP12Wr_FMA]>;
 
 // ASIMD absolute diff accum
 // ASIMD absolute diff accum long
-def HIP12Rd_AbsAcc : SchedReadAdvance<1, [HIP12Write_2c_1V]>;
+def HIP12Wr_VA : SchedWriteRes<[HIP12UnitV]> { let Latency = 2; }
+def HIP12Rd_VA : SchedReadAdvance<1, [HIP12Wr_VA]>;
 
 // ASIMD dot product
 // ASIMD dot product using signed and unsigned integers
-def HIP12Rd_VDOT : SchedReadAdvance<2, [HIP12Write_3c_1V]>;
+def HIP12Wr_VDOT : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Rd_VDOT : SchedReadAdvance<2, [HIP12Wr_VDOT]>;
 
 // ASIMD matrix multiply-accumulate
-def HIP12Rd_VMMA : SchedReadAdvance<2, [HIP12Write_3c_1V]>;
+def HIP12Wr_VMMA : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Rd_VMMA : SchedReadAdvance<2, [HIP12Wr_VMMA]>;
 
 // ASIMD multiply accumulate, B/H/S form
-def HIP12Rd_VMA : SchedReadAdvance<2, [HIP12Write_3c_1V]>;
+def HIP12Wr_VMA : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Rd_VMA : SchedReadAdvance<2, [HIP12Wr_VMA]>;
 
 // ASIMD multiply accumulate high
-def HIP12Rd_VMAH : SchedReadAdvance<1, [HIP12Write_3c_1V]>;
+def HIP12Wr_VMAH : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Rd_VMAH : SchedReadAdvance<1, [HIP12Wr_VMAH]>;
 
 // ASIMD multiply accumulate long
-def HIP12Rd_VMAL : SchedReadAdvance<2, [HIP12Write_3c_1V]>;
+def HIP12Wr_VMAL : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Rd_VMAL : SchedReadAdvance<2, [HIP12Wr_VMAL]>;
 
 // ASIMD multiply accumulate saturating long
-def HIP12Rd_VMASL : SchedReadAdvance<1, [HIP12Write_3c_1V]>;
+def HIP12Wr_VMAQL : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Rd_VMAQL : SchedReadAdvance<1, [HIP12Wr_VMAQL]>;
 
 // ASIMD pairwise add and accumulate long
-def HIP12Rd_VPA : SchedReadAdvance<2, [HIP12Write_3c_1V]>;
+def HIP12Wr_VPA : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Rd_VPA : SchedReadAdvance<2, [HIP12Wr_VPA]>;
 
 // ASIMD shift accumulate
-def HIP12Rd_VSA : SchedReadAdvance<1, [HIP12Write_3c_1V]>;
+def HIP12Wr_VSA : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Rd_VSA : SchedReadAdvance<1, [HIP12Wr_VSA]>;
 
+// ASIMD FP complex multiply-add
+def HIP12Wr_VFCMA : SchedWriteRes<[HIP12UnitV]> { let Latency = 4; }
+def HIP12Rd_VFCMA : SchedReadAdvance<2, [HIP12Wr_VFCMA]>;
+
+// ASIMD FP multiply
 // ASIMD FP fused multiply-add
+def HIP12Wr_VFM  : SchedWriteRes<[HIP12UnitV]> { let Latency = 3; }
+def HIP12Wr_VFMA : SchedWriteRes<[HIP12UnitV]> { let Latency = 4; }
+def HIP12Rd_VFMA : SchedReadAdvance<2, [HIP12Wr_VFM, HIP12Wr_VFMA]>;
+
 // ASIMD FP fused multiply-add long
-def HIP12Rd_VFMA : SchedReadAdvance<2, [HIP12Write_3c_1V, HIP12Write_4c_1V]>;
-def HIP12Rd_VFMAL : SchedReadAdvance<2, [HIP12Write_4c_1V]>;
+def HIP12Wr_VFMAL : SchedWriteRes<[HIP12UnitV]> { let Latency = 4; }
+def HIP12Rd_VFMAL : SchedReadAdvance<2, [HIP12Wr_VFMAL]>;
 
 // Bfloat16
 // ASIMD multiply accumulate long
-def HIP12Rd_VBFMAL : SchedReadAdvance<2, [HIP12Write_4c_1V]>;
+def HIP12Wr_VBFMAL : SchedWriteRes<[HIP12UnitV]> { let Latency = 4; }
+def HIP12Rd_VBFMAL : SchedReadAdvance<2, [HIP12Wr_VBFMAL]>;
 
 // ASIMD FP reciprocal step
-def HIP12Rd_RECSTEP : SchedReadAdvance<2, [HIP12Write_4c_1V]>;
+def HIP12Wr_VRECP : SchedWriteRes<[HIP12UnitV]> { let Latency = 4; }
+def HIP12Rd_VRECP : SchedReadAdvance<2, [HIP12Wr_VRECP]>;
 
 // Arithmetic, absolute diff accum SVE256
-def HIP12Rd_ZA : SchedReadAdvance<1, [HIP12Write_2c_2V]>;
+def HIP12Wr_ZA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 2; }
+def HIP12Rd_ZA : SchedReadAdvance<1, [HIP12Wr_ZA]>;
 
 // Arithmetic, absolute diff accum long SVE256
-def HIP12Rd_ZAL : SchedReadAdvance<2, [HIP12Write_3c_2V]>;
+def HIP12Wr_ZAL : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZAL : SchedReadAdvance<2, [HIP12Wr_ZAL]>;
+
+// Arithmetic, pairwise add and accum long SVE256
+def HIP12Wr_ZPA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZPA : SchedReadAdvance<2, [HIP12Wr_ZPA]>;
 
 // Arithmetic, shift and accumulate SVE256
-def HIP12Rd_ZSA : SchedReadAdvance<1, [HIP12Write_3c_2V]>;
+def HIP12Wr_ZSA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZSA : SchedReadAdvance<1, [HIP12Wr_ZSA]>;
 
 // Complex dot product SVE256
 // Dot product SVE256
 // Dot product, 8-bit, using signed and unsigned integers SVE256
-def HIP12Rd_ZDOTB : SchedReadAdvance<2, [HIP12Write_3c_2V]>;
+def HIP12Wr_ZDOT : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZDOT : SchedReadAdvance<2, [HIP12Wr_ZDOT]>;
 
 // Complex multiply-add B, H, S element size SVE256
-def HIP12Rd_ZCMABHS : SchedReadAdvance<2, [HIP12Write_3c_2V]>;
+def HIP12Wr_ZCMABHS : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZCMABHS : SchedReadAdvance<2, [HIP12Wr_ZCMABHS]>;
 
 // Complex multiply-add D element size SVE256
-def HIP12Rd_ZCMAD : SchedReadAdvance<2, [HIP12Write_4c_4V]>;
+def HIP12Wr_ZCMAD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZCMAD : SchedReadAdvance<2, [HIP12Wr_ZCMAD]>;
 
 // Horizontal operations, B, H, S form, immediate operands only SVE256
-def HIP12Rd_ZHorBHS : SchedReadAdvance<2, [HIP12Write_3c_2V]>;
+def HIP12Wr_ZINDEXBHS : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZINDEXBHS : SchedReadAdvance<2, [HIP12Wr_ZINDEXBHS]>;
 
 // Horizontal operations, D form, immediate operands only SVE256
-def HIP12Rd_ZHorD : SchedReadAdvance<2, [HIP12Write_4c_4V]>;
+def HIP12Wr_ZINDEXD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZINDEXD : SchedReadAdvance<2, [HIP12Wr_ZINDEXD]>;
 
 // Matrix multiply-accumulate SVE256
-def HIP12Rd_ZBFMMA : SchedReadAdvance<2, [HIP12Write_3c_2V]>;
+def HIP12Wr_ZMMA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZMMA : SchedReadAdvance<2, [HIP12Wr_ZMMA]>;
 
 // Multiply accumulate, B, H, S element size SVE256
-def HIP12Rd_ZMABHS : SchedReadAdvance<2, [HIP12Write_3c_2V]>;
+def HIP12Wr_ZMABHS : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZMABHS : SchedReadAdvance<2, [HIP12Wr_ZMABHS]>;
 
 // Multiply accumulate, D element size SVE256
-def HIP12Rd_ZMAD : SchedReadAdvance<2, [HIP12Write_4c_4V]>;
+def HIP12Wr_ZMAD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZMAD : SchedReadAdvance<2, [HIP12Wr_ZMAD]>;
 
 // Multiply accumulate long, B, H, S element size SVE256
-def HIP12Rd_ZMALBHS : SchedReadAdvance<2, [HIP12Write_3c_2V]>;
+def HIP12Wr_ZMALBHS : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Rd_ZMALBHS : SchedReadAdvance<2, [HIP12Wr_ZMALBHS]>;
 
 // Multiply accumulate long, D element size SVE256
-def HIP12Rd_ZMALD : SchedReadAdvance<2, [HIP12Write_4c_4V]>;
+def HIP12Wr_ZMALD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZMALD : SchedReadAdvance<2, [HIP12Wr_ZMALD]>;
 
 // Multiply accumulate saturating doubling long regular, B, H, S element size SVE256
 // Multiply accumulate saturating doubling long regular, D element size SVE256
@@ -173,18 +213,30 @@ def HIP12Rd_ZMALD : SchedReadAdvance<2, [HIP12Write_4c_4V]>;
 // instrs SQRDMLAH, SQRDMLSH
 // Multiply saturating rounding doubling regular/complex accumulate, D element size SVE256
 // instrs SQRDCMLAH
-def HIP12Rd_ZMASQ : SchedReadAdvance<1, [HIP12Write_3c_2V, HIP12Write_4c_4V]>;
+def HIP12Wr_ZMASQLBHS : SchedWriteRes<[HIP12UnitV02]>               { let Latency = 3; }
+def HIP12Wr_ZMASQLD   : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZMASQBHS  : SchedWriteRes<[HIP12UnitV02]>               { let Latency = 3; }
+def HIP12Wr_ZMASQD    : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZMASQ     : SchedReadAdvance<1, [HIP12Wr_ZMASQLBHS, HIP12Wr_ZMASQLD,
+                                             HIP12Wr_ZMASQBHS, HIP12Wr_ZMASQD]>;
 
 // Floating point complex multiply add(vectors) SVE256
 // Floating point complex multiply add(indexed) SVE256
-def HIP12Rd_ZFCMA : SchedReadAdvance<2, [HIP12Write_4c_2V]>;
+def HIP12Wr_ZFCMA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZFCMA : SchedReadAdvance<2, [HIP12Wr_ZFCMA]>;
 
 // Floating point multiply accumulate SVE256
-def HIP12Rd_ZFMA : SchedReadAdvance<2, [HIP12Write_4c_2V]>;
+def HIP12Wr_ZFMA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZFMA : SchedReadAdvance<2, [HIP12Wr_ZFMA]>;
+
+// Floating point multiply add/sub accumulate long SVE256
+def HIP12Wr_ZFMAL : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZFMAL : SchedReadAdvance<2, [HIP12Wr_ZFMAL]>;
 
 // BFloat16
 // Multiply accumulate long SVE256
-def HIP12Rd_ZBFMAL : SchedReadAdvance<2, [HIP12Write_4c_2V]>;
+def HIP12Wr_ZBFMAL : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
+def HIP12Rd_ZBFMAL : SchedReadAdvance<2, [HIP12Wr_ZBFMAL]>;
 
 //===----------------------------------------------------------------------===//
 // 3.3 Branch Instructions
@@ -547,7 +599,7 @@ def : InstRW<[HIP12Write_8c_1V], (instrs FSQRTDr)>;
 
 // FP fused multiply-add
 // instrs FMADD, FMSUB, FNMADD, FNMSUB
-def : InstRW<[HIP12Write_4c_1V, ReadDefault, ReadDefault, HIP12Rd_FMA], (instregex "^FN?M(ADD|SUB)[HSD]rrr$")>;
+def : InstRW<[HIP12Wr_FMA, ReadDefault, ReadDefault, HIP12Rd_FMA], (instregex "^FN?M(ADD|SUB)[HSD]rrr$")>;
 
 // FP max/min
 // instrs FMAX, FMAXNM, FMIN, FMINNM
@@ -738,7 +790,7 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^[SU]ABDv")>;
 // instrs SABA, UABA
 // ASIMD absolute diff accum long
 // instrs SABAL{2}, UABAL{2}
-def : InstRW<[HIP12Write_2c_1V, HIP12Rd_AbsAcc], (instregex "^[SU]ABAL?v")>;
+def : InstRW<[HIP12Wr_VA, HIP12Rd_VA], (instregex "^[SU]ABAL?v")>;
 
 // ASIMD absolute diff long
 // instrs SABDL{2} UABDL{2}
@@ -801,7 +853,7 @@ def : InstRW<[HIP12Write_9c_4V], (instregex "[SU]ADDLVv16i8v", "[SU]ADDLVv8i8v")
 // instrs SDOT, UDOT
 // ASIMD dot product using signed and unsigned integers
 // instrs SUDOT, USDOT
-def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VDOT],
+def : InstRW<[HIP12Wr_VDOT, HIP12Rd_VDOT],
              (instregex "^([SU]|SU|US)DOT(lane)?(v8|v16)i8$")>;
 
 // ASIMD logical
@@ -809,7 +861,7 @@ def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VDOT],
 // Handled by SchedAlias<WriteV[dq], ...>
 
 // ASIMD matrix multiply-accumulate
-def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VMMA], (instrs SMMLA, UMMLA, USMMLA)>;
+def : InstRW<[HIP12Wr_VMMA, HIP12Rd_VMMA], (instrs SMMLA, UMMLA, USMMLA)>;
 
 // ASIMD max/min
 // instrs SMAX, SMIN, UMAX, UMIN
@@ -839,11 +891,11 @@ def : InstRW<[HIP12Write_3c_1V], (instregex "^MULv", "^SQ(R)?DMULHv")>;
 
 // ASIMD multiply accumulate, B/H/S form
 // instrs MLA, MLS
-def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VMA], (instregex "^MLAv", "^MLSv")>;
+def : InstRW<[HIP12Wr_VMA, HIP12Rd_VMA], (instregex "^MLAv", "^MLSv")>;
 
 // ASIMD multiply accumulate high
 // instrs SQRDMLAH, SQRDMLSH
-def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VMAH], (instregex "^SQRDMLAHv", "^SQRDMLSHv")>;
+def : InstRW<[HIP12Wr_VMAH, HIP12Rd_VMAH], (instregex "^SQRDMLAHv", "^SQRDMLSHv")>;
 
 // ASIMD multiply long
 // instrs SMULL{2}, SQDMULL{2}, UMULL{2}
@@ -851,11 +903,11 @@ def : InstRW<[HIP12Write_3c_1V], (instregex "^[SU]MULLv", "^SQDMULL[iv]")>;
 
 // ASIMD multiply accumulate long
 // instrs SMLAL{2}, SMLSL{2}, UMLAL{2}, UMLSL{2},
-def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VMAL], (instregex "^[SU]MLALv", "^[SU]MLSLv")>;
+def : InstRW<[HIP12Wr_VMAL, HIP12Rd_VMAL], (instregex "^[SU]MLALv", "^[SU]MLSLv")>;
 
 // ASIMD multiply accumulate saturating long
 // instrs SQDMLAL{2}, SQDMLSL{2}
-def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VMASL], (instregex "^SQDML[AS]L[iv]")>;
+def : InstRW<[HIP12Wr_VMAQL, HIP12Rd_VMAQL], (instregex "^SQDML[AS]L[iv]")>;
 
 // ASIMD multiply/multiply long (8x8) polynomial
 // instrs PMUL, PMULL{2}
@@ -863,11 +915,11 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^PMULL?(v8i8|v16i8)$")>;
 
 // ASIMD pairwise add and accumulate long
 // instrs SADALP, UADALP
-def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VPA], (instregex "^[SU]ADALPv")>;
+def : InstRW<[HIP12Wr_VPA, HIP12Rd_VPA], (instregex "^[SU]ADALPv")>;
 
 // ASIMD shift accumulate
 // instrs SSRA, SRSRA, USRA, URSRA
-def : InstRW<[HIP12Write_3c_1V, HIP12Rd_VSA], (instregex "^[SU]SRA[dv]", "^[SU]RSRA[dv]")>;
+def : InstRW<[HIP12Wr_VSA, HIP12Rd_VSA], (instregex "^[SU]SRA[dv]", "^[SU]RSRA[dv]")>;
 
 // ASIMD shift by immed, basic
 // instrs SHL, SHLL{2}, SHRN{2}, SSHLL{2}, SSHR, SXTL{2}, USHLL{2}, USHR, UXTL{2}
@@ -1014,7 +1066,7 @@ def : InstRW<[HIP12Write_7c_2V], (instrs FSQRTv4f32)>;
 def : InstRW<[HIP12Write_9c_2V], (instrs FSQRTv2f64)>;
 
 // ASIMD FP complex multiply-add
-def : InstRW<[HIP12Write_4c_1V], (instregex "^FCMLAv")>;
+def : InstRW<[HIP12Wr_VFCMA, HIP12Rd_VFCMA], (instregex "^FCMLAv")>;
  
 // ASIMD FP complex add
 def : InstRW<[HIP12Write_3c_1V], (instregex "^FCADDv")>;
@@ -1035,15 +1087,15 @@ def : InstRW<[HIP12Write_3c_1V], (instregex "^F(MAX|MIN)(NM)?Vv")>;
 
 // ASIMD FP multiply
 // instrs FMUL, FMULX
-def : InstRW<[HIP12Write_3c_1V], (instregex "^FMULv", "^FMULXv")>;
+def : InstRW<[HIP12Wr_VFM], (instregex "^FMULv", "^FMULXv")>;
 
 // ASIMD FP fused multiply-add
 // instrs FMLA, FMLS
-def : InstRW<[HIP12Write_4c_1V, HIP12Rd_VFMA], (instregex "^FMLAv", "^FMLSv")>;
+def : InstRW<[HIP12Wr_VFMA, HIP12Rd_VFMA], (instregex "^FMLAv", "^FMLSv")>;
 
 // ASIMD FP fused multiply-add long
 // instrs FMLAL{2}, FMLSL{2}
-def : InstRW<[HIP12Write_4c_1V, HIP12Rd_VFMAL], (instregex "^FML[AS]L2?(lane)?v")>;
+def : InstRW<[HIP12Wr_VFMAL, HIP12Rd_VFMAL], (instregex "^FML[AS]L2?(lane)?v")>;
 
 // ASIMD FP round to FP integral, D-form
 // instrs FRINTN, FRINTM, FRINTP, FRINTZ, FRINTA, FRINTX, FRINTI, FRINT32X, FRINT64X, FRINT32Z, FRINT64Z
@@ -1075,7 +1127,7 @@ def : InstRW<[HIP12Write_8c_4V], (instrs BFMMLA)>;
 
 // ASIMD multiply accumulate long
 // instrs BFMLALB, BFMLALT
-def : InstRW<[HIP12Write_4c_1V, HIP12Rd_VBFMAL],
+def : InstRW<[HIP12Wr_VBFMAL, HIP12Rd_VBFMAL],
               (instrs BFMLALB, BFMLALBIdx, BFMLALT, BFMLALTIdx)>;
 
 // Scalar convert, F32 to BF16
@@ -1166,7 +1218,7 @@ def : InstRW<[HIP12Write_3c_1V], (instregex "^FRECPXv")>;
 
 // ASIMD FP reciprocal step
 // instrs FRECPS, FRSQRTS
-def : InstRW<[HIP12Write_4c_1V, HIP12Rd_RECSTEP],
+def : InstRW<[HIP12Wr_VRECP, HIP12Rd_VRECP],
               (instregex "^FRECPS(32|64|v)", "^FRSQRTS(32|64|v)")>;
 
 // ASIMD reverse
@@ -1621,11 +1673,11 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^[SU]ABD_ZPmZ_[BHSD]", "^[SU]ABD_ZP
 
 // Arithmetic, absolute diff accum SVE256
 // instrs SABA, UABA
-def : InstRW<[HIP12Write_2c_2V, HIP12Rd_ZA], (instregex "^[SU]ABA_ZZZ_[BHSD]")>;
+def : InstRW<[HIP12Wr_ZA, HIP12Rd_ZA], (instregex "^[SU]ABA_ZZZ_[BHSD]")>;
 
 // Arithmetic, absolute diff accum long SVE256
 // instrs SABALB, SABALT, UABALB, UABALT
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZAL], (instregex "^[SU]ABAL[TB]_ZZZ_[HSD]")>;
+def : InstRW<[HIP12Wr_ZAL, HIP12Rd_ZAL], (instregex "^[SU]ABAL[TB]_ZZZ_[HSD]")>;
 
 // Arithmetic, absolute diff long SVE256
 // instrs SABDLB, SABDLT, UABDLB, UABDLT
@@ -1682,7 +1734,7 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^ADDP_ZPmZ_[BHSD]")>;
 // Arithmetic, pairwise add and accum long SVE256
 // instrs SADALP, UADALP
 
-def : InstRW<[HIP12Write_3c_2V], (instregex "^[SU]ADALP_ZPmZ_[HSD]")>;
+def : InstRW<[HIP12Wr_ZPA, ReadDefault, HIP12Rd_ZPA], (instregex "^[SU]ADALP_ZPmZ_[HSD]")>;
 
 // Arithmetic, shift SVE256
 // instrs ASR, LSR, LSL ASRR, LSLR, LSRR
@@ -1698,7 +1750,7 @@ def : InstRW<[HIP12Write_2c_2V],
 
 // Arithmetic, shift and accumulate SVE256
 // instrs SRSRA, SSRA, URSRA, USRA
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZSA], (instregex "^[SU]R?SRA_ZZI_[BHSD]")>;
+def : InstRW<[HIP12Wr_ZSA, HIP12Rd_ZSA], (instregex "^[SU]R?SRA_ZZI_[BHSD]")>;
 
 // Arithmetic, shift by immediate SVE256
 // instrs SHRNB, SHRNT, SSHLLB, SSHLLT, USHLLB, USHLLT
@@ -1789,17 +1841,17 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^SQCADD_ZZI_[BHSD]")>;
 
 // Complex dot product SVE256
 // instrs CDOT
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZDOTB],
+def : InstRW<[HIP12Wr_ZDOT, HIP12Rd_ZDOT],
               (instrs CDOT_ZZZ_S, CDOT_ZZZI_S, CDOT_ZZZ_D, CDOT_ZZZI_D)>;
 
 // Complex multiply-add B, H, S element size SVE256
 // instrs CMLA
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZCMABHS],
+def : InstRW<[HIP12Wr_ZCMABHS, HIP12Rd_ZCMABHS],
               (instregex "^CMLA_ZZZ_[BHS]", "^CMLA_ZZZI_[HS]")>;
 
 // Complex multiply-add D element size SVE256
 // instrs CMLA
-def : InstRW<[HIP12Write_4c_4V, HIP12Rd_ZCMAD], (instrs CMLA_ZZZ_D)>;
+def : InstRW<[HIP12Wr_ZCMAD, HIP12Rd_ZCMAD], (instrs CMLA_ZZZ_D)>;
 
 // Conditional extract operations, scalar form SVE256
 // instrs CLASTA, CLASTB
@@ -1847,12 +1899,12 @@ def : InstRW<[HIP12Write_9c_4V], (instregex "^[SU]DIVR?_ZPmZ_D",
 
 // Dot product SVE256
 // instrs SDOT, UDOT
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZDOTB], (instregex "^[SU]DOT_ZZZI?_BtoS",
-                                                           "^[SU]DOT_ZZZI?_HtoD")>;
+def : InstRW<[HIP12Wr_ZDOT, HIP12Rd_ZDOT], (instregex "^[SU]DOT_ZZZI?_BtoS",
+                                                      "^[SU]DOT_ZZZI?_HtoD")>;
 
 // Dot product, 8-bit, using signed and unsigned integers SVE256
 // instrs SUDOT, USDOT
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZDOTB], (instrs SUDOT_ZZZI, USDOT_ZZZI, USDOT_ZZZ)>;
+def : InstRW<[HIP12Wr_ZDOT, HIP12Rd_ZDOT], (instrs SUDOT_ZZZI, USDOT_ZZZI, USDOT_ZZZ)>;
 
 // Duplicate, indexed SVE256
 // instrs DUP, MOV
@@ -1904,11 +1956,11 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^HISTCNT_ZPzZZ_[SD]",
 
 // Horizontal operations, B, H, S form, immediate operands only SVE256
 // instrs INDEX
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZHorBHS], (instregex "^INDEX_II_[BHS]")>;
+def : InstRW<[HIP12Wr_ZINDEXBHS, HIP12Rd_ZINDEXBHS], (instregex "^INDEX_II_[BHS]")>;
 
 // Horizontal operations, D form, immediate operands only SVE256
 // instrs INDEX
-def : InstRW<[HIP12Write_4c_4V, HIP12Rd_ZHorD], (instrs INDEX_II_D)>;
+def : InstRW<[HIP12Wr_ZINDEXD, HIP12Rd_ZINDEXD], (instrs INDEX_II_D)>;
 
 // Horizontal operations, B, H, S form, scalar start, immediate increment SVE256
 // instrs INDEX
@@ -1961,7 +2013,7 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^N?MATCH_PPzZZ_[BH]")>;
 
 // Matrix multiply-accumulate SVE256
 // instrs SMMLA, UMMLA, USMMLA
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZBFMMA],
+def : InstRW<[HIP12Wr_ZMMA, HIP12Rd_ZMMA],
               (instrs SMMLA_ZZZ, UMMLA_ZZZ, USMMLA_ZZZ)>;
 
 // Move prefix SVE256
@@ -1990,38 +2042,38 @@ def : InstRW<[HIP12Write_3c_2V], (instregex "^[SU]MULL[BT]_ZZZI_[SD]",
 
 // Multiply accumulate, B, H, S element size SVE256
 // instrs MLA, MLS, MAD, MSB
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZMABHS],
+def : InstRW<[HIP12Wr_ZMABHS, HIP12Rd_ZMABHS],
              (instregex "^ML[AS]_ZZZI_[HS]", "^ML[AS]_ZPZZZ_[BHS]")>;
-def : InstRW<[HIP12Write_3c_2V, ReadDefault, HIP12Rd_ZMABHS],
+def : InstRW<[HIP12Wr_ZMABHS, ReadDefault, HIP12Rd_ZMABHS],
              (instregex "^(ML[AS]|MAD|MSB)_ZPmZZ_[BHS]")>;
 
 // Multiply accumulate, D element size SVE256
 // instrs MLA, MLS, MAD, MSB
-def : InstRW<[HIP12Write_4c_4V, HIP12Rd_ZMAD],
+def : InstRW<[HIP12Wr_ZMAD, HIP12Rd_ZMAD],
              (instregex "^ML[AS]_ZZZI_D", "^ML[AS]_ZPZZZ_D")>;
-def : InstRW<[HIP12Write_4c_4V, ReadDefault, HIP12Rd_ZMAD],
+def : InstRW<[HIP12Wr_ZMAD, ReadDefault, HIP12Rd_ZMAD],
              (instregex "^(ML[AS]|MAD|MSB)_ZPmZZ_D")>;
 
 // Multiply accumulate long, B, H, S element size SVE256
 // instrs SMLALB, MLALT, SMLSLB, SMLSLT, UMLALB, UMLALT, UMLSLB, UMLSLT
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZMALBHS],
+def : InstRW<[HIP12Wr_ZMALBHS, HIP12Rd_ZMALBHS],
              (instregex "^[SU]ML[AS]L[BT]_ZZZ_[HS]",
                         "^[SU]ML[AS]L[BT]_ZZZI_S")>;
 
 // Multiply accumulate long, D element size SVE256
 // instrs SMLALB, MLALT, SMLSLB, SMLSLT, UMLALB, UMLALT, UMLSLB, UMLSLT
-def : InstRW<[HIP12Write_4c_4V, HIP12Rd_ZMALD],
+def : InstRW<[HIP12Wr_ZMALD, HIP12Rd_ZMALD],
              (instregex "^[SU]ML[AS]L[BT]_ZZZ_D", "^[SU]ML[AS]L[BT]_ZZZI_D")>;
 
 // Multiply accumulate saturating doubling long regular, B, H, S element size SVE256
 // instrs SQDMLALB, SQDMLALT, SQDMLALBT, SQDMLSLB, SQDMLSLT, SQDMLSLBT
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZMASQ],
+def : InstRW<[HIP12Wr_ZMASQLBHS, HIP12Rd_ZMASQ],
              (instregex "^SQDML[AS]L(B|T|BT)_ZZZ_[HS]",
                         "^SQDML[AS]L[BT]_ZZZI_[S]")>;
 
 // Multiply accumulate saturating doubling long regular, D element size SVE256
 // instrs SQDMLALB, SQDMLALT, SQDMLALBT, SQDMLSLB, SQDMLSLT, SQDMLSLBT
-def : InstRW<[HIP12Write_4c_4V, HIP12Rd_ZMASQ],
+def : InstRW<[HIP12Wr_ZMASQLD, HIP12Rd_ZMASQ],
              (instregex "^SQDML[AS]L(B|T|BT)_ZZZ_D",
                         "^SQDML[AS]L[BT]_ZZZI_D")>;
 
@@ -2048,7 +2100,7 @@ def : InstRW<[HIP12Write_4c_4V], (instregex "^SQDMULL[BT]_ZZZ_D",
 // instrs SQRDMLAH, SQRDMLSH
 // Multiply saturating rounding doubling regular/complex accumulate, B, H, S element size SVE256
 // instrs SQRDCMLAH
-def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZMASQ], (instregex "^SQRDML[AS]H_ZZZ_[BHS]",
+def : InstRW<[HIP12Wr_ZMASQBHS, HIP12Rd_ZMASQ], (instregex "^SQRDML[AS]H_ZZZ_[BHS]",
                                                            "^SQRDCMLAH_ZZZ_[BHS]",
                                                            "^SQRDML[AS]H_ZZZI_[HS]",
                                                            "^SQRDCMLAH_ZZZI_[HS]")>;
@@ -2057,8 +2109,8 @@ def : InstRW<[HIP12Write_3c_2V, HIP12Rd_ZMASQ], (instregex "^SQRDML[AS]H_ZZZ_[BH
 // instrs SQRDMLAH, SQRDMLSH
 // Multiply saturating rounding doubling regular/complex accumulate, D element size SVE256
 // instrs SQRDCMLAH
-def : InstRW<[HIP12Write_4c_4V, HIP12Rd_ZMASQ], (instregex "^SQRDML[AS]H_ZZZI?_D",
-                                                           "^SQRDCMLAH_ZZZ_D")>;
+def : InstRW<[HIP12Wr_ZMASQD, HIP12Rd_ZMASQ], (instregex "^SQRDML[AS]H_ZZZI?_D",
+                                                         "^SQRDCMLAH_ZZZ_D")>;
 
 // Multiply saturating rounding doubling regular/complex, B, H, S element size SVE256
 // instrs SQRDMULH
@@ -2204,11 +2256,11 @@ def : InstRW<[HIP12Write_3c_2V], (instregex "^FCADD_ZPmZ_[HSD]")>;
 
 // Floating point complex multiply add(vectors) SVE256
 // instrs FCMLA
-def : InstRW<[HIP12Write_4c_2V, ReadDefault, HIP12Rd_ZFCMA], (instregex "^FCMLA_ZPmZZ_[HSD]")>;
+def : InstRW<[HIP12Wr_ZFCMA, ReadDefault, HIP12Rd_ZFCMA], (instregex "^FCMLA_ZPmZZ_[HSD]")>;
 
 // Floating point complex multiply add(indexed) SVE256
 // instrs FCMLA
-def : InstRW<[HIP12Write_4c_2V, HIP12Rd_ZFCMA], (instregex "^FCMLA_ZZZI_[HS]")>;
+def : InstRW<[HIP12Wr_ZFCMA, HIP12Rd_ZFCMA], (instregex "^FCMLA_ZZZI_[HS]")>;
 
 // Floating point convert, long or narrow SVE256
 // instrs FCVT
@@ -2270,16 +2322,16 @@ def : InstRW<[HIP12Write_3c_2V], (instregex "^(FSCALE|FMULX)_ZPmZ_[HSD]",
 
 // Floating point multiply accumulate SVE256
 // instrs FMLA, FMLS, FMAD, FMSB, FNMAD, FNMLA, FNMLS, FNMSB
-def : InstRW<[HIP12Write_4c_2V, ReadDefault, HIP12Rd_ZFMA],
+def : InstRW<[HIP12Wr_ZFMA, ReadDefault, HIP12Rd_ZFMA],
              (instregex "^FN?ML[AS]_ZPmZZ_[HSD]",
                         "^FN?(MAD|MSB)_ZPmZZ_[HSD]")>;
-def : InstRW<[HIP12Write_4c_2V, HIP12Rd_ZFMA],
+def : InstRW<[HIP12Wr_ZFMA, HIP12Rd_ZFMA],
              (instregex "^FML[AS]_ZZZI_[HSD]",
                         "^FN?ML[AS]_ZPZZZ_[HSD]")>;
 
 // Floating point multiply add/sub accumulate long SVE256
 // instrs FMLALB, FMLALT, FMLSLB, FMLSLT
-def : InstRW<[HIP12Write_4c_2V], (instregex "^FML[AS]L[BT]_ZZZI?_SHH")>;
+def : InstRW<[HIP12Wr_ZFMAL, HIP12Rd_ZFMAL], (instregex "^FML[AS]L[BT]_ZZZI?_SHH")>;
 
 // Floating point reciprocal estimate SVE256
 // instrs FRECPE, FRECPX, FRSQRTE
@@ -2356,7 +2408,7 @@ def : InstRW<[HIP12Write_8c_8V], (instrs BFMMLA_ZZZ_HtoS)>;
 
 // Multiply accumulate long SVE256
 // instrs BFMLALB, BFMLALT, BFMLALB, BFMLALT
-def : InstRW<[HIP12Write_4c_2V, HIP12Rd_ZBFMAL], (instregex "^BFMLAL[BT]_ZZZI?")>;
+def : InstRW<[HIP12Wr_ZBFMAL, HIP12Rd_ZBFMAL], (instregex "^BFMLAL[BT]_ZZZI?")>;
 
 //===----------------------------------------------------------------------===//
 // 3.26 SVE Load Instructions

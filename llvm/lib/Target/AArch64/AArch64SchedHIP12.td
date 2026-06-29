@@ -175,14 +175,6 @@ def HIP12Rd_ZCMABHS : SchedReadAdvance<2, [HIP12Wr_ZCMABHS]>;
 def HIP12Wr_ZCMAD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
 def HIP12Rd_ZCMAD : SchedReadAdvance<2, [HIP12Wr_ZCMAD]>;
 
-// Horizontal operations, B, H, S form, immediate operands only SVE256
-def HIP12Wr_ZINDEXBHS : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
-def HIP12Rd_ZINDEXBHS : SchedReadAdvance<2, [HIP12Wr_ZINDEXBHS]>;
-
-// Horizontal operations, D form, immediate operands only SVE256
-def HIP12Wr_ZINDEXD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
-def HIP12Rd_ZINDEXD : SchedReadAdvance<2, [HIP12Wr_ZINDEXD]>;
-
 // Matrix multiply-accumulate SVE256
 def HIP12Wr_ZMMA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
 def HIP12Rd_ZMMA : SchedReadAdvance<2, [HIP12Wr_ZMMA]>;
@@ -611,8 +603,7 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^F(ADD|SUB)[HSD]rr$")>;
 
 // FP multiply
 // instrs FMUL, FNMUL
-def : SchedAlias<WriteFMul, HIP12Write_3c_1V>;
-def : InstRW<[HIP12Write_3c_1V], (instregex "^FN?MUL[HSD]rr$")>;
+def : WriteRes<WriteFMul, [HIP12UnitV]> { let Latency = 3; }
 
 // FP round to FP integral
 // instrs FRINTA, FRINTI, FRINTM, FRINTN, FRINTP, FRINTX, FRINTZ, FRINT32Z, FRINT32X, FRINT64Z, FRINT64X
@@ -1218,7 +1209,7 @@ def : InstRW<[HIP12Write_3c_1V], (instregex "^FRECPXv")>;
 
 // ASIMD FP reciprocal step
 // instrs FRECPS, FRSQRTS
-def : InstRW<[HIP12Wr_VRECP, HIP12Rd_VRECP],
+def : InstRW<[HIP12Wr_VRECP, HIP12Rd_VRECP, HIP12Rd_VRECP],
               (instregex "^FRECPS(32|64|v)", "^FRSQRTS(32|64|v)")>;
 
 // ASIMD reverse
@@ -1956,11 +1947,11 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^HISTCNT_ZPzZZ_[SD]",
 
 // Horizontal operations, B, H, S form, immediate operands only SVE256
 // instrs INDEX
-def : InstRW<[HIP12Wr_ZINDEXBHS, HIP12Rd_ZINDEXBHS], (instregex "^INDEX_II_[BHS]")>;
+def : InstRW<[HIP12Write_3c_2V], (instregex "^INDEX_II_[BHS]")>;
 
 // Horizontal operations, D form, immediate operands only SVE256
 // instrs INDEX
-def : InstRW<[HIP12Wr_ZINDEXD, HIP12Rd_ZINDEXD], (instrs INDEX_II_D)>;
+def : InstRW<[HIP12Write_4c_4V], (instrs INDEX_II_D)>;
 
 // Horizontal operations, B, H, S form, scalar start, immediate increment SVE256
 // instrs INDEX

@@ -1,4 +1,4 @@
-//=- AArch64SchedHIP12.td - Huawei HIP12 Scheduling Defs -*- tablegen -*-=//
+//=- AArch64SchedHIP12.td - Hisilicon HIP12 Scheduling Defs -*- tablegen -*-=//
 //
 // Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
 // See https://llvm.org/LICENSE.txt for license information.
@@ -6,7 +6,7 @@
 //
 //===----------------------------------------------------------------------===//
 //
-// This file defines the machine model for Huawei HIP12 to support instruction
+// This file defines the machine model for Hisilicon HIP12 to support instruction
 // scheduling and other instruction cost heuristics.
 //
 //===----------------------------------------------------------------------===//
@@ -26,7 +26,7 @@ def HIP12Model : SchedMachineModel {
 
 let SchedModel = HIP12Model in {
 
-// Define the (17) issue ports.
+// Define the (19) issue ports.
 def HIP12UnitB   : ProcResource<2>;  // Branch 0/1
 def HIP12UnitS0  : ProcResource<1>;  // Integer Single-Cycle pipe 0
 def HIP12UnitS1  : ProcResource<1>;  // Integer Single-Cycle pipe 1
@@ -50,8 +50,7 @@ def HIP12UnitALU1425 : ProcResGroup<[HIP12UnitS1, HIP12UnitS4, HIP12UnitSM2, HIP
 def HIP12UnitV       : ProcResGroup<[HIP12UnitV0, HIP12UnitV1, HIP12UnitV2, HIP12UnitV3]>;  // FP/ASIMD/SVE 0/1/2/3
 def HIP12UnitV02     : ProcResGroup<[HIP12UnitV0, HIP12UnitV2]>;  // FP/ASIMD/SVE 0/2
 
-include "AArch64SchedHIP12WriteRes.td"
-
+// No forwarding is provided for these types.
 def : ReadAdvance<ReadI,       0>;
 def : ReadAdvance<ReadISReg,   0>;
 def : ReadAdvance<ReadIEReg,   0>;
@@ -68,12 +67,11 @@ def : WriteRes<WriteBarrier, []> { let Latency = 1; }
 def : WriteRes<WriteHint,    []> { let Latency = 1; }
 def : WriteRes<WriteLDHi,    []> { let Latency = 4; }
 
-// MSR
-def : WriteRes<WriteSys, []> { let Latency = 1; }
+//===----------------------------------------------------------------------===//
+// Define customized scheduler read/write types specific to the HIP12.
+//===----------------------------------------------------------------------===//
 
-def : SchedAlias<WriteISReg, HIP12Write_1c_1ALU>;
-
-def : InstRW<[WriteI], (instrs COPY)>;
+include "AArch64SchedHIP12WriteRes.td"
 
 //===----------------------------------------------------------------------===//
 // Define forwarded types
@@ -231,6 +229,12 @@ def HIP12Wr_ZBFMAL : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
 def HIP12Rd_ZBFMAL : SchedReadAdvance<2, [HIP12Wr_ZBFMAL]>;
 
 //===----------------------------------------------------------------------===//
+// Miscellaneous
+//===----------------------------------------------------------------------===//
+
+def : InstRW<[WriteI], (instrs COPY)>;
+
+//===----------------------------------------------------------------------===//
 // 3.3 Branch Instructions
 //===----------------------------------------------------------------------===//
 
@@ -266,19 +270,20 @@ def : InstRW<[HIP12Write_1c_1ALU14], (instregex "^(ADC|SBC)[WX]r$")>;
 
 // ALU, basic, flagset
 // instrs ADDS, ADCS, ANDS, BICS, SUBS, SBCS
-def : SchedAlias<WriteIEReg, HIP12Write_1c_1ALU1425>;
 def : InstRW<[HIP12Write_1c_1ALU1425], (instregex "^(ADD|SUB)S[WX]r[si]$",
                                                   "^(ADC|SBC)S[WX]r$",
                                                   "^(AND|BIC)S[WX]ri$")>;
 
 // ALU, extend and shift (shift!=0)
 // instrs ADD{S},SUB{S}
+def : SchedAlias<WriteIEReg, HIP12Write_1c_1ALU1425>;
 
 // Arithmetic, shift=0
 // instrs ADD, SUB
 
 // Arithmetic flagset, shift=0
 // instrs ADDS, SUBS
+def : SchedAlias<WriteISReg, HIP12Write_1c_1ALU>;
 def : InstRW<[HIP12Write_1c_1ALU14_1ALU25], (instregex "^(ADD|SUB)S[WX]rr")>;
 
 // Conditional compare
@@ -290,6 +295,7 @@ def : InstRW<[HIP12Write_1c_1ALU14], (instregex "^CCM[NP][WX][ir]")>;
 def : InstRW<[HIP12Write_1c_1ALU14], (instregex "CSEL[WX]r", "CSINC[WX]r", "CSINV[WX]r", "CSNEG[WX]r")>;
 
 // Convert floating-point condition flags
+def : WriteRes<WriteSys, []> { let Latency = 1; }
 def : InstRW<[HIP12Write_1c_1ALU14], (instrs AXFLAG, XAFLAG)>;
 
 // Flag manipulation instructions
@@ -357,6 +363,7 @@ def : InstRW<[HIP12Write_3c_1ALU25], (instrs SMULHrr, UMULHrr)>;
 //===----------------------------------------------------------------------===//
 // 3.6 Pointer Authentication Instructions
 //===----------------------------------------------------------------------===//
+
 // Authenticate data address
 // instrs AUTDA, AUTDB, AUTDZA, AUTDZB
 
@@ -498,6 +505,7 @@ def : InstRW<[WriteAdr, HIP12Write_4c_1LD_2ALU, WriteLDHi],
 //===----------------------------------------------------------------------===//
 // 3.9 Store Instructions
 //===----------------------------------------------------------------------===//
+
 def : SchedAlias<WriteST, HIP12Write_1c_1ST_1STD>;
 def : SchedAlias<WriteSTP, HIP12Write_1c_1ST_1STD>;
 def : SchedAlias<WriteSTIdx, HIP12Write_1c_1ST_1STD>;
@@ -1097,8 +1105,8 @@ def : InstRW<[HIP12Write_3c_1V],
 // ASIMD FP round to FP integral, Q-form
 // instrs FRINTN, FRINTM, FRINTP, FRINTZ, FRINTA, FRINTX, FRINTI, FRINT32X, FRINT64X, FRINT32Z, FRINT64Z
 def : InstRW<[HIP12Write_4c_2V],
-              (instregex "^FRINT[AIMNPXZ](v8f16|v4f32|v2f64)$",
-                         "^FRINT(32|64)[XZ](v8f16|v4f32|v2f64)$")>;
+             (instregex "^FRINT[AIMNPXZ](v8f16|v4f32|v2f64)$",
+                        "^FRINT(32|64)[XZ](v8f16|v4f32|v2f64)$")>;
 
 //===----------------------------------------------------------------------===//
 // 3.16 ASIMD Bfloat16 (BF16) Instructions
@@ -1119,7 +1127,7 @@ def : InstRW<[HIP12Write_8c_4V], (instrs BFMMLA)>;
 // ASIMD multiply accumulate long
 // instrs BFMLALB, BFMLALT
 def : InstRW<[HIP12Wr_VBFMAL, HIP12Rd_VBFMAL],
-              (instrs BFMLALB, BFMLALBIdx, BFMLALT, BFMLALTIdx)>;
+             (instrs BFMLALB, BFMLALBIdx, BFMLALT, BFMLALTIdx)>;
 
 // Scalar convert, F32 to BF16
 // instrs BFCVT
@@ -1194,14 +1202,14 @@ def : InstRW<[HIP12Write_4c_2V], (instrs URECPEv4i32, URSQRTEv4i32)>;
 // ASIMD FP reciprocal and square root estimate, D-form
 // instrs FRECPE, FRSQRTE
 def : InstRW<[HIP12Write_3c_1V],
-              (instregex "^FRECPE(v4f16|v2f32)$",
-                         "^FRSQRTE(v4f16|v2f32)$")>;
+             (instregex "^FRECPE(v4f16|v2f32)$",
+                        "^FRSQRTE(v4f16|v2f32)$")>;
 
 // ASIMD FP reciprocal and square root estimate, Q-form
 // instrs FRECPE, FRSQRTE
 def : InstRW<[HIP12Write_4c_2V],
-              (instregex "^FRECPE(v8f16|v4f32|v2f64)$",
-                         "^FRSQRTE(v8f16|v4f32|v2f64)$")>;
+             (instregex "^FRECPE(v8f16|v4f32|v2f64)$",
+                        "^FRSQRTE(v8f16|v4f32|v2f64)$")>;
 
 // ASIMD FP reciprocal exponent
 // instrs FRECPX
@@ -1210,7 +1218,7 @@ def : InstRW<[HIP12Write_3c_1V], (instregex "^FRECPXv")>;
 // ASIMD FP reciprocal step
 // instrs FRECPS, FRSQRTS
 def : InstRW<[HIP12Wr_VRECP, HIP12Rd_VRECP, HIP12Rd_VRECP],
-              (instregex "^FRECPS(32|64|v)", "^FRSQRTS(32|64|v)")>;
+             (instregex "^FRECPS(32|64|v)", "^FRSQRTS(32|64|v)")>;
 
 // ASIMD reverse
 // instrs REV16, REV32, REV64
@@ -1566,8 +1574,8 @@ def : InstRW<[HIP12Write_2c_2V], (instrs BRKNS_PPzP, BRKPAS_PPzPP,
 // Loop control, based on GPR
 // instrs WHILEGE, WHILEGT, WHILEHI, WHILEHS, WHILELE, WHILELO, WHILELS, WHILELT, WHILERW, WHILEWR
 def : InstRW<[HIP12Write_2c_1ALU25],
-              (instregex "^WHILE(GE|GT|HI|HS|LE|LO|LS|LT)_P(WW|XX)_[BHSD]",
-                         "^WHILE(RW|WR)_PXX_[BHSD]")>;
+             (instregex "^WHILE(GE|GT|HI|HS|LE|LO|LS|LT)_P(WW|XX)_[BHSD]",
+                        "^WHILE(RW|WR)_PXX_[BHSD]")>;
 
 // Loop terminate
 // instrs CTERMEQ, CTERMNE
@@ -1576,9 +1584,9 @@ def : InstRW<[HIP12Write_1c_1ALU14], (instregex "^CTERM(EQ|NE)_(WW|XX)")>;
 // Predicate counting scalar
 // instrs ADDPL, ADDVL, CNTB, CNTH, CNTW, CNTD, DECB, DECH, DECW, DECD, INCB, INCH, INCW, INCD, RDVL
 def : InstRW<[HIP12Write_1c_1ALU],
-              (instregex "^(CNT|SQDEC|SQINC|UQDEC|UQINC)[BHWD]_XPiI",
-                         "^SQ(DEC|INC)[BHWD]_XPiWdI",
-                         "^UQ(DEC|INC)[BHWD]_WPiI")>;
+             (instregex "^(CNT|SQDEC|SQINC|UQDEC|UQINC)[BHWD]_XPiI",
+                        "^SQ(DEC|INC)[BHWD]_XPiWdI",
+                        "^UQ(DEC|INC)[BHWD]_WPiI")>;
 def : InstRW<[HIP12Write_1c_1ALU], (instrs ADDPL_XXI, ADDVL_XXI, RDVLI_XI)>;
 
 // Predicate counting scalar
@@ -1588,7 +1596,7 @@ def : InstRW<[HIP12Write_2c_1ALU25], (instregex "^(DEC|INC)[BHWD]_XPiI")>;
 // Predicate counting scalar, active predicate
 // instrs DECP, INCP
 def : InstRW<[HIP12Write_6c_1V02_3ALU],
-              (instregex "^(DEC|INC)P_XP_[BHSD]")>;
+             (instregex "^(DEC|INC)P_XP_[BHSD]")>;
 
 // Predicate counting scalar, active predicate
 // instrs CNTP
@@ -1597,9 +1605,9 @@ def : InstRW<[HIP12Write_5c_2V], (instregex "^CNTP_XPP_[BHSD]")>;
 // Predicate counting scalar, active predicate
 // instrs SQDECP, SQINCP, UQDECP, UQINCP
 def : InstRW<[HIP12Write_7c_1V02_1ALU25],
-              (instregex "^(SQDEC|SQINC|UQDEC|UQINC)P_XP_[BHSD]",
-                         "^(UQDEC|UQINC)P_WP_[BHSD]",
-                         "^(SQDEC|SQINC)P_XPWd_[BHSD]")>;
+             (instregex "^(SQDEC|SQINC|UQDEC|UQINC)P_XP_[BHSD]",
+                        "^(UQDEC|UQINC)P_WP_[BHSD]",
+                        "^(SQDEC|SQINC)P_XPWd_[BHSD]")>;
 
 // Predicate counting vector, active predicate
 // instrs DECP, INCP,
@@ -1608,7 +1616,7 @@ def : InstRW<[HIP12Write_3c_2V], (instregex "^(DEC|INC)P_ZP_[HSD]")>;
 // Predicate counting vector, active predicate
 // instrs SQDECP, SQINCP, UQDECP, UQINCP
 def : InstRW<[HIP12Write_4c_2V],
-              (instregex "^(SQDEC|SQINC|UQDEC|UQINC)P_ZP_[HSD]")>;
+             (instregex "^(SQDEC|SQINC|UQDEC|UQINC)P_ZP_[HSD]")>;
 
 // Predicate logical
 // instrs AND, BIC, EOR, MOV, NAND, NOR, NOT, ORN, ORR
@@ -1833,12 +1841,12 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^SQCADD_ZZI_[BHSD]")>;
 // Complex dot product SVE256
 // instrs CDOT
 def : InstRW<[HIP12Wr_ZDOT, HIP12Rd_ZDOT],
-              (instrs CDOT_ZZZ_S, CDOT_ZZZI_S, CDOT_ZZZ_D, CDOT_ZZZI_D)>;
+             (instrs CDOT_ZZZ_S, CDOT_ZZZI_S, CDOT_ZZZ_D, CDOT_ZZZI_D)>;
 
 // Complex multiply-add B, H, S element size SVE256
 // instrs CMLA
 def : InstRW<[HIP12Wr_ZCMABHS, HIP12Rd_ZCMABHS],
-              (instregex "^CMLA_ZZZ_[BHS]", "^CMLA_ZZZI_[HS]")>;
+             (instregex "^CMLA_ZZZ_[BHS]", "^CMLA_ZZZI_[HS]")>;
 
 // Complex multiply-add D element size SVE256
 // instrs CMLA
@@ -2005,7 +2013,7 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^N?MATCH_PPzZZ_[BH]")>;
 // Matrix multiply-accumulate SVE256
 // instrs SMMLA, UMMLA, USMMLA
 def : InstRW<[HIP12Wr_ZMMA, HIP12Rd_ZMMA],
-              (instrs SMMLA_ZZZ, UMMLA_ZZZ, USMMLA_ZZZ)>;
+             (instrs SMMLA_ZZZ, UMMLA_ZZZ, USMMLA_ZZZ)>;
 
 // Move prefix SVE256
 // instrs MOVPRFX
@@ -2203,20 +2211,20 @@ def : InstRW<[HIP12Write_2c_2V], (instregex "^(UZP|ZIP)[12]_ZZZ_[BHSDQ]")>;
 // Floating point negative value SVE256
 // instrs FNEG
 def : InstRW<[HIP12Write_1c_2V],
-              (instregex "^FAB[SD]_ZPmZ_[HSD]",
-                         "^FABS_ZPmZ_[HSD]",
-                         "^FNEG_ZPmZ_[HSD]")>;
+             (instregex "^FAB[SD]_ZPmZ_[HSD]",
+                        "^FABS_ZPmZ_[HSD]",
+                        "^FNEG_ZPmZ_[HSD]")>;
 
 // Floating point absolute difference SVE256
 // instrs FABD
 // Floating point arithmetic SVE256
 // instrs FADD, FSUB, FSUBR
 def : InstRW<[HIP12Write_2c_2V],
-              (instregex "^F(ADD|SUB)_(ZPm[IZ]|ZZZ)_[HSD]",
-                         "^F(ADD|SUB)_ZPZ[IZ]_[HSD]",
-                         "^FABD_ZPZZ_[HSD]",
-                         "^FSUBR_ZPm[IZ]_[HSD]",
-                         "^FSUBR_(ZPZI|ZPZZ)_[HSD]")>;
+             (instregex "^F(ADD|SUB)_(ZPm[IZ]|ZZZ)_[HSD]",
+                        "^F(ADD|SUB)_ZPZ[IZ]_[HSD]",
+                        "^FABD_ZPZZ_[HSD]",
+                        "^FSUBR_ZPm[IZ]_[HSD]",
+                        "^FSUBR_(ZPZI|ZPZZ)_[HSD]")>;
 
 // Floating point arithmetic pairwise SVE256
 // instrs FADDP

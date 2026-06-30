@@ -139,11 +139,6 @@ let Latency = 4, NumMicroOps = 1 in
 def HIP12Write_4c_1LD : SchedWriteRes<[HIP12UnitLD]> {
 }
 
-let Latency = 4, NumMicroOps = 3 in
-def HIP12Write_4c_1LD_2ALU : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU]> {
-  let ReleaseAtCycles = [1, 2];
-}
-
 let Latency = 1, NumMicroOps = 2 in
 def HIP12Write_1c_1ST_1STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
 }
@@ -1019,103 +1014,17 @@ def : InstRW<[HIP12Write_1c_1ALU14], (instregex "^(ASR|LSL|LSR|ROR)V[WX]r$")>;
 // 3.8 Load Instructions
 //===----------------------------------------------------------------------===//
 
-def : SchedAlias<WriteAdr, HIP12Write_1c_1ALU>;
-def : SchedAlias<WriteLD,  HIP12Write_4c_1LD>;
+def : SchedAlias<WriteAdr,   HIP12Write_1c_1ALU>;
+def : SchedAlias<WriteLD,    HIP12Write_4c_1LD>;
 def : SchedAlias<WriteLDIdx, HIP12Write_4c_1LD>;
-
-// Load register, literal
-// instrs LDR, LDRSW, PRFM
-def : InstRW<[HIP12Write_4c_1LD], (instrs LDRWl, LDRXl, LDRSWl, PRFMl)>;
-
-// Load register, unscaled immed
-// instrs LDUR, LDURB, LDURH, LDURSB, LDURSH, LDURSW, PRFUM
-def : InstRW<[HIP12Write_4c_1LD], (instrs PRFUMi)>;
-
-// Load register, immed post-index
-// instrs LDR, LDRB, LDRH, LDRSB, LDRSH, LDRSW
-// Load register, immed pre-index
-// instrs LDR, LDRB, LDRH, LDRSB, LDRSH, LDRSW
-
-// Load register, immed unprivileged
-// instrs LDTR, LDTRB, LDTRH, LDTRSB, LDTRSH, LDTRSW
-def : InstRW<[HIP12Write_4c_1LD_2ALU], (instregex "^LDTR")>;
-
-// Load register, unsigned immed
-// instrs LDR, LDRB, LDRH, LDRSB, LDRSH, LDRSW, PRFM
-def : InstRW<[HIP12Write_4c_1LD], (instrs PRFMui)>;
-
-// Load register, register offset, no-extend, basic
-// instrs LDR, LDRB, LDRH, LDRSB, LDRSH, LDRSW, PRFM
-def : InstRW<[HIP12Write_4c_1LD], (instregex "^PRFMro[WX]$")>;
-
-// Load register, register offset, no-extend, scale by 2/4/8
-// instrs LDR, LDRSW, PRFM, LDRH, LDRSH
-
-// Load register, register offset, extend, basic
-// instrs LDR, LDRB, LDRH, LDRSB, LDRSH, LDRSW, PRFM
-
-// Load register, register offset, extend, scale by 2/4/8
-// instrs LDR, LDRSW, PRFM, LDRH, LDRSH
-
-// Load pair, immed offset, normal
-// instrs LDP, LDNP
-
-// Load pair, immed offset, signed words
-// instrs LDPSW
-def : InstRW<[HIP12Write_4c_1LD, WriteLDHi], (instrs LDPSWi)>;
-
-// Load pair, immed post-index, normal
-// instrs LDP
-// Load pair, immed pre-index, normal
-// instrs LDP
-
-// Load pair, immed post-index, signed words
-// instrs LDPSW
-// Load pair, immed pre-index, signed words
-// instrs LDPSW
-def : InstRW<[WriteAdr, HIP12Write_4c_1LD_2ALU, WriteLDHi],
-             (instregex "^LDPSW(post|pre)$")>;
 
 //===----------------------------------------------------------------------===//
 // 3.9 Store Instructions
 //===----------------------------------------------------------------------===//
 
-def : SchedAlias<WriteST, HIP12Write_1c_1ST_1STD>;
-def : SchedAlias<WriteSTP, HIP12Write_1c_1ST_1STD>;
+def : SchedAlias<WriteST,    HIP12Write_1c_1ST_1STD>;
+def : SchedAlias<WriteSTP,   HIP12Write_1c_1ST_1STD>;
 def : SchedAlias<WriteSTIdx, HIP12Write_1c_1ST_1STD>;
-
-// Store register, unscaled immed
-// instrs STUR, STURB, STURH
-
-// Store register, immed post-index
-// instrs STR, STRB, STRH
-// Store register, immed pre-index
-// instrs STR, STRB, STRH
-
-// Store register, immed unprivileged
-// instrs STTR, STTRB, STTRH
-def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^STTR[BHWX]i$")>;
-
-// Store register, unsigned immed
-// instrs STR, STRB, STRH
-
-// Store register, register offset, no-extend, basic
-// instrs STR, STRB, STRH
-// Store register, register offset, no-extend, scaled by 2/4/8
-// instrs STR, STRH
-// Store register, register offset, extend, basic
-// instrs STR, STRB, STRH
-// Store register, register offset, extend, scale by 2/4/8
-// instrs STR, STRH
-
-// Store pair, immed offset
-// instrs STP, STNP
-// instrs STPQi, STNPQi
-
-// Store pair, immed post-index
-// instrs STP
-// Store pair, immed pre-index
-// instrs STP
 
 //===----------------------------------------------------------------------===//
 // 3.10 FP Data Processing Instructions

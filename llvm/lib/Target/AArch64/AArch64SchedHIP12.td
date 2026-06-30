@@ -74,6 +74,44 @@ def : WriteRes<WriteLDHi,    []> { let Latency = 4; }
 include "AArch64SchedHIP12WriteRes.td"
 
 //===----------------------------------------------------------------------===//
+// Define predicates
+//===----------------------------------------------------------------------===//
+
+def HIP12AnyShiftBy0 : MCSchedPredicate<
+                         CheckAll<[
+                           CheckShiftBy0,
+                           CheckAny<[
+                             CheckShiftLSL,
+                             CheckShiftLSR,
+                             CheckShiftASR,
+                             CheckShiftROR
+                           ]>]>>;
+
+//===----------------------------------------------------------------------===//
+// Define predicate-controlled types
+//===----------------------------------------------------------------------===//
+
+def HIP12Write_Arith : SchedWriteVariant<[
+                         SchedVar<HIP12AnyShiftBy0, [HIP12Write_1c_1ALU]>,
+                         SchedVar<NoSchedPred,      [HIP12Write_2c_1ALU25]>]>;
+
+def HIP12Write_Ariths : SchedWriteVariant<[
+                          SchedVar<HIP12AnyShiftBy0, [HIP12Write_1c_1ALU1425]>,
+                          SchedVar<NoSchedPred,      [HIP12Write_2c_1ALU25]>]>;
+
+def HIP12Write_Logical : SchedWriteVariant<[
+                           SchedVar<HIP12AnyShiftBy0, [HIP12Write_1c_1ALU]>,
+                           SchedVar<NoSchedPred,      [HIP12Write_1c_1ALU14]>]>;
+
+def HIP12Write_Logicals : SchedWriteVariant<[
+                            SchedVar<HIP12AnyShiftBy0, [HIP12Write_1c_1ALU1425]>,
+                            SchedVar<NoSchedPred,      [HIP12Write_2c_1ALU25]>]>;
+
+def HIP12Write_IMAL : SchedWriteVariant<[
+                        SchedVar<IsReg3ZeroPred, [HIP12Write_2c_1ALU25]>,
+                        SchedVar<NoSchedPred,    [HIP12Write_3c_1ALU25_1ALU]>]>;
+
+//===----------------------------------------------------------------------===//
 // Define forwarded types
 //===----------------------------------------------------------------------===//
 
@@ -261,30 +299,27 @@ def : InstRW<[HIP12Write_1c_1B_1ALU14], (instrs BLR)>;
 //===----------------------------------------------------------------------===//
 
 // ALU, basic
-// instrs ADD, AND, BIC, EON, EOR, ORN, ORR, SUB
+// instrs ADD, ADC, AND, BIC, EON, EOR, ORN, ORR, SUB, SBC
 def : SchedAlias<WriteI, HIP12Write_1c_1ALU>;
-
-// ALU, basic
-// instr ADC, SBC
-def : InstRW<[HIP12Write_1c_1ALU14], (instregex "^(ADC|SBC)[WX]r$")>;
 
 // ALU, basic, flagset
 // instrs ADDS, ADCS, ANDS, BICS, SUBS, SBCS
-def : InstRW<[HIP12Write_1c_1ALU1425], (instregex "^(ADD|SUB)S[WX]r[si]$",
+def : InstRW<[HIP12Write_1c_1ALU1425], (instregex "^(ADD|SUB)S[WX]r[ir]$",
                                                   "^(ADC|SBC)S[WX]r$",
-                                                  "^(AND|BIC)S[WX]ri$")>;
+                                                  "^ANDS[WX]ri$",
+                                                  "^(AND|BIC)S[WX]rr$")>;
 
-// ALU, extend and shift (shift!=0)
+// ALU, extend and shift
 // instrs ADD{S},SUB{S}
-def : SchedAlias<WriteIEReg, HIP12Write_1c_1ALU1425>;
+def : SchedAlias<WriteIEReg, HIP12Write_2c_1ALU25>;
 
-// Arithmetic, shift=0
+// Arithmetic, shift
 // instrs ADD, SUB
+def : SchedAlias<WriteISReg, HIP12Write_Arith>;
 
-// Arithmetic flagset, shift=0
+// Arithmetic flagset, shift
 // instrs ADDS, SUBS
-def : SchedAlias<WriteISReg, HIP12Write_1c_1ALU>;
-def : InstRW<[HIP12Write_1c_1ALU14_1ALU25], (instregex "^(ADD|SUB)S[WX]rr")>;
+def : InstRW<[HIP12Write_Ariths], (instregex "^(ADD|SUB)S[WX]rs$")>;
 
 // Conditional compare
 // instrs CCMN, CCMP
@@ -295,70 +330,55 @@ def : InstRW<[HIP12Write_1c_1ALU14], (instregex "^CCM[NP][WX][ir]")>;
 def : InstRW<[HIP12Write_1c_1ALU14], (instregex "CSEL[WX]r", "CSINC[WX]r", "CSINV[WX]r", "CSNEG[WX]r")>;
 
 // Convert floating-point condition flags
-def : WriteRes<WriteSys, []> { let Latency = 1; }
+def : SchedAlias<WriteSys, HIP12Write_1c_1ALU14>;
 def : InstRW<[HIP12Write_1c_1ALU14], (instrs AXFLAG, XAFLAG)>;
 
 // Flag manipulation instructions
 def : InstRW<[HIP12Write_1c_1ALU14], (instrs SETF8, SETF16, RMIF, CFINV)>;
 
-// Logical, shift(imm=0) no flagset
+// Logical, shift, no flagset
 // instrs AND, BIC, EON, EOR, ORN, ORR
-def : InstRW<[HIP12Write_1c_1ALU], (instregex "^(AND|BIC|EON|EOR|ORN|ORR)[WX]rr$")>;
+def : InstRW<[HIP12Write_Logical], (instregex "^(AND|BIC|EON|EOR|ORN|ORR)[WX]rs$")>;
 
-// Logical, shift(imm!=0) no flagset
-// instrs AND, BIC, EON, EOR, ORN, ORR
-def : InstRW<[HIP12Write_1c_1ALU14], (instregex "^(AND|BIC|EON|EOR|ORN|ORR)[WX]rs$")>;
-
-// Logical, shift(imm=0), flagset
+// Logical, shift, flagset
 // instrs ANDS, BICS
-def : InstRW<[HIP12Write_2c_1ALU25], (instregex "^(AND|BIC)S[WX]rr$")>;
-
-// Logical, shift(imm!=0), flagset
-// instrs ANDS, BICS
-def : InstRW<[HIP12Write_2c_1ALU25], (instregex "^(AND|BIC)S[WX]rs$")>;
+def : InstRW<[HIP12Write_Logicals], (instregex "^(AND|BIC)S[WX]rs$")>;
 
 //===----------------------------------------------------------------------===//
 // 3.5 Divide and Multiply Instructions
 //===----------------------------------------------------------------------===//
 
+// Multiply, W-form
+// instrs MUL, MNEG
+// Multiply, X-form
+// instrs MUL, MNEG
 def : SchedAlias<WriteIM32, HIP12Write_2c_1ALU25>;
 def : SchedAlias<WriteIM64, HIP12Write_3c_1ALU25>;
 
-def : SchedAlias<WriteID32, HIP12Write_6c_2ALU25>;
-def : SchedAlias<WriteID64, HIP12Write_8c_2ALU25>;
-
 // Divide, W-form
 // instrs SDIV, UDIV
-def : InstRW<[HIP12Write_6c_2ALU25], (instrs SDIVWr, UDIVWr)>;
-
 // Divide, X-form
 // instrs SDIV, UDIV
-def : InstRW<[HIP12Write_8c_2ALU25], (instrs SDIVXr, UDIVXr)>;
-
-// Multiply, W-form
-// instrs MUL, MNEG
-
-// Multiply, X-form
-// instrs MUL, MNEG
+def : SchedAlias<WriteID32, HIP12Write_6c_1ALU25>;
+def : SchedAlias<WriteID64, HIP12Write_8c_1ALU25>;
 
 // Multiply accumulate, W-form
 // instrs MADD, MSUB
-def : InstRW<[HIP12Write_3c_1ALU25_3ALU], (instrs MADDWrrr, MSUBWrrr)>;
+def : InstRW<[HIP12Write_3c_1ALU25_1ALU], (instrs MADDWrrr, MSUBWrrr)>;
 
 // Multiply accumulate, X-form
 // instrs MADD, MSUB
-def : InstRW<[HIP12Write_4c_1ALU25_3ALU], (instrs MADDXrrr, MSUBXrrr)>;
+def : InstRW<[HIP12Write_4c_1ALU25_1ALU], (instrs MADDXrrr, MSUBXrrr)>;
 
 // Multiply accumulate long
 // instrs SMADDL, SMSUBL, UMADDL, UMSUBL
-def : InstRW<[HIP12Write_3c_1ALU25_3ALU], (instregex "^(S|U)M(ADD|SUB)Lrrr$")>;
+// Multiply long
+// instrs SMNEGL, SMULL, UMNEGL, UMULL
+def : InstRW<[HIP12Write_IMAL], (instregex "^(S|U)M(ADD|SUB)Lrrr$")>;
 
 // Multiply high
 // instrs SMULH, UMULH
 def : InstRW<[HIP12Write_3c_1ALU25], (instrs SMULHrr, UMULHrr)>;
-
-// Multiply long
-// instrs SMNEGL, SMULL, UMNEGL, UMULL
 
 //===----------------------------------------------------------------------===//
 // 3.6 Pointer Authentication Instructions

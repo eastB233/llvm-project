@@ -18,21 +18,17 @@ let Latency = 2, NumMicroOps = 1 in
 def HIP12Write_2c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
 }
 
-let Latency = 1, NumMicroOps = 2 in
-def HIP12Write_1c_1ALU14_1ALU25 : SchedWriteRes<[HIP12UnitALU14, HIP12UnitALU25]> {
-}
-
 let Latency = 1, NumMicroOps = 1 in
 def HIP12Write_1c_1ALU14 : SchedWriteRes<[HIP12UnitALU14]> {
 }
 
-let Latency = 6, NumMicroOps = 2 in
-def HIP12Write_6c_2ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
+let Latency = 6, NumMicroOps = 1 in
+def HIP12Write_6c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
   let ReleaseAtCycles = [2];
 }
 
-let Latency = 8, NumMicroOps = 2 in
-def HIP12Write_8c_2ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
+let Latency = 8, NumMicroOps = 1 in
+def HIP12Write_8c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
   let ReleaseAtCycles = [2];
 }
 
@@ -40,14 +36,12 @@ let Latency = 3, NumMicroOps = 1 in
 def HIP12Write_3c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
 }
 
-let Latency = 3, NumMicroOps = 4 in
-def HIP12Write_3c_1ALU25_3ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {
-  let ReleaseAtCycles = [1, 3];
+let Latency = 3, NumMicroOps = 2 in
+def HIP12Write_3c_1ALU25_1ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {
 }
 
-let Latency = 4, NumMicroOps = 4 in
-def HIP12Write_4c_1ALU25_3ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {
-  let ReleaseAtCycles = [1, 3];
+let Latency = 4, NumMicroOps = 2 in
+def HIP12Write_4c_1ALU25_1ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {
 }
 
 let Latency = 4, NumMicroOps = 2 in

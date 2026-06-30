@@ -119,24 +119,20 @@ let Latency = 4, NumMicroOps = 2 in
 def HIP12Write_4c_1ALU25_1ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {
 }
 
-let Latency = 4, NumMicroOps = 2 in
-def HIP12Write_4c_2ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
-  let ReleaseAtCycles = [2];
+let Latency = 4, NumMicroOps = 1 in
+def HIP12Write_4c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {
 }
 
-let Latency = 5, NumMicroOps = 4 in
-def HIP12Write_5c_2ALU25_2B : SchedWriteRes<[HIP12UnitALU25, HIP12UnitB]> {
-  let ReleaseAtCycles = [2, 2];
+let Latency = 5, NumMicroOps = 2 in
+def HIP12Write_5c_1ALU25_1Dummy_1B : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy, HIP12UnitB]> {
 }
 
-let Latency = 8, NumMicroOps = 5 in
-def HIP12Write_8c_3LD_2ALU25 : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU25]> {
-  let ReleaseAtCycles = [3, 2];
+let Latency = 8, NumMicroOps = 2 in
+def HIP12Write_8c_1LD_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU25, HIP12UnitDummy]> {
 }
 
-let Latency = 2, NumMicroOps = 2 in
-def HIP12Write_2c_2ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
-  let ReleaseAtCycles = [2];
+let Latency = 2, NumMicroOps = 1 in
+def HIP12Write_2c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {
 }
 
 let Latency = 4, NumMicroOps = 1 in
@@ -950,22 +946,6 @@ def : InstRW<[HIP12Write_3c_1ALU25], (instrs SMULHrr, UMULHrr)>;
 
 // Authenticate data address
 // instrs AUTDA, AUTDB, AUTDZA, AUTDZB
-
-// Authenticate instruction address
-// instrs AUTIA, AUTIB, AUTIA1716, AUTIB1716, AUTIASP, AUTIBSP, AUTIAZ, AUTIBZ, AUTIZA, AUTIZB
-
-// Branch and link, register, with pointer authentication
-def : InstRW<[HIP12Write_5c_2ALU25_2B], (instrs BLRAA, BLRAAZ, BLRAB, BLRABZ)>;
-
-// Branch, register, with pointer authentication
-def : InstRW<[HIP12Write_5c_2ALU25_2B], (instrs BRAA, BRAAZ, BRAB, BRABZ)>;
-
-// Branch, return, with pointer authentication
-// instrs RETAA, RETAB, ERETAA, ERETAB
-def : InstRW<[HIP12Write_5c_2ALU25_2B], (instrs RETAA, RETAB, ERETAA, ERETAB)>;
-
-// Authenticate data address
-// instrs AUTDA, AUTDB, AUTDZA, AUTDZB
 // Authenticate instruction address
 // instrs AUTIA, AUTIB, AUTIA1716, AUTIB1716, AUTIASP, AUTIBSP, AUTIAZ, AUTIBZ, AUTIZA, AUTIZB
 // Compute pointer authentication code for data address
@@ -974,14 +954,24 @@ def : InstRW<[HIP12Write_5c_2ALU25_2B], (instrs RETAA, RETAB, ERETAA, ERETAB)>;
 // instrs PACGA
 // Compute pointer authentication code for instruction address
 // instrs PACIA, PACIB, PACIA1716, PACIB1716, PACIASP, PACIBSP, PACIAZ, PACIBZ, PACIZA, PACIZB
-def : InstRW<[HIP12Write_4c_2ALU25], (instregex "^AUT", "^PAC")>;
+def : InstRW<[HIP12Write_4c_1ALU25_1Dummy], (instregex "^AUT", "^PAC")>;
+
+// Branch and link, register, with pointer authentication
+def : InstRW<[HIP12Write_5c_1ALU25_1Dummy_1B], (instrs BLRAA, BLRAAZ, BLRAB, BLRABZ)>;
+
+// Branch, register, with pointer authentication
+def : InstRW<[HIP12Write_5c_1ALU25_1Dummy_1B], (instrs BRAA, BRAAZ, BRAB, BRABZ)>;
+
+// Branch, return, with pointer authentication
+// instrs RETAA, RETAB, ERETAA, ERETAB
+def : InstRW<[HIP12Write_5c_1ALU25_1Dummy_1B], (instrs RETAA, RETAB, ERETAA, ERETAB)>;
 
 // Load register, with pointer authentication
 // instrs LDRAA, LDRAB
-def : InstRW<[HIP12Write_8c_3LD_2ALU25], (instregex "^LDRA[AB](indexed|writeback)")>;
+def : InstRW<[HIP12Write_8c_1LD_1ALU25_1Dummy], (instregex "^LDRA[AB](indexed|writeback)")>;
 
 // Strip pointer authentication code
-def : InstRW<[HIP12Write_2c_2ALU25], (instrs XPACD, XPACI, XPACLRI)>;
+def : InstRW<[HIP12Write_2c_1ALU25_1Dummy], (instrs XPACD, XPACI, XPACLRI)>;
 
 //===----------------------------------------------------------------------===//
 // 3.7 Miscellaneous Data-Processing Instructions

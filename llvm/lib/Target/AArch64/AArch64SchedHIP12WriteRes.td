@@ -23,13 +23,11 @@ def HIP12Write_1c_1ALU14 : SchedWriteRes<[HIP12UnitALU14]> {
 }
 
 let Latency = 6, NumMicroOps = 1 in
-def HIP12Write_6c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
-  let ReleaseAtCycles = [2];
+def HIP12Write_6c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {
 }
 
 let Latency = 8, NumMicroOps = 1 in
-def HIP12Write_8c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
-  let ReleaseAtCycles = [2];
+def HIP12Write_8c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {
 }
 
 let Latency = 3, NumMicroOps = 1 in

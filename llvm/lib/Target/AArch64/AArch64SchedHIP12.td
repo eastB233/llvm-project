@@ -50,6 +50,10 @@ def HIP12UnitALU1425 : ProcResGroup<[HIP12UnitS1, HIP12UnitS4, HIP12UnitSM2, HIP
 def HIP12UnitV       : ProcResGroup<[HIP12UnitV0, HIP12UnitV1, HIP12UnitV2, HIP12UnitV3]>;  // FP/ASIMD/SVE 0/1/2/3
 def HIP12UnitV02     : ProcResGroup<[HIP12UnitV0, HIP12UnitV2]>;  // FP/ASIMD/SVE 0/2
 
+// Like [SU]DIV, pointer authentication instructions, they can be issued
+// to 2 pipes but share 1 execution unit. So add a dummy unit as a workaround.
+def HIP12UnitDummy   : ProcResource<1>;
+
 // No forwarding is provided for these types.
 def : ReadAdvance<ReadI,       0>;
 def : ReadAdvance<ReadISReg,   0>;
@@ -359,8 +363,8 @@ def : SchedAlias<WriteIM64, HIP12Write_3c_1ALU25>;
 // instrs SDIV, UDIV
 // Divide, X-form
 // instrs SDIV, UDIV
-def : SchedAlias<WriteID32, HIP12Write_6c_1ALU25>;
-def : SchedAlias<WriteID64, HIP12Write_8c_1ALU25>;
+def : SchedAlias<WriteID32, HIP12Write_6c_1ALU25_1Dummy>;
+def : SchedAlias<WriteID64, HIP12Write_8c_1ALU25_1Dummy>;
 
 // Multiply accumulate, W-form
 // instrs MADD, MSUB

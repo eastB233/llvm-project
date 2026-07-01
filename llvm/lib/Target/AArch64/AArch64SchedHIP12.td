@@ -143,9 +143,12 @@ let Latency = 1, NumMicroOps = 2 in
 def HIP12Write_1c_1ST_1STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
 }
 
-let Latency = 1, NumMicroOps = 5 in
-def HIP12Write_1c_1ST_1STD_3ALU : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitALU]> {
-  let ReleaseAtCycles = [1, 1, 3];
+let Latency = 1, NumMicroOps = 3 in
+def HIP12Write_1c_1ST_1STD_1ALU : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitALU]> {
+}
+
+let Latency = 1, NumMicroOps = 6 in
+def HIP12Write_1c_2ST_2STD_2ALU : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitALU, HIP12UnitALU]> {
 }
 
 let Latency = 1, NumMicroOps = 1 in
@@ -156,19 +159,16 @@ let Latency = 2, NumMicroOps = 1 in
 def HIP12Write_2c_1V : SchedWriteRes<[HIP12UnitV]> {
 }
 
-let Latency = 2, NumMicroOps = 3 in
-def HIP12Write_2c_1V02_2ALU0134 : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU0134]> {
-  let ReleaseAtCycles = [1, 2];
+let Latency = 2, NumMicroOps = 2 in
+def HIP12Write_2c_1V02_1ALU0134 : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU0134]> {
 }
 
-let Latency = 4, NumMicroOps = 3 in
-def HIP12Write_4c_1ALU14_2V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
-  let ReleaseAtCycles = [1, 2];
+let Latency = 4, NumMicroOps = 2 in
+def HIP12Write_4c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
 }
 
-let Latency = 6, NumMicroOps = 3 in
-def HIP12Write_6c_1ALU14_2V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
-  let ReleaseAtCycles = [1, 2];
+let Latency = 6, NumMicroOps = 2 in
+def HIP12Write_6c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
 }
 
 let Latency = 4, NumMicroOps = 1 in
@@ -187,9 +187,8 @@ let Latency = 3, NumMicroOps = 1 in
 def HIP12Write_3c_1V : SchedWriteRes<[HIP12UnitV]> {
 }
 
-let Latency = 7, NumMicroOps = 3 in
-def HIP12Write_7c_1ALU14_2V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
-  let ReleaseAtCycles = [1, 2];
+let Latency = 7, NumMicroOps = 2 in
+def HIP12Write_7c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
 }
 
 let Latency = 5, NumMicroOps = 1 in
@@ -208,27 +207,32 @@ let Latency = 6, NumMicroOps = 1 in
 def HIP12Write_6c_1LD : SchedWriteRes<[HIP12UnitLD]> {
 }
 
-let Latency = 6, NumMicroOps = 3 in
-def HIP12Write_6c_1LD_2ALU : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU]> {
-  let ReleaseAtCycles = [1, 2];
+let Latency = 6, NumMicroOps = 2 in
+def HIP12Write_6c_2LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD]> {
+}
+
+let Latency = 6, NumMicroOps = 2 in
+def HIP12Write_6c_1LD_1ALU : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU]> {
+}
+
+let Latency = 6, NumMicroOps = 4 in
+def HIP12Write_6c_2LD_2ALU : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitALU, HIP12UnitALU]> {
 }
 
 let Latency = 8, NumMicroOps = 1 in
 def HIP12Write_8c_1LD : SchedWriteRes<[HIP12UnitLD]> {
 }
 
-let Latency = 8, NumMicroOps = 3 in
-def HIP12Write_8c_2ALU_1LD : SchedWriteRes<[HIP12UnitALU, HIP12UnitLD]> {
-  let ReleaseAtCycles = [2, 1];
+let Latency = 8, NumMicroOps = 2 in
+def HIP12Write_8c_1ALU_1LD : SchedWriteRes<[HIP12UnitALU, HIP12UnitLD]> {
 }
 
 let Latency = 3, NumMicroOps = 2 in
 def HIP12Write_3c_1ST_1STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
 }
 
-let Latency = 3, NumMicroOps = 5 in
-def HIP12Write_3c_3ALU_1ST_1STD : SchedWriteRes<[HIP12UnitALU, HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [3, 1, 1];
+let Latency = 3, NumMicroOps = 3 in
+def HIP12Write_3c_1ALU_1ST_1STD : SchedWriteRes<[HIP12UnitALU, HIP12UnitST, HIP12UnitSTD]> {
 }
 
 let Latency = 5, NumMicroOps = 2 in
@@ -352,8 +356,7 @@ def HIP12Write_8c_3LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
 }
 
 let Latency = 1, NumMicroOps = 4 in
-def HIP12Write_1c_2ST_2STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [2, 2];
+def HIP12Write_1c_2ST_2STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
 let Latency = 1, NumMicroOps = 4 in
@@ -632,6 +635,7 @@ def HIP12Write_10c_40V_20ALU25 : SchedWriteRes<[HIP12UnitV, HIP12UnitALU25]> {
 // Define predicates
 //===----------------------------------------------------------------------===//
 
+// Check for shift = 0
 def HIP12AnyShiftBy0 : MCSchedPredicate<
                          CheckAll<[
                            CheckShiftBy0,
@@ -639,8 +643,18 @@ def HIP12AnyShiftBy0 : MCSchedPredicate<
                              CheckShiftLSL,
                              CheckShiftLSR,
                              CheckShiftASR,
-                             CheckShiftROR
-                           ]>]>>;
+                             CheckShiftROR]>]>>;
+
+// Identify LDR/STR Q-form scaled (no-extend) FP instructions
+def HIP12QForm : MCSchedPredicate<
+                   CheckAll<[
+                     CheckAny<[CheckQForm]>,
+                     CheckImmOperand<4, 1>,
+                     CheckNot<CheckAny<[
+                                CheckExtUXTW,
+                                CheckExtSXTW,
+                                CheckExtUXTX,
+                                CheckExtSXTX]>>]>>;
 
 //===----------------------------------------------------------------------===//
 // Define predicate-controlled types
@@ -665,6 +679,16 @@ def HIP12Write_Logicals : SchedWriteVariant<[
 def HIP12Write_IMAL : SchedWriteVariant<[
                         SchedVar<IsReg3ZeroPred, [HIP12Write_2c_1ALU25]>,
                         SchedVar<NoSchedPred,    [HIP12Write_3c_1ALU25_1ALU]>]>;
+
+def HIP12Write_LDRro : SchedWriteVariant<[
+                         SchedVar<IsExtWorXPred, [HIP12Write_8c_1ALU_1LD]>,
+                         SchedVar<HIP12QForm,    [HIP12Write_8c_1LD]>,
+                         SchedVar<NoSchedPred,   [HIP12Write_6c_1LD]>]>;
+
+def HIP12Write_STRro : SchedWriteVariant<[
+                         SchedVar<IsExtWorXPred, [HIP12Write_3c_1ALU_1ST_1STD]>,
+                         SchedVar<HIP12QForm,    [HIP12Write_3c_1ST_1STD]>,
+                         SchedVar<NoSchedPred,   [HIP12Write_1c_1ST_1STD]>]>;
 
 //===----------------------------------------------------------------------===//
 // Define forwarded types
@@ -789,13 +813,7 @@ def HIP12Rd_ZMALD : SchedReadAdvance<2, [HIP12Wr_ZMALD]>;
 // Multiply accumulate saturating doubling long regular, B, H, S element size SVE256
 // Multiply accumulate saturating doubling long regular, D element size SVE256
 // Multiply saturating rounding doubling regular/complex accumulate, B, H, S element size SVE256
-// instrs SQRDMLAH, SQRDMLSH
-// Multiply saturating rounding doubling regular/complex accumulate, B, H, S element size SVE256
-// instrs SQRDCMLAH
 // Multiply saturating rounding doubling regular/complex accumulate, D element size SVE256
-// instrs SQRDMLAH, SQRDMLSH
-// Multiply saturating rounding doubling regular/complex accumulate, D element size SVE256
-// instrs SQRDCMLAH
 def HIP12Wr_ZMASQLBHS : SchedWriteRes<[HIP12UnitV02]>               { let Latency = 3; }
 def HIP12Wr_ZMASQLD   : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
 def HIP12Wr_ZMASQBHS  : SchedWriteRes<[HIP12UnitV02]>               { let Latency = 3; }
@@ -1034,7 +1052,7 @@ def : SchedAlias<WriteF, HIP12Write_2c_1V>;
 
 // FP absolute value
 // instrs FABS
-def : InstRW<[HIP12Write_1c_1V], (instregex "^FABS[DHS]r$")>;
+def : InstRW<[HIP12Write_1c_1V], (instregex "^FABS[HSD]r$")>;
 
 // FP absolute value
 // instrs FABD
@@ -1042,19 +1060,20 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^FABD(16|32|64)$")>;
 
 // FP negate
 // instrs FNEG
-def : InstRW<[HIP12Write_1c_1V], (instregex "^FNEG[DHS]r$")>;
+def : InstRW<[HIP12Write_1c_1V], (instregex "^FNEG[HSD]r$")>;
 
 // FP compare
 // instrs FCMP{E}
-def : InstRW<[HIP12Write_2c_1V02_2ALU0134], (instregex "^FCMPE?[HSD]r[ri]$")>;
+def : SchedAlias<WriteFCmp, HIP12Write_2c_1V02_1ALU0134>;
+def : InstRW<[HIP12Write_2c_1V02_1ALU0134], (instregex "^FCMPE?[HSD]r[ri]$")>;
 
 // FP conditional compare
 // instrs FCCMP{E}
-def : InstRW<[HIP12Write_4c_1ALU14_2V], (instregex "^FCCMPE?[HSD]rr$")>;
+def : InstRW<[HIP12Write_4c_1ALU14_1V], (instregex "^FCCMPE?[HSD]rr$")>;
 
 // FP conditional select
 // instrs FCSEL
-def : InstRW<[HIP12Write_6c_1ALU14_2V], (instregex "^FCSEL[DHS]rrr")>;
+def : InstRW<[HIP12Write_6c_1ALU14_1V], (instregex "^FCSEL[HSD]rrr")>;
 
 // FP divide, H-form
 // instrs FDIV
@@ -1105,15 +1124,15 @@ def : InstRW<[HIP12Write_3c_1V], (instregex "^FRINT[AIMNPXZ][HSD]r$",
 // 3.11 FP Miscellaneous Instructions
 //===----------------------------------------------------------------------===//
 
-def : SchedAlias<WriteFCvt, HIP12Write_7c_1ALU14_2V>;
+def : SchedAlias<WriteFCvt, HIP12Write_7c_1ALU14_1V>;
 
 // FP covert, from gen to vec reg
 // instrs SCVTF, UCVTF
-def : InstRW<[HIP12Write_7c_1ALU14_2V], (instregex "^[SU]CVTF[SU][WX][HSD]ri$")>;
+def : InstRW<[HIP12Write_7c_1ALU14_1V], (instregex "^[SU]CVTF[SU][WX][HSD]ri$")>;
 
 // FP covert, from vec to gen reg
 // instrs FCVTAS, FCVTAU, FCVTMS, FCVTMU, FCVTNS, FCVTNU, FCVTPS, FCVTPU, FCVTZS, FCVTZU
-def : InstRW<[HIP12Write_5c_1V], (instregex "^FCVT[AMNPZ][SU]U[XW][HSD]r$")>;
+def : InstRW<[HIP12Write_5c_1V], (instregex "^FCVT[AMNPZ][SU][SU][WX][HSD]ri?$")>;
 
 // FP convert, Javascript from to gen reg
 def : InstRW<[HIP12Write_5c_1V02], (instrs FJCVTZS)>;
@@ -1121,7 +1140,7 @@ def : InstRW<[HIP12Write_5c_1V02], (instrs FJCVTZS)>;
 // FP convert, from vec to vec reg
 // instrs FCVT, FCVTXN
 def : InstRW<[HIP12Write_3c_1V], (instrs FCVTSHr, FCVTDHr, FCVTHSr, FCVTDSr,
-                                             FCVTHDr, FCVTSDr, FCVTXNv1i64)>;
+                                           FCVTHDr, FCVTSDr, FCVTXNv1i64)>;
 
 // FP move, immed
 // instrs FMOV
@@ -1129,7 +1148,7 @@ def : SchedAlias<WriteFImm, HIP12Write_2c_1V>;
 
 // FP move, register
 // instrs FMOV
-def : InstRW<[HIP12Write_2c_1V], (instregex "^FMOV[HSD][r0]$")>;
+def : InstRW<[HIP12Write_2c_1V], (instregex "^FMOV[HSD]r$")>;
 
 // FP transfer, from gen to low half of vec reg
 // instrs FMOV
@@ -1138,7 +1157,7 @@ def : InstRW<[HIP12Write_4c_1ALU14],
 
 // FP transfer, from gen to high half of vec reg
 // instrs FMOV
-def : InstRW<[HIP12Write_6c_1ALU14_2V], (instrs FMOVXDHighr)>;
+def : InstRW<[HIP12Write_6c_1ALU14_1V], (instrs FMOVXDHighr)>;
 
 // FP transfer, from vec to gen reg
 // instrs FMOV
@@ -1164,11 +1183,8 @@ def : InstRW<[HIP12Write_6c_1LD], (instregex "^LDAPUR")>;
 // instrs LDR
 // Load vector reg, immed pre-index
 // instrs LDR
-def : InstRW<[WriteAdr, HIP12Write_6c_1LD_2ALU],
+def : InstRW<[WriteAdr, HIP12Write_6c_1LD_1ALU],
              (instregex "^LDR[BHSDQ](pre|post)$")>;
-
-// Load vector reg, immed unprivileged
-// instrs LDR
 
 // Load vector reg, unsigned immed
 // instrs LDR
@@ -1184,26 +1200,29 @@ def : InstRW<[HIP12Write_6c_1LD], (instregex "^LDR[BHSDQ]ui$")>;
 // instrs LDR
 // Load vector reg, register offset, extend, scale by 2/4/8/16
 // instrs LDR
-def : InstRW<[HIP12Write_8c_2ALU_1LD], (instregex "^LDR[BHSDQ]ro[WX]$")>;
+def : InstRW<[HIP12Write_LDRro, ReadAdrBase], (instregex "^LDR[BHSDQ]ro[WX]$")>;
 
-// Load vector pair, immed offset, normal
+// Load vector pair, immed offset, S/D-form
 // instrs LDP, LDNP
-def : InstRW<[HIP12Write_6c_1LD, WriteLDHi], (instregex "^LDN?P[SDQ]i$")>;
+def : InstRW<[HIP12Write_6c_1LD, WriteLDHi], (instregex "^LDN?P[SD]i$")>;
 
-// Load vector pair, immed offset, signed words
+// Load vector pair, immed offset, Q-form
 // instrs LDP, LDNP
+def : InstRW<[HIP12Write_6c_2LD, WriteLDHi], (instrs LDPQi, LDNPQi)>;
 
-// Load vector pair, immed post-index, normal
+// Load vector pair, immed post-index, S/D-form
 // instrs LDP
-// Load vector pair, immed pre-index, normal
+// Load vector pair, immed pre-index, S/D-form
 // instrs LDP
-def : InstRW<[WriteAdr, HIP12Write_6c_1LD_2ALU, WriteLDHi],
-             (instregex "^LDP[SDQ](pre|post)$")>;
+def : InstRW<[WriteAdr, HIP12Write_6c_1LD_1ALU, WriteLDHi],
+             (instregex "^LDP[SD](pre|post)$")>;
 
-// Load vector pair, immed post-index, signed words
+// Load vector pair, immed post-index, Q-form
 // instrs LDP
-// Load vector pair, immed pre-index, signed words
+// Load vector pair, immed pre-index, Q-form
 // instrs LDP
+def : InstRW<[WriteAdr, HIP12Write_6c_2LD_2ALU, WriteLDHi],
+             (instrs LDPQpre, LDPQpost)>;
 
 //===----------------------------------------------------------------------===//
 // 3.13 FP Store Instructions
@@ -1213,18 +1232,12 @@ def : InstRW<[WriteAdr, HIP12Write_6c_1LD_2ALU, WriteLDHi],
 // instrs STUR
 def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^STUR[BHSDQ]i$")>;
 
-// Store vector reg, SIMD&FP
-// instrs STULR
-
 // Store vector reg, immed post-index
 // instrs STR
 // Store vector reg, immed pre-index
 // instrs STR
-def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD_3ALU],
+def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD_1ALU],
              (instregex "^STR[BHSDQ](pre|post)$")>;
-
-// Store vector reg, immed unprivileged
-// instrs STR
 
 // Store vector reg, unsigned immed
 // instrs STR
@@ -1240,25 +1253,30 @@ def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^STR[BHSDQ]ui$")>;
 // instrs STR
 // Store vector reg, reg offset, extend, scale by 2/4/8/16
 // instrs STR
-def : InstRW<[HIP12Write_3c_3ALU_1ST_1STD],
+def : InstRW<[HIP12Write_STRro],
              (instregex "^STR[BHSDQ]ro[WX]$")>;
 
 // Store vector pair, immed offset, S/D-form
 // instrs STP, STNP
+def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^STN?P[SD]i$")>;
+
 // Store vector pair, immed offset, Q-form
 // instrs STP, STNP
-def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^STN?P[SDQ]i$")>;
+def : InstRW<[HIP12Write_1c_2ST_2STD], (instrs STPQi, STNPQi)>;
 
 // Store vector pair, immed post-index, S/D-form
 // instrs STP
-// Store vector pair, immed post-index, Q-form
-// instrs STP
 // Store vector pair, immed pre-index, S/D-form
+// instrs STP
+def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD_1ALU],
+             (instregex "^STP[SD](pre|post)$")>;
+
+// Store vector pair, immed post-index, Q-form
 // instrs STP
 // Store vector pair, immed pre-index, Q-form
 // instrs STP
-def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD_3ALU],
-             (instregex "^STP[SDQ](pre|post)$")>;
+def : InstRW<[WriteAdr, HIP12Write_1c_2ST_2STD_2ALU],
+             (instrs STPQpre, STPQpost)>;
 
 //===----------------------------------------------------------------------===//
 // 3.14 ASIMD Integer Instructions
@@ -1463,7 +1481,6 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^F(ADD|SUB)v")>;
 // instrs FADDP
 def : InstRW<[HIP12Write_3c_1V], (instregex "^FADDPv")>;
 
-def : SchedAlias<WriteFCmp, HIP12Write_2c_1V>;
 // ASIMD FP compare
 // instrs FACGE, FACGT, FCMEQ, FCMGE, FCMGT, FCMLE, FCMLT
 def : InstRW<[HIP12Write_2c_1V], (instregex "^FACG[ET]v",

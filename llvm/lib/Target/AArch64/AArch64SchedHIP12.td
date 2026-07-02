@@ -397,13 +397,11 @@ def HIP12Write_2c_1V02 : SchedWriteRes<[HIP12UnitV02]> {
 }
 
 let Latency = 2, NumMicroOps = 2 in
-def HIP12Write_2c_2V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [2];
+def HIP12Write_2c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {
 }
 
-let Latency = 6, NumMicroOps = 4 in
-def HIP12Write_6c_1V02_3ALU : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU]> {
-  let ReleaseAtCycles = [1, 3];
+let Latency = 6, NumMicroOps = 2 in
+def HIP12Write_6c_1V02_1ALU : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU]> {
 }
 
 let Latency = 7, NumMicroOps = 2 in
@@ -411,8 +409,7 @@ def HIP12Write_7c_1V02_1ALU25 : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU25]> {
 }
 
 let Latency = 3, NumMicroOps = 2 in
-def HIP12Write_3c_2V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [2];
+def HIP12Write_3c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 1, NumMicroOps = 2 in
@@ -2078,7 +2075,7 @@ def : InstRW<[HIP12Write_2c_1ALU25], (instregex "^CRC32")>;
 // Loop control, based on predicate
 // instrs BRKA, BRKB
 def : InstRW<[HIP12Write_2c_1V02], (instrs BRKA_PPmP, BRKA_PPzP,
-                                               BRKB_PPmP, BRKB_PPzP)>;
+                                           BRKB_PPmP, BRKB_PPzP)>;
 
 // Loop control, based on predicate and flag setting
 // instrs BRKAS, BRKBS
@@ -2087,12 +2084,12 @@ def : InstRW<[HIP12Write_2c_1V02], (instrs BRKAS_PPzP, BRKBS_PPzP)>;
 // Loop control, propagating
 // instrs BRKN, BRKPA, BRKPB
 def : InstRW<[HIP12Write_2c_2V], (instrs BRKN_PPzP, BRKPA_PPzPP,
-                                             BRKPB_PPzPP)>;
+                                         BRKPB_PPzPP)>;
 
 // Loop control, propagating and flag setting
 // instrs BRKNS, BRKPAS, BRKPBS
 def : InstRW<[HIP12Write_2c_2V], (instrs BRKNS_PPzP, BRKPAS_PPzPP,
-                                             BRKPBS_PPzPP)>;
+                                         BRKPBS_PPzPP)>;
 
 // Loop control, based on GPR
 // instrs WHILEGE, WHILEGT, WHILEHI, WHILEHS, WHILELE, WHILELO, WHILELS, WHILELT, WHILERW, WHILEWR
@@ -2118,7 +2115,7 @@ def : InstRW<[HIP12Write_2c_1ALU25], (instregex "^(DEC|INC)[BHWD]_XPiI")>;
 
 // Predicate counting scalar, active predicate
 // instrs DECP, INCP
-def : InstRW<[HIP12Write_6c_1V02_3ALU],
+def : InstRW<[HIP12Write_6c_1V02_1ALU],
              (instregex "^(DEC|INC)P_XP_[BHSD]")>;
 
 // Predicate counting scalar, active predicate

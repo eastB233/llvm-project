@@ -274,48 +274,39 @@ def HIP12Write_9c_2V : SchedWriteRes<[HIP12UnitV]> {
 }
 
 let Latency = 8, NumMicroOps = 4 in
-def HIP12Write_8c_4V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [4];
+def HIP12Write_8c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 6, NumMicroOps = 4 in
-def HIP12Write_6c_2ALU0134_2V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [2, 2];
+def HIP12Write_6c_2ALU0134_2V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitALU0134, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 4, NumMicroOps = 3 in
-def HIP12Write_4c_3V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [3];
+def HIP12Write_4c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 6, NumMicroOps = 3 in
-def HIP12Write_6c_3V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [3];
+def HIP12Write_6c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 6, NumMicroOps = 4 in
-def HIP12Write_6c_4V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [4];
+def HIP12Write_6c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 6, NumMicroOps = 4 in
-def HIP12Write_6c_2V_2ALU0134 : SchedWriteRes<[HIP12UnitV, HIP12UnitALU0134]> {
-  let ReleaseAtCycles = [2, 2];
+def HIP12Write_6c_2V_2ALU0134 : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitALU0134, HIP12UnitALU0134]> {
 }
 
 let Latency = 7, NumMicroOps = 2 in
-def HIP12Write_7c_2LD : SchedWriteRes<[HIP12UnitLD]> {
-  let ReleaseAtCycles = [2];
+def HIP12Write_7c_2LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD]> {
 }
 
 let Latency = 8, NumMicroOps = 3 in
-def HIP12Write_8c_1LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [1, 2];
+def HIP12Write_8c_1LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 8, NumMicroOps = 4 in
-def HIP12Write_8c_2LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [2, 2];
+def HIP12Write_8c_2LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 10, NumMicroOps = 11 in
@@ -323,19 +314,24 @@ def HIP12Write_10c_5LD_6V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
   let ReleaseAtCycles = [5, 6];
 }
 
-let Latency = 10, NumMicroOps = 10 in
-def HIP12Write_10c_4LD_6V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [4, 6];
+let Latency = 10, NumMicroOps = 9 in
+def HIP12Write_10c_3LD_6V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 8, NumMicroOps = 5 in
-def HIP12Write_8c_2LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [2, 3];
+def HIP12Write_8c_2LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 8, NumMicroOps = 6 in
-def HIP12Write_8c_3LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [3, 3];
+def HIP12Write_8c_3LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
+}
+
+let Latency = 11, NumMicroOps = 12 in
+def HIP12Write_11c_4LD_8V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
+}
+
+let Latency = 9, NumMicroOps = 8 in
+def HIP12Write_9c_4LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 10, NumMicroOps = 14 in
@@ -344,32 +340,47 @@ def HIP12Write_10c_6LD_8V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
 }
 
 let Latency = 8, NumMicroOps = 7 in
-def HIP12Write_8c_3LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [3, 4];
+def HIP12Write_8c_3LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 1, NumMicroOps = 4 in
 def HIP12Write_1c_2ST_2STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
-let Latency = 1, NumMicroOps = 4 in
-def HIP12Write_1c_1ST_1STD_2V : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitV]> {
-  let ReleaseAtCycles = [1, 1, 2];
+let Latency = 2, NumMicroOps = 6 in
+def HIP12Write_2c_3ST_3STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
-let Latency = 1, NumMicroOps = 8 in
-def HIP12Write_1c_2ST_2STD_4V : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitV]> {
-  let ReleaseAtCycles = [2, 2, 4];
+let Latency = 2, NumMicroOps = 8 in
+def HIP12Write_2c_4ST_4STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
-let Latency = 4, NumMicroOps = 4 in
-def HIP12Write_4c_1ST_1STD_2V : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitV]> {
-  let ReleaseAtCycles = [1, 1, 2];
+let Latency = 1, NumMicroOps = 3 in
+def HIP12Write_1c_1ST_1STD_1V : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitV]> {
+}
+
+let Latency = 1, NumMicroOps = 6 in
+def HIP12Write_1c_2ST_2STD_2V : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitV, HIP12UnitV]> {
+}
+
+let Latency = 4, NumMicroOps = 6 in
+def HIP12Write_4c_2ST_2STD_2V : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitV, HIP12UnitV]> {
 }
 
 let Latency = 4, NumMicroOps = 8 in
-def HIP12Write_4c_4V_2ST_2STD : SchedWriteRes<[HIP12UnitV, HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [4, 2, 2];
+def HIP12Write_4c_4V_2ST_2STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {
+}
+
+let Latency = 5, NumMicroOps = 9 in
+def HIP12Write_5c_3V_3ST_3STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
+}
+
+let Latency = 5, NumMicroOps = 12 in
+def HIP12Write_5c_6V_3ST_3STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
+}
+
+let Latency = 5, NumMicroOps = 16 in
+def HIP12Write_5c_8V_4ST_4STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
 let Latency = 4, NumMicroOps = 4 in
@@ -586,7 +597,6 @@ def HIP12Write_8c_2LD : SchedWriteRes<[HIP12UnitLD]> {
 
 let Latency = 8, NumMicroOps = 2 in
 def HIP12Write_8c_1LD_1V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [1, 1];
 }
 
 let Latency = 1, NumMicroOps = 4 in
@@ -1704,9 +1714,11 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^FMOVv(2|4|8)f")>;
 
 // ASIMD move, integer immediate
 // instrs MOVI
+def : InstRW<[HIP12Write_2c_1V], (instregex "^MOVIv")>;
+
 // ASIMD move, integer immediate
 // instrs MVNI
-def : InstRW<[HIP12Write_1c_1V], (instregex "^(MOVI|MVNI)v")>;
+def : InstRW<[HIP12Write_1c_1V], (instregex "^MVNIv")>;
 
 // ASIMD reciprocal and square root estimate, D-form
 // instrs URECPE, URSQRTE
@@ -1744,7 +1756,7 @@ def : InstRW<[HIP12Write_2c_1V], (instregex "^REV(16|32|64)v")>;
 // ASIMD table lookup 1 or 2 table regs
 // instrs TBL
 def : InstRW<[HIP12Write_2c_1V], (instrs TBLv8i8One, TBLv16i8One,
-                                             TBLv8i8Two, TBLv16i8Two)>;
+                                         TBLv8i8Two, TBLv16i8Two)>;
 
 // ASIMD table lookup 3 table regs
 // instrs TBL
@@ -1812,11 +1824,8 @@ def : InstRW<[WriteAdr, HIP12Write_7c_2LD], (instregex "^LD1Fourv(8b|4h|2s|1d)_P
 
 // SIMD load, 1-element, single, 1 lane
 // instrs LD1
-def : InstRW<[HIP12Write_8c_1LD_2V], (instregex "LD1i(8|16|32|64)$")>;
-def : InstRW<[WriteAdr, HIP12Write_8c_1LD_2V], (instregex "LD1i(8|16|32|64)_POST$")>;
-
-// SIMD load, 1-element, single, SIMD&FP
-// instrs LDAP1
+def : InstRW<[HIP12Write_8c_1LD_1V],           (instregex "LD1i(8|16|32|64)$")>;
+def : InstRW<[WriteAdr, HIP12Write_8c_1LD_1V], (instregex "LD1i(8|16|32|64)_POST$")>;
 
 // SIMD load, 1-element, single, replicate to all lanes
 // instrs LD1R
@@ -1849,17 +1858,17 @@ def : InstRW<[WriteAdr, HIP12Write_8c_1LD_2V], (instregex "LD2Rv(16b|8h|4s|2d)_P
 
 // SIMD load LD3 (multiple structures), Q-form, B/H/S
 // instrs LD3
-def : InstRW<[HIP12Write_10c_4LD_6V],           (instregex "LD3Threev(16b|8h|4s)$")>;
-def : InstRW<[WriteAdr, HIP12Write_10c_4LD_6V], (instregex "LD3Threev(16b|8h|4s)_POST$")>;
+def : InstRW<[HIP12Write_10c_3LD_6V],           (instregex "LD3Threev(16b|8h|4s)$")>;
+def : InstRW<[WriteAdr, HIP12Write_10c_3LD_6V], (instregex "LD3Threev(16b|8h|4s)_POST$")>;
 
 // SIMD load LD3 (multiple structures), Q-form,D
 // instrs LD3
-def : InstRW<[HIP12Write_8c_3LD_4V],           (instregex "LD3Threev2d$")>;
-def : InstRW<[WriteAdr, HIP12Write_8c_3LD_4V], (instregex "LD3Threev2d_POST$")>;
+def : InstRW<[HIP12Write_8c_3LD_3V],           (instregex "LD3Threev2d$")>;
+def : InstRW<[WriteAdr, HIP12Write_8c_3LD_3V], (instregex "LD3Threev2d_POST$")>;
 
 // SIMD load LD3 (multiple structures), D-form
 // instrs LD3
-def : InstRW<[HIP12Write_8c_2LD_3V], (instregex "LD3Threev(8b|4h|2s)$")>;
+def : InstRW<[HIP12Write_8c_2LD_3V],           (instregex "LD3Threev(8b|4h|2s)$")>;
 def : InstRW<[WriteAdr, HIP12Write_8c_2LD_3V], (instregex "LD3Threev(8b|4h|2s)_POST$")>;
 
 // SIMD load, 3-element, single, 1 lane
@@ -1876,15 +1885,16 @@ def : InstRW<[WriteAdr, HIP12Write_8c_2LD_3V], (instregex "LD3Rv(16b|8h|4s|2d)_P
 
 // SIMD load, 4-element, multiple, Q-form, B/H/S
 // instrs LD4
-def : InstRW<[HIP12Write_11c_6LD_8V],           (instregex "LD4Fourv(16b|8h|4s)$")>;
-def : InstRW<[WriteAdr, HIP12Write_11c_6LD_8V], (instregex "LD4Fourv(16b|8h|4s)_POST$")>;
+def : InstRW<[HIP12Write_11c_4LD_8V],           (instregex "LD4Fourv(16b|8h|4s)$")>;
+def : InstRW<[WriteAdr, HIP12Write_11c_4LD_8V], (instregex "LD4Fourv(16b|8h|4s)_POST$")>;
 
 // SIMD load, 4-element, multiple, Q-form, D
 // instrs LD4
+def : InstRW<[HIP12Write_9c_4LD_4V],           (instregex "LD4Fourv2d$")>;
+def : InstRW<[WriteAdr, HIP12Write_9c_4LD_4V], (instregex "LD4Fourv2d_POST$")>;
+
 // SIMD load, 4-element, multiple, D-form
 // instrs LD4
-def : InstRW<[HIP12Write_9c_4LD_5V],           (instregex "LD4Fourv2d$")>;
-def : InstRW<[WriteAdr, HIP12Write_9c_4LD_5V], (instregex "LD4Fourv2d_POST$")>;
 def : InstRW<[HIP12Write_8c_3LD_4V],           (instregex "LD4Fourv(8b|4h|2s)$")>;
 def : InstRW<[WriteAdr, HIP12Write_8c_3LD_4V], (instregex "LD4Fourv(8b|4h|2s)_POST$")>;
 
@@ -1906,60 +1916,53 @@ def : InstRW<[WriteAdr, HIP12Write_8c_3LD_4V], (instregex "LD4Rv(16b|8h|4s|2d)_P
 
 // SIMD store, 1-element, multiple, 1 reg, Q-form
 // instrs ST1
-def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^ST1Onev(16b|8h|4s|2d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD],
-             (instregex "^ST1Onev(16b|8h|4s|2d)_POST$")>;
+def : InstRW<[HIP12Write_1c_1ST_1STD],           (instregex "ST1Onev(16b|8h|4s|2d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD], (instregex "ST1Onev(16b|8h|4s|2d)_POST$")>;
 
 // SIMD store, 1-element, multiple, 2 reg, Q-form
 // instrs ST1
-def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "ST1Twov(16b|8h|4s|2d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD],
-             (instregex "^ST1Twov(16b|8h|4s|2d)_POST$")>;
+def : InstRW<[HIP12Write_1c_2ST_2STD],           (instregex "ST1Twov(16b|8h|4s|2d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_1c_2ST_2STD], (instregex "ST1Twov(16b|8h|4s|2d)_POST$")>;
 
 // SIMD store, 1-element, multiple, 3 reg, Q-form
 // instrs ST1
-def : InstRW<[HIP12Write_1c_2ST_2STD], (instregex "ST1Threev(16b|8h|4s|2d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_1c_2ST_2STD],
-             (instregex "ST1Threev(16b|8h|4s|2d)_POST$")>;
+def : InstRW<[HIP12Write_2c_3ST_3STD],           (instregex "ST1Threev(16b|8h|4s|2d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_2c_3ST_3STD], (instregex "ST1Threev(16b|8h|4s|2d)_POST$")>;
 
 // SIMD store, 1-element, multiple, 4 reg, Q-form
 // instrs ST1
-def : InstRW<[HIP12Write_1c_2ST_2STD], (instregex "ST1Fourv(16b|8h|4s|2d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_1c_2ST_2STD],
-             (instregex "ST1Fourv(16b|8h|4s|2d)_POST$")>;
+def : InstRW<[HIP12Write_2c_4ST_4STD],           (instregex "ST1Fourv(16b|8h|4s|2d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_2c_4ST_4STD], (instregex "ST1Fourv(16b|8h|4s|2d)_POST$")>;
 
 // SIMD store, 1-element, multiple, 1 reg, D-form
 // instrs ST1
-def : InstRW<[HIP12Write_1c_1ST_1STD_2V],           (instregex "ST1Onev(8b|4h|2s|1d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD_2V], (instregex "ST1Onev(8b|4h|2s|1d)_POST$")>;
+def : InstRW<[HIP12Write_1c_1ST_1STD_1V],           (instregex "ST1Onev(8b|4h|2s|1d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD_1V], (instregex "ST1Onev(8b|4h|2s|1d)_POST$")>;
 
 // SIMD store, 1-element, multiple, 2 reg, D-form
 // instrs ST1
-def : InstRW<[HIP12Write_1c_1ST_1STD_2V],           (instregex "ST1Twov(8b|4h|2s|1d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD_2V], (instregex "ST1Twov(8b|4h|2s|1d)_POST$")>;
+def : InstRW<[HIP12Write_1c_1ST_1STD_1V],           (instregex "ST1Twov(8b|4h|2s|1d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD_1V], (instregex "ST1Twov(8b|4h|2s|1d)_POST$")>;
 
 // SIMD store, 1-element, multiple, 3 reg, D-form
 // instrs ST1
-def : InstRW<[HIP12Write_1c_2ST_2STD_4V],           (instregex "ST1Threev(8b|4h|2s|1d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_1c_2ST_2STD_4V], (instregex "ST1Threev(8b|4h|2s|1d)_POST$")>;
+def : InstRW<[HIP12Write_1c_2ST_2STD_2V],           (instregex "ST1Threev(8b|4h|2s|1d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_1c_2ST_2STD_2V], (instregex "ST1Threev(8b|4h|2s|1d)_POST$")>;
 
 // SIMD store, 1-element, multiple, 4 reg, D-form
 // instrs ST1
-def : InstRW<[HIP12Write_4c_1ST_1STD_2V],           (instregex "ST1Fourv(8b|4h|2s|1d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_4c_1ST_1STD_2V], (instregex "ST1Fourv(8b|4h|2s|1d)_POST$")>;
+def : InstRW<[HIP12Write_4c_2ST_2STD_2V],           (instregex "ST1Fourv(8b|4h|2s|1d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_4c_2ST_2STD_2V], (instregex "ST1Fourv(8b|4h|2s|1d)_POST$")>;
 
 // SIMD store, 1-element, single, 1 lane
 // instrs ST1
 def : InstRW<[HIP12Write_1c_1ST_1STD],           (instregex "ST1i(8|16|32|64)$")>;
 def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD], (instregex "ST1i(8|16|32|64)_POST$")>;
 
-// SIMD store, 1-element, single, SIMD&FP
-// instrs STL1
-
 // SIMD store, 2-element, multiple, Q-form
 // instrs ST2
-def : InstRW<[HIP12Write_1c_1ST_1STD],           (instregex "ST2Twov(16b|8h|4s|2d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD], (instregex "ST2Twov(16b|8h|4s|2d)_POST$")>;
+def : InstRW<[HIP12Write_1c_2ST_2STD],           (instregex "ST2Twov(16b|8h|4s|2d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_1c_2ST_2STD], (instregex "ST2Twov(16b|8h|4s|2d)_POST$")>;
 
 // SIMD store, 2-element, multiple, D-form
 // instrs ST2
@@ -1973,10 +1976,13 @@ def : InstRW<[WriteAdr, HIP12Write_1c_1ST_1STD], (instregex "ST2i(8|16|32|64)_PO
 
 // SIMD store, 3-element, multiple, Q-form,B,H,S
 // instrs ST3
+def : InstRW<[HIP12Write_5c_6V_3ST_3STD],           (instregex "ST3Threev(16b|8h|4s)$")>;
+def : InstRW<[WriteAdr, HIP12Write_5c_6V_3ST_3STD], (instregex "ST3Threev(16b|8h|4s)_POST$")>;
+
 // SIMD store, 3-element, multiple, Q-form,D
 // instrs ST3
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD],           (instregex "ST3Threev(16b|8h|4s|2d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST3Threev(16b|8h|4s|2d)_POST$")>;
+def : InstRW<[HIP12Write_5c_6V_3ST_3STD],           (instregex "ST3Threev2d$")>;
+def : InstRW<[WriteAdr, HIP12Write_5c_6V_3ST_3STD], (instregex "ST3Threev2d_POST$")>;
 
 // SIMD store, 3-element, multiple, D-form
 // instrs ST3
@@ -1990,20 +1996,23 @@ def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST3i(8|16|32|64)
 
 // SIMD store, 4-element, multiple, Q-form
 // instrs ST4
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD],           (instregex "ST4Fourv(16b|8h|4s|2d)$")>;
-def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST4Fourv(16b|8h|4s|2d)_POST$")>;
+def : InstRW<[HIP12Write_5c_8V_4ST_4STD],           (instregex "ST4Fourv(16b|8h|4s|2d)$")>;
+def : InstRW<[WriteAdr, HIP12Write_5c_8V_4ST_4STD], (instregex "ST4Fourv(16b|8h|4s|2d)_POST$")>;
 
 // SIMD store, 4-element, multiple, D-form
 // instrs ST4
-def : InstRW<[HIP12Write_4c_2V_1ST_1STD],           (instregex "ST4Fourv(8b|4h|2s)$")>;
-def : InstRW<[WriteAdr, HIP12Write_4c_2V_1ST_1STD], (instregex "ST4Fourv(8b|4h|2s)_POST$")>;
+def : InstRW<[HIP12Write_4c_4V_2ST_2STD],           (instregex "ST4Fourv(8b|4h|2s)$")>;
+def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST4Fourv(8b|4h|2s)_POST$")>;
 
 // SIMD store, 4-element, single, 1 lane,B/H/S
 // instrs ST4
+def : InstRW<[HIP12Write_4c_2V_1ST_1STD],           (instregex "ST4i(8|16|32)$")>;
+def : InstRW<[WriteAdr, HIP12Write_4c_2V_1ST_1STD], (instregex "ST4i(8|16|32)_POST$")>;
+
 // SIMD store, 4-element, single, 1 lane,D
 // instrs ST4
-def : InstRW<[HIP12Write_4c_2V_1ST_1STD],           (instregex "ST4i(8|16|32|64)$")>;
-def : InstRW<[WriteAdr, HIP12Write_4c_2V_1ST_1STD], (instregex "ST4i(8|16|32|64)_POST$")>;
+def : InstRW<[HIP12Write_4c_4V_2ST_2STD],           (instregex "ST4i64$")>;
+def : InstRW<[WriteAdr, HIP12Write_4c_4V_2ST_2STD], (instregex "ST4i64_POST$")>;
 
 //===----------------------------------------------------------------------===//
 // 3.20 Cryptography Extensions

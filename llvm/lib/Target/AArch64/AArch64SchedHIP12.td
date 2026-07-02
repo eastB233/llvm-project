@@ -425,6 +425,10 @@ let Latency = 3, NumMicroOps = 1 in
 def HIP12Write_3c_1V02_1V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
 }
 
+let Latency = 4, NumMicroOps = 1 in
+def HIP12Write_4c_1V02_1V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
+}
+
 let Latency = 1, NumMicroOps = 1 in
 def HIP12Write_1c_1V02_1V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
 }
@@ -561,6 +565,21 @@ def HIP12Write_5c_4V : SchedWriteRes<[HIP12UnitV]> {
   let ReleaseAtCycles = [4];
 }
 
+let Latency = 5, NumMicroOps = 1 in
+def HIP12Write_5c_1V02_1V13_rc2 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
+  let ReleaseAtCycles = [2, 2];
+}
+
+let Latency = 7, NumMicroOps = 1 in
+def HIP12Write_7c_1V02_1V13_rc2 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
+  let ReleaseAtCycles = [2, 2];
+}
+
+let Latency = 9, NumMicroOps = 1 in
+def HIP12Write_9c_1V02_1V13_rc2 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
+  let ReleaseAtCycles = [2, 2];
+}
+
 let Latency = 7, NumMicroOps = 6 in
 def HIP12Write_7c_6V : SchedWriteRes<[HIP12UnitV]> {
   let ReleaseAtCycles = [6];
@@ -606,9 +625,9 @@ def HIP12Write_18c_8V : SchedWriteRes<[HIP12UnitV]> {
   let ReleaseAtCycles = [8];
 }
 
-let Latency = 42, NumMicroOps = 36 in
-def HIP12Write_42c_36V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [36];
+let Latency = 42, NumMicroOps = 1 in
+def HIP12Write_42c_1V02_1V13_rc18 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
+  let ReleaseAtCycles = [18, 18];
 }
 
 let Latency = 10, NumMicroOps = 4 in
@@ -616,19 +635,26 @@ def HIP12Write_10c_4V : SchedWriteRes<[HIP12UnitV]> {
   let ReleaseAtCycles = [4];
 }
 
-let Latency = 26, NumMicroOps = 20 in
-def HIP12Write_26c_20V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [20];
+let Latency = 26, NumMicroOps = 1 in
+def HIP12Write_26c_1V02_1V13_rc10 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
+  let ReleaseAtCycles = [10, 10];
 }
 
-let Latency = 20, NumMicroOps = 24 in
-def HIP12Write_20c_24V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [24];
+let Latency = 20, NumMicroOps = 1 in
+def HIP12Write_20c_1V02_1V13_rc12 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
+  let ReleaseAtCycles = [12, 12];
 }
 
-let Latency = 15, NumMicroOps = 10 in
-def HIP12Write_15c_10V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [10];
+let Latency = 15, NumMicroOps = 5 in
+def HIP12Write_15c_5V02_5V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
+}
+
+let Latency = 12, NumMicroOps = 4 in
+def HIP12Write_12c_4V02_4V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
+}
+
+let Latency = 9, NumMicroOps = 3 in
+def HIP12Write_9c_3V02_3V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
 }
 
 let Latency = 12, NumMicroOps = 8 in
@@ -2807,48 +2833,47 @@ def : InstRW<[HIP12Write_2c_1V02_1V13], (instregex "^(UZP|ZIP)[12]_ZZZ_[BHSDQ]")
 // instrs FABS
 // Floating point negative value SVE256
 // instrs FNEG
-def : InstRW<[HIP12Write_1c_2V],
-             (instregex "^FAB[SD]_ZPmZ_[HSD]",
-                        "^FABS_ZPmZ_[HSD]",
+def : InstRW<[HIP12Write_1c_1V02_1V13],
+             (instregex "^FABS_ZPmZ_[HSD]",
                         "^FNEG_ZPmZ_[HSD]")>;
 
 // Floating point absolute difference SVE256
 // instrs FABD
 // Floating point arithmetic SVE256
 // instrs FADD, FSUB, FSUBR
-def : InstRW<[HIP12Write_2c_2V],
+def : InstRW<[HIP12Write_2c_1V02_1V13],
              (instregex "^F(ADD|SUB)_(ZPm[IZ]|ZZZ)_[HSD]",
                         "^F(ADD|SUB)_ZPZ[IZ]_[HSD]",
-                        "^FABD_ZPZZ_[HSD]",
+                        "^FABD_ZP[mZ]Z_[HSD]",
                         "^FSUBR_ZPm[IZ]_[HSD]",
                         "^FSUBR_(ZPZI|ZPZZ)_[HSD]")>;
 
 // Floating point arithmetic pairwise SVE256
 // instrs FADDP
-def : InstRW<[HIP12Write_3c_2V], (instregex "^FADDP_ZPmZZ_[HSD]")>;
+def : InstRW<[HIP12Write_3c_1V02_1V13], (instregex "^FADDP_ZPmZZ_[HSD]")>;
 
 // Floating point associative add, F16 SVE256
 // instrs FADDA
-def : InstRW<[HIP12Write_42c_36V], (instrs FADDA_VPZ_H)>;
+def : InstRW<[HIP12Write_42c_1V02_1V13_rc18], (instrs FADDA_VPZ_H)>;
 
 // Floating point associative add, F32 SVE256
 // instrs FADDA
-def : InstRW<[HIP12Write_26c_20V], (instrs FADDA_VPZ_S)>;
+def : InstRW<[HIP12Write_26c_1V02_1V13_rc10], (instrs FADDA_VPZ_S)>;
 
 // Floating point associative add, F64 SVE256
 // instrs FADDA
-def : InstRW<[HIP12Write_20c_24V], (instrs FADDA_VPZ_D)>;
+def : InstRW<[HIP12Write_20c_1V02_1V13_rc12], (instrs FADDA_VPZ_D)>;
 
 // Floating point compare SVE256
 // instrs FACGE, FACGT, FACLE, FACLT, FCMEQ, FCMGE, FCMGT, FCMLE, FCMLT, FCMNE, FCMUO
-def : InstRW<[HIP12Write_2c_2V], (instregex "^FACG[ET]_PPzZZ_[HSD]",
-                                            "^FCM(EQ|GE|GT|NE)_PPzZ[0Z]_[HSD]",
-                                            "^FCM(LE|LT)_PPzZ0_[HSD]",
-                                            "^FCMUO_PPzZZ_[HSD]")>;
+def : InstRW<[HIP12Write_2c_1V02_1V13], (instregex "^FACG[ET]_PPzZZ_[HSD]",
+                                                   "^FCM(EQ|GE|GT|NE)_PPzZ[0Z]_[HSD]",
+                                                   "^FCM(LE|LT)_PPzZ0_[HSD]",
+                                                   "^FCMUO_PPzZZ_[HSD]")>;
 
 // Floating point complex add
 // instrs FCADD
-def : InstRW<[HIP12Write_3c_2V], (instregex "^FCADD_ZPmZ_[HSD]")>;
+def : InstRW<[HIP12Write_3c_1V02_1V13], (instregex "^FCADD_ZPmZ_[HSD]")>;
 
 // Floating point complex multiply add(vectors) SVE256
 // instrs FCMLA
@@ -2862,59 +2887,59 @@ def : InstRW<[HIP12Wr_ZFCMA, HIP12Rd_ZFCMA], (instregex "^FCMLA_ZZZI_[HS]")>;
 // instrs FCVT
 // Floating point convert, long or narrow SVE256
 // instrs FCVTLT, FCVTNT
-def : InstRW<[HIP12Write_4c_4V], (instregex "^FCVT_ZPmZ_(HtoS|StoH)",
-                                            "^FCVTLT_ZPmZ_HtoS",
-                                            "^FCVTNT_ZPmZ_StoH",
-                                            "^FCVT_ZPmZ_(HtoD|StoD|DtoS|DtoH)",
-                                            "^FCVTLT_ZPmZ_StoD",
-                                            "^FCVTNT_ZPmZ_DtoS")>;
+def : InstRW<[HIP12Write_4c_2V02_2V13], (instregex "^FCVT_ZPmZ_(HtoS|StoH)",
+                                                   "^FCVTLT_ZPmZ_HtoS",
+                                                   "^FCVTNT_ZPmZ_StoH",
+                                                   "^FCVT_ZPmZ_(HtoD|StoD|DtoS|DtoH)",
+                                                   "^FCVTLT_ZPmZ_StoD",
+                                                   "^FCVTNT_ZPmZ_DtoS")>;
 
 // Floating point convert, round to odd SVE256
 // instrs FCVTX, FCVTXNT
-def : InstRW<[HIP12Write_4c_4V], (instrs FCVTX_ZPmZ_DtoS, FCVTXNT_ZPmZ_DtoS)>;
+def : InstRW<[HIP12Write_4c_2V02_2V13], (instrs FCVTX_ZPmZ_DtoS, FCVTXNT_ZPmZ_DtoS)>;
 
 // Floating point base2 log SVE256
 // instrs FLOGB
-def : InstRW<[HIP12Write_4c_4V], (instregex "^FLOGB_(ZPmZ|ZPZZ)_[HSD]")>;
+def : InstRW<[HIP12Write_4c_2V02_2V13], (instregex "^FLOGB_(ZPmZ|ZPZZ)_[HSD]")>;
 
 // Floating point convert to integer SVE256
 // instrs FCVTZS, FCVTZU
-def : InstRW<[HIP12Write_4c_4V], (instregex "^FCVTZ[SU]_ZPmZ_HtoH",
-                                            "^FCVTZ[SU]_ZPmZ_(HtoS|StoS)",
-                                            "^FCVTZ[SU]_ZPmZ_(HtoD|StoD|DtoS|DtoD)")>;
+def : InstRW<[HIP12Write_4c_2V02_2V13], (instregex "^FCVTZ[SU]_ZPmZ_HtoH",
+                                                   "^FCVTZ[SU]_ZPmZ_(HtoS|StoS)",
+                                                   "^FCVTZ[SU]_ZPmZ_(HtoD|StoD|DtoS|DtoD)")>;
 
 // Floating point copy SVE256
 // instrs FCPY, FDUP, FMOV
-def : InstRW<[HIP12Write_2c_2V], (instregex "^FCPY_ZPmI_[HSD]", "^FDUP_ZI_[HSD]")>;
+def : InstRW<[HIP12Write_2c_1V02_1V13], (instregex "^FCPY_ZPmI_[HSD]", "^FDUP_ZI_[HSD]")>;
 
 // Floating point divide, F16 SVE256
 // instrs FDIV, FDIVR
-def : InstRW<[HIP12Write_5c_4V], (instregex "^FDIVR?_(ZPmZ|ZPZZ)_H")>;
+def : InstRW<[HIP12Write_5c_1V02_1V13_rc2], (instregex "^FDIVR?_(ZPmZ|ZPZZ)_H")>;
 
 // Floating point divide, F32 SVE256
 // instrs FDIV, FDIVR
-def : InstRW<[HIP12Write_7c_4V], (instregex "^FDIVR?_(ZPmZ|ZPZZ)_S")>;
+def : InstRW<[HIP12Write_7c_1V02_1V13_rc2], (instregex "^FDIVR?_(ZPmZ|ZPZZ)_S")>;
 
 // Floating point divide, F64 SVE256
 // instrs FDIV, FDIVR
-def : InstRW<[HIP12Write_9c_4V], (instregex "^FDIVR?_(ZPmZ|ZPZZ)_D")>;
+def : InstRW<[HIP12Write_9c_1V02_1V13_rc2], (instregex "^FDIVR?_(ZPmZ|ZPZZ)_D")>;
 
 // Floating point min/max pairwise SVE256
 // instrs FMAXP, FMAXNMP, FMINP, FMINNMP
-def : InstRW<[HIP12Write_3c_2V], (instregex "^F(MAX|MIN)(NM)?P_ZPmZZ_[HSD]")>;
+def : InstRW<[HIP12Write_3c_1V02_1V13], (instregex "^F(MAX|MIN)(NM)?P_ZPmZZ_[HSD]")>;
 
 // Floating point min/max SVE256
 // instrs FMAX, FMIN, FMAXNM, FMINNM
-def : InstRW<[HIP12Write_2c_2V], (instregex "^F(MAX|MIN)(NM)?_ZPm[IZ]_[HSD]",
-                                            "^F(MAX|MIN)(NM)?_ZPZ[IZ]_[HSD]")>;
+def : InstRW<[HIP12Write_2c_1V02_1V13], (instregex "^F(MAX|MIN)(NM)?_ZPm[IZ]_[HSD]",
+                                                   "^F(MAX|MIN)(NM)?_ZPZ[IZ]_[HSD]")>;
 
 // Floating point multiply SVE256
 // instrs FMUL
 // instrs FSCALE, FMULX
-def : InstRW<[HIP12Write_3c_2V], (instregex "^(FSCALE|FMULX)_ZPmZ_[HSD]",
-                                            "^FMULX_ZPZZ_[HSD]",
-                                            "^FMUL_(ZPm[IZ]|ZZZI?)_[HSD]",
-                                            "^FMUL_ZPZ[IZ]_[HSD]")>;
+def : InstRW<[HIP12Write_3c_1V02_1V13], (instregex "^(FSCALE|FMULX)_ZPmZ_[HSD]",
+                                                   "^FMULX_ZPZZ_[HSD]",
+                                                   "^FMUL_(ZPm[IZ]|ZZZI?)_[HSD]",
+                                                   "^FMUL_ZPZ[IZ]_[HSD]")>;
 
 // Floating point multiply accumulate SVE256
 // instrs FMLA, FMLS, FMAD, FMSB, FNMAD, FNMLA, FNMLS, FNMSB
@@ -2931,60 +2956,60 @@ def : InstRW<[HIP12Wr_ZFMAL, HIP12Rd_ZFMAL], (instregex "^FML[AS]L[BT]_ZZZI?_SHH
 
 // Floating point reciprocal estimate SVE256
 // instrs FRECPE, FRECPX, FRSQRTE
-def : InstRW<[HIP12Write_4c_4V], (instregex "^FR(ECP|SQRT)E_ZZ_[HSD]",
-                                            "^FRECPX_ZPmZ_[HSD]")>;
+def : InstRW<[HIP12Write_4c_2V02_2V13], (instregex "^FR(ECP|SQRT)E_ZZ_[HSD]",
+                                                   "^FRECPX_ZPmZ_[HSD]")>;
 
 // Floating point reciprocal step SVE256
 // instrs FRECPS, FRSQRTS
-def : InstRW<[HIP12Write_4c_2V], (instregex "^F(RECPS|RSQRTS)_ZZZ_[HSD]")>;
+def : InstRW<[HIP12Write_4c_1V02_1V13], (instregex "^F(RECPS|RSQRTS)_ZZZ_[HSD]")>;
 
 // Floating point reduction, F16 SVE256
 // instrs FADDV
-def : InstRW<[HIP12Write_15c_10V], (instregex "^FADDV_VPZ_H")>;
+def : InstRW<[HIP12Write_15c_5V02_5V13], (instregex "^FADDV_VPZ_H")>;
 
 // Floating point reduction, F32 SVE256
 // instrs FADDV
-def : InstRW<[HIP12Write_12c_8V], (instregex "^FADDV_VPZ_S")>;
+def : InstRW<[HIP12Write_12c_4V02_4V13], (instregex "^FADDV_VPZ_S")>;
 
 // Floating point reduction, F64 SVE256
 // instrs FADDV
-def : InstRW<[HIP12Write_9c_6V], (instregex "^FADDV_VPZ_D")>;
+def : InstRW<[HIP12Write_9c_3V02_3V13], (instregex "^FADDV_VPZ_D")>;
 
 // Floating point reduction SVE256
 // instrs FMAXNMV, FMAXV, FMINNMV, FMINV
-def : InstRW<[HIP12Write_9c_6V], (instregex "^(FMAXNMV|FMAXV|FMINNMV|FMINV)_VPZ_[HSD]")>;
+def : InstRW<[HIP12Write_6c_2V02_2V13], (instregex "^(FMAXNMV|FMAXV|FMINNMV|FMINV)_VPZ_[HSD]")>;
 
 // Floating point round to integral SVE256
 // instrs FRINTA, FRINTM, FRINTN, FRINTP, FRINTX, FRINTZ
-def : InstRW<[HIP12Write_4c_4V], (instregex "^FRINT[AIMNPXZ]_ZPmZ_[HSD]")>;
+def : InstRW<[HIP12Write_4c_2V02_2V13], (instregex "^FRINT[AIMNPXZ]_ZPmZ_[HSD]")>;
 
 // Floating point square root, F16 SVE256
 // instrs FSQRT
-def : InstRW<[HIP12Write_5c_4V], (instregex "^FSQRT_ZPmZ_H")>;
+def : InstRW<[HIP12Write_5c_1V02_1V13_rc2], (instregex "^FSQRT_ZPmZ_H")>;
 
 // Floating point square root, F32 SVE256
 // instrs FSQRT
-def : InstRW<[HIP12Write_7c_4V], (instregex "^FSQRT_ZPmZ_S")>;
+def : InstRW<[HIP12Write_7c_1V02_1V13_rc2], (instregex "^FSQRT_ZPmZ_S")>;
 
 // Floating point square root, F64 SVE256
 // instrs FSQRT
-def : InstRW<[HIP12Write_9c_4V], (instregex "^FSQRT_ZPmZ_D")>;
+def : InstRW<[HIP12Write_9c_1V02_1V13_rc2], (instregex "^FSQRT_ZPmZ_D")>;
 
 // Floating point trigonometric exponentiation SVE256
 // instrs FEXPA
-def : InstRW<[HIP12Write_4c_4V], (instregex "^FEXPA_ZZ_[HSD]")>;
+def : InstRW<[HIP12Write_4c_2V02_2V13], (instregex "^FEXPA_ZZ_[HSD]")>;
 
 // Floating point trigonometric multiply add SVE256
 // instrs FTMAD
-def : InstRW<[HIP12Write_4c_2V], (instregex "^FTMAD_ZZI_[HSD]")>;
+def : InstRW<[HIP12Write_4c_1V02_1V13], (instregex "^FTMAD_ZZI_[HSD]")>;
 
 // Floating point trigonometric, miscellaneous SVE256
 // instrs FTSMUL
-def : InstRW<[HIP12Write_3c_2V], (instregex "^FTSMUL_ZZZ_[HSD]")>;
+def : InstRW<[HIP12Write_3c_1V02_1V13], (instregex "^FTSMUL_ZZZ_[HSD]")>;
 
 // Floating point trigonometric, miscellaneous SVE256
 // instrs FTSSEL
-def : InstRW<[HIP12Write_1c_2V], (instregex "^FTSSEL_ZZZ_[HSD]")>;
+def : InstRW<[HIP12Write_1c_1V02_1V13], (instregex "^FTSSEL_ZZZ_[HSD]")>;
 
 //===----------------------------------------------------------------------===//
 // 3.25 SVE BFlot16 (BF16) Instructions

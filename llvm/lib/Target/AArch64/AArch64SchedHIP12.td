@@ -50,6 +50,11 @@ def HIP12UnitALU1425 : ProcResGroup<[HIP12UnitS1, HIP12UnitS4, HIP12UnitSM2, HIP
 def HIP12UnitV       : ProcResGroup<[HIP12UnitV0, HIP12UnitV1, HIP12UnitV2, HIP12UnitV3]>;  // FP/ASIMD/SVE 0/1/2/3
 def HIP12UnitV02     : ProcResGroup<[HIP12UnitV0, HIP12UnitV2]>;  // FP/ASIMD/SVE 0/2
 
+// In SVE256 mode, V0&&V1 and V2&&V3 are combined into two SVE256 ports.
+// Actually it should be used as (V0+v1) || (V2+V3).
+// But now modelled as SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]>.
+def HIP12UnitV13     : ProcResGroup<[HIP12UnitV1, HIP12UnitV3]>;  // FP/ASIMD/SVE 1/3
+
 // Like [SU]DIV, pointer authentication instructions, they can be issued
 // to 2 pipes but share 1 execution unit. So add a dummy unit as a workaround.
 def HIP12UnitDummy   : ProcResource<1>;
@@ -776,82 +781,82 @@ def HIP12Wr_VRECP : SchedWriteRes<[HIP12UnitV]> { let Latency = 4; }
 def HIP12Rd_VRECP : SchedReadAdvance<2, [HIP12Wr_VRECP]>;
 
 // Arithmetic, absolute diff accum SVE256
-def HIP12Wr_ZA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 2; }
+def HIP12Wr_ZA : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 2; }
 def HIP12Rd_ZA : SchedReadAdvance<1, [HIP12Wr_ZA]>;
 
 // Arithmetic, absolute diff accum long SVE256
-def HIP12Wr_ZAL : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Wr_ZAL : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 3; }
 def HIP12Rd_ZAL : SchedReadAdvance<2, [HIP12Wr_ZAL]>;
 
 // Arithmetic, pairwise add and accum long SVE256
-def HIP12Wr_ZPA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Wr_ZPA : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 3; }
 def HIP12Rd_ZPA : SchedReadAdvance<2, [HIP12Wr_ZPA]>;
 
 // Arithmetic, shift and accumulate SVE256
-def HIP12Wr_ZSA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Wr_ZSA : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 3; }
 def HIP12Rd_ZSA : SchedReadAdvance<1, [HIP12Wr_ZSA]>;
 
 // Complex dot product SVE256
 // Dot product SVE256
 // Dot product, 8-bit, using signed and unsigned integers SVE256
-def HIP12Wr_ZDOT : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Wr_ZDOT : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 3; }
 def HIP12Rd_ZDOT : SchedReadAdvance<2, [HIP12Wr_ZDOT]>;
 
 // Complex multiply-add B, H, S element size SVE256
-def HIP12Wr_ZCMABHS : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Wr_ZCMABHS : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 3; }
 def HIP12Rd_ZCMABHS : SchedReadAdvance<2, [HIP12Wr_ZCMABHS]>;
 
 // Complex multiply-add D element size SVE256
-def HIP12Wr_ZCMAD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZCMAD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13]> { let Latency = 4; }
 def HIP12Rd_ZCMAD : SchedReadAdvance<2, [HIP12Wr_ZCMAD]>;
 
 // Matrix multiply-accumulate SVE256
-def HIP12Wr_ZMMA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Wr_ZMMA : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 3; }
 def HIP12Rd_ZMMA : SchedReadAdvance<2, [HIP12Wr_ZMMA]>;
 
 // Multiply accumulate, B, H, S element size SVE256
-def HIP12Wr_ZMABHS : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Wr_ZMABHS : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 3; }
 def HIP12Rd_ZMABHS : SchedReadAdvance<2, [HIP12Wr_ZMABHS]>;
 
 // Multiply accumulate, D element size SVE256
-def HIP12Wr_ZMAD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZMAD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13]> { let Latency = 4; }
 def HIP12Rd_ZMAD : SchedReadAdvance<2, [HIP12Wr_ZMAD]>;
 
 // Multiply accumulate long, B, H, S element size SVE256
-def HIP12Wr_ZMALBHS : SchedWriteRes<[HIP12UnitV02]> { let Latency = 3; }
+def HIP12Wr_ZMALBHS : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 3; }
 def HIP12Rd_ZMALBHS : SchedReadAdvance<2, [HIP12Wr_ZMALBHS]>;
 
 // Multiply accumulate long, D element size SVE256
-def HIP12Wr_ZMALD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZMALD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13]> { let Latency = 4; }
 def HIP12Rd_ZMALD : SchedReadAdvance<2, [HIP12Wr_ZMALD]>;
 
 // Multiply accumulate saturating doubling long regular, B, H, S element size SVE256
 // Multiply accumulate saturating doubling long regular, D element size SVE256
 // Multiply saturating rounding doubling regular/complex accumulate, B, H, S element size SVE256
 // Multiply saturating rounding doubling regular/complex accumulate, D element size SVE256
-def HIP12Wr_ZMASQLBHS : SchedWriteRes<[HIP12UnitV02]>               { let Latency = 3; }
-def HIP12Wr_ZMASQLD   : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
-def HIP12Wr_ZMASQBHS  : SchedWriteRes<[HIP12UnitV02]>               { let Latency = 3; }
-def HIP12Wr_ZMASQD    : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZMASQLBHS : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]>                             { let Latency = 3; }
+def HIP12Wr_ZMASQLD   : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13]> { let Latency = 4; }
+def HIP12Wr_ZMASQBHS  : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]>                             { let Latency = 3; }
+def HIP12Wr_ZMASQD    : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13]> { let Latency = 4; }
 def HIP12Rd_ZMASQ     : SchedReadAdvance<1, [HIP12Wr_ZMASQLBHS, HIP12Wr_ZMASQLD,
                                              HIP12Wr_ZMASQBHS, HIP12Wr_ZMASQD]>;
 
 // Floating point complex multiply add(vectors) SVE256
 // Floating point complex multiply add(indexed) SVE256
-def HIP12Wr_ZFCMA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZFCMA : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 4; }
 def HIP12Rd_ZFCMA : SchedReadAdvance<2, [HIP12Wr_ZFCMA]>;
 
 // Floating point multiply accumulate SVE256
-def HIP12Wr_ZFMA : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZFMA : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 4; }
 def HIP12Rd_ZFMA : SchedReadAdvance<2, [HIP12Wr_ZFMA]>;
 
 // Floating point multiply add/sub accumulate long SVE256
-def HIP12Wr_ZFMAL : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZFMAL : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 4; }
 def HIP12Rd_ZFMAL : SchedReadAdvance<2, [HIP12Wr_ZFMAL]>;
 
 // BFloat16
 // Multiply accumulate long SVE256
-def HIP12Wr_ZBFMAL : SchedWriteRes<[HIP12UnitV02]> { let Latency = 4; }
+def HIP12Wr_ZBFMAL : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> { let Latency = 4; }
 def HIP12Rd_ZBFMAL : SchedReadAdvance<2, [HIP12Wr_ZBFMAL]>;
 
 //===----------------------------------------------------------------------===//

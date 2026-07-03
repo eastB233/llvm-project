@@ -81,319 +81,297 @@ def : WriteRes<WriteLDHi,    []> { let Latency = 4; }
 //===----------------------------------------------------------------------===//
 
 // Define generic 0 micro-op types
+
 def HIP12Write_0c : SchedWriteRes<[]> { let Latency = 0; }
 
-let Latency = 1, NumMicroOps = 1 in
-def HIP12Write_1c_1B : SchedWriteRes<[HIP12UnitB]> {
-}
-
-let Latency = 1, NumMicroOps = 2 in
-def HIP12Write_1c_1B_1ALU14 : SchedWriteRes<[HIP12UnitB, HIP12UnitALU14]> {
-}
+// Define generic 1 micro-op types
 
 let Latency = 1, NumMicroOps = 1 in
-def HIP12Write_1c_1ALU : SchedWriteRes<[HIP12UnitALU]> {
-}
+def HIP12Write_1c_1B : SchedWriteRes<[HIP12UnitB]> {}
 
 let Latency = 1, NumMicroOps = 1 in
-def HIP12Write_1c_1ALU1425 : SchedWriteRes<[HIP12UnitALU1425]> {
-}
+def HIP12Write_1c_1ALU : SchedWriteRes<[HIP12UnitALU]> {}
+
+let Latency = 1, NumMicroOps = 1 in
+def HIP12Write_1c_1ALU1425 : SchedWriteRes<[HIP12UnitALU1425]> {}
+
+let Latency = 1, NumMicroOps = 1 in
+def HIP12Write_1c_1ALU14 : SchedWriteRes<[HIP12UnitALU14]> {}
+
+let Latency = 4, NumMicroOps = 1 in
+def HIP12Write_4c_1ALU14 : SchedWriteRes<[HIP12UnitALU14]> {}
 
 let Latency = 2, NumMicroOps = 1 in
-def HIP12Write_2c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
-}
-
-let Latency = 1, NumMicroOps = 1 in
-def HIP12Write_1c_1ALU14 : SchedWriteRes<[HIP12UnitALU14]> {
-}
-
-let Latency = 6, NumMicroOps = 1 in
-def HIP12Write_6c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {
-}
-
-let Latency = 8, NumMicroOps = 1 in
-def HIP12Write_8c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {
-}
+def HIP12Write_2c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {}
 
 let Latency = 3, NumMicroOps = 1 in
-def HIP12Write_3c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {
-}
-
-let Latency = 3, NumMicroOps = 2 in
-def HIP12Write_3c_1ALU25_1ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {
-}
-
-let Latency = 4, NumMicroOps = 2 in
-def HIP12Write_4c_1ALU25_1ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {
-}
-
-let Latency = 4, NumMicroOps = 1 in
-def HIP12Write_4c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {
-}
-
-let Latency = 5, NumMicroOps = 2 in
-def HIP12Write_5c_1ALU25_1Dummy_1B : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy, HIP12UnitB]> {
-}
-
-let Latency = 8, NumMicroOps = 2 in
-def HIP12Write_8c_1LD_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU25, HIP12UnitDummy]> {
-}
+def HIP12Write_3c_1ALU25 : SchedWriteRes<[HIP12UnitALU25]> {}
 
 let Latency = 2, NumMicroOps = 1 in
-def HIP12Write_2c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {
-}
+def HIP12Write_2c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {}
 
 let Latency = 4, NumMicroOps = 1 in
-def HIP12Write_4c_1LD : SchedWriteRes<[HIP12UnitLD]> {
-}
+def HIP12Write_4c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {}
 
-let Latency = 1, NumMicroOps = 2 in
-def HIP12Write_1c_1ST_1STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
-}
+let Latency = 6, NumMicroOps = 1 in
+def HIP12Write_6c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {}
 
-let Latency = 1, NumMicroOps = 3 in
-def HIP12Write_1c_1ST_1STD_1ALU : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitALU]> {
-}
-
-let Latency = 1, NumMicroOps = 6 in
-def HIP12Write_1c_2ST_2STD_2ALU : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitALU, HIP12UnitALU]> {
-}
+let Latency = 8, NumMicroOps = 1 in
+def HIP12Write_8c_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy]> {}
 
 let Latency = 1, NumMicroOps = 1 in
-def HIP12Write_1c_1V : SchedWriteRes<[HIP12UnitV]> {
+def HIP12Write_1c_1V : SchedWriteRes<[HIP12UnitV]> {}
+
+let Latency = 2, NumMicroOps = 1 in
+def HIP12Write_2c_1V : SchedWriteRes<[HIP12UnitV]> {}
+
+let Latency = 3, NumMicroOps = 1 in
+def HIP12Write_3c_1V : SchedWriteRes<[HIP12UnitV]> {}
+
+let Latency = 4, NumMicroOps = 1 in
+def HIP12Write_4c_1V : SchedWriteRes<[HIP12UnitV]> {}
+
+let Latency = 5, NumMicroOps = 1 in
+def HIP12Write_5c_1V : SchedWriteRes<[HIP12UnitV]> {}
+
+let Latency = 6, NumMicroOps = 1 in
+def HIP12Write_6c_1V : SchedWriteRes<[HIP12UnitV]> {}
+
+let Latency = 8, NumMicroOps = 1 in
+def HIP12Write_8c_1V : SchedWriteRes<[HIP12UnitV]> {}
+
+let Latency = 5, NumMicroOps = 1 in
+def HIP12Write_5c_1V_2rc : SchedWriteRes<[HIP12UnitV]> {
+  let ReleaseAtCycles = [2];
+}
+
+let Latency = 7, NumMicroOps = 1 in
+def HIP12Write_7c_1V_2rc : SchedWriteRes<[HIP12UnitV]> {
+  let ReleaseAtCycles = [2];
+}
+
+let Latency = 9, NumMicroOps = 1 in
+def HIP12Write_9c_1V_2rc : SchedWriteRes<[HIP12UnitV]> {
+  let ReleaseAtCycles = [2];
 }
 
 let Latency = 2, NumMicroOps = 1 in
-def HIP12Write_2c_1V : SchedWriteRes<[HIP12UnitV]> {
-}
+def HIP12Write_2c_1V02 : SchedWriteRes<[HIP12UnitV02]> {}
+
+let Latency = 4, NumMicroOps = 1 in
+def HIP12Write_4c_1V02 : SchedWriteRes<[HIP12UnitV02]> {}
+
+let Latency = 5, NumMicroOps = 1 in
+def HIP12Write_5c_1V02 : SchedWriteRes<[HIP12UnitV02]> {}
+
+let Latency = 4, NumMicroOps = 1 in
+def HIP12Write_4c_1LD : SchedWriteRes<[HIP12UnitLD]> {}
+
+let Latency = 6, NumMicroOps = 1 in
+def HIP12Write_6c_1LD : SchedWriteRes<[HIP12UnitLD]> {}
+
+let Latency = 8, NumMicroOps = 1 in
+def HIP12Write_8c_1LD : SchedWriteRes<[HIP12UnitLD]> {}
+
+// Define generic 2 micro-op types
+
+let Latency = 1, NumMicroOps = 2 in
+def HIP12Write_1c_1B_1ALU14 : SchedWriteRes<[HIP12UnitB, HIP12UnitALU14]> {}
+
+let Latency = 4, NumMicroOps = 2 in
+def HIP12Write_4c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {}
+
+let Latency = 6, NumMicroOps = 2 in
+def HIP12Write_6c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {}
+
+let Latency = 7, NumMicroOps = 2 in
+def HIP12Write_7c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {}
+
+let Latency = 3, NumMicroOps = 2 in
+def HIP12Write_3c_1ALU25_1ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {}
+
+let Latency = 4, NumMicroOps = 2 in
+def HIP12Write_4c_1ALU25_1ALU : SchedWriteRes<[HIP12UnitALU25, HIP12UnitALU]> {}
+
+let Latency = 5, NumMicroOps = 2 in
+def HIP12Write_5c_1ALU25_1Dummy_1B : SchedWriteRes<[HIP12UnitALU25, HIP12UnitDummy, HIP12UnitB]> {}
+
+let Latency = 8, NumMicroOps = 2 in
+def HIP12Write_8c_1ALU_1LD : SchedWriteRes<[HIP12UnitALU, HIP12UnitLD]> {}
 
 let Latency = 2, NumMicroOps = 2 in
-def HIP12Write_2c_1V02_1ALU0134 : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU0134]> {
-}
-
-let Latency = 4, NumMicroOps = 2 in
-def HIP12Write_4c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
-}
+def HIP12Write_2c_1V02_1ALU0134 : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU0134]> {}
 
 let Latency = 6, NumMicroOps = 2 in
-def HIP12Write_6c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
-}
-
-let Latency = 4, NumMicroOps = 1 in
-def HIP12Write_4c_1V : SchedWriteRes<[HIP12UnitV]> {
-}
-
-let Latency = 6, NumMicroOps = 1 in
-def HIP12Write_6c_1V : SchedWriteRes<[HIP12UnitV]> {
-}
-
-let Latency = 8, NumMicroOps = 1 in
-def HIP12Write_8c_1V : SchedWriteRes<[HIP12UnitV]> {
-}
-
-let Latency = 3, NumMicroOps = 1 in
-def HIP12Write_3c_1V : SchedWriteRes<[HIP12UnitV]> {
-}
-
-let Latency = 7, NumMicroOps = 2 in
-def HIP12Write_7c_1ALU14_1V : SchedWriteRes<[HIP12UnitALU14, HIP12UnitV]> {
-}
-
-let Latency = 5, NumMicroOps = 1 in
-def HIP12Write_5c_1V : SchedWriteRes<[HIP12UnitV]> {
-}
-
-let Latency = 5, NumMicroOps = 1 in
-def HIP12Write_5c_1V02 : SchedWriteRes<[HIP12UnitV02]> {
-}
-
-let Latency = 4, NumMicroOps = 1 in
-def HIP12Write_4c_1ALU14 : SchedWriteRes<[HIP12UnitALU14]> {
-}
-
-let Latency = 6, NumMicroOps = 1 in
-def HIP12Write_6c_1LD : SchedWriteRes<[HIP12UnitLD]> {
-}
+def HIP12Write_6c_2LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD]> {}
 
 let Latency = 6, NumMicroOps = 2 in
-def HIP12Write_6c_2LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD]> {
-}
-
-let Latency = 6, NumMicroOps = 2 in
-def HIP12Write_6c_1LD_1ALU : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU]> {
-}
-
-let Latency = 6, NumMicroOps = 4 in
-def HIP12Write_6c_2LD_2ALU : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitALU, HIP12UnitALU]> {
-}
-
-let Latency = 8, NumMicroOps = 1 in
-def HIP12Write_8c_1LD : SchedWriteRes<[HIP12UnitLD]> {
-}
+def HIP12Write_6c_1LD_1ALU : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU]> {}
 
 let Latency = 8, NumMicroOps = 2 in
-def HIP12Write_8c_1ALU_1LD : SchedWriteRes<[HIP12UnitALU, HIP12UnitLD]> {
-}
+def HIP12Write_8c_1LD_1ALU25_1Dummy : SchedWriteRes<[HIP12UnitLD, HIP12UnitALU25, HIP12UnitDummy]> {}
+
+let Latency = 1, NumMicroOps = 2 in
+def HIP12Write_1c_1ST_1STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {}
 
 let Latency = 3, NumMicroOps = 2 in
-def HIP12Write_3c_1ST_1STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
-}
-
-let Latency = 3, NumMicroOps = 3 in
-def HIP12Write_3c_1ALU_1ST_1STD : SchedWriteRes<[HIP12UnitALU, HIP12UnitST, HIP12UnitSTD]> {
-}
+def HIP12Write_3c_1ST_1STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {}
 
 let Latency = 5, NumMicroOps = 2 in
-def HIP12Write_5c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 7, NumMicroOps = 3 in
-def HIP12Write_7c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 9, NumMicroOps = 4 in
-def HIP12Write_9c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
+def HIP12Write_5c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {}
 
 let Latency = 6, NumMicroOps = 2 in
-def HIP12Write_6c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 9, NumMicroOps = 3 in
-def HIP12Write_9c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 12, NumMicroOps = 4 in
-def HIP12Write_12c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
+def HIP12Write_6c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {}
 
 let Latency = 4, NumMicroOps = 2 in
-def HIP12Write_4c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 8, NumMicroOps = 4 in
-def HIP12Write_8c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 6, NumMicroOps = 4 in
-def HIP12Write_6c_2ALU0134_2V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitALU0134, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 4, NumMicroOps = 3 in
-def HIP12Write_4c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 6, NumMicroOps = 3 in
-def HIP12Write_6c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 6, NumMicroOps = 4 in
-def HIP12Write_6c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 6, NumMicroOps = 4 in
-def HIP12Write_6c_2V_2ALU0134 : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitALU0134, HIP12UnitALU0134]> {
-}
+def HIP12Write_4c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {}
 
 let Latency = 7, NumMicroOps = 2 in
-def HIP12Write_7c_2LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD]> {
-}
+def HIP12Write_7c_2LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD]> {}
+
+let Latency = 2, NumMicroOps = 2 in
+def HIP12Write_2c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 6, NumMicroOps = 2 in
+def HIP12Write_6c_1V02_1ALU : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU]> {}
+
+let Latency = 7, NumMicroOps = 2 in
+def HIP12Write_7c_1V02_1ALU25 : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU25]> {}
+
+let Latency = 3, NumMicroOps = 2 in
+def HIP12Write_3c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 8, NumMicroOps = 2 in
+def HIP12Write_8c_1LD_1V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {}
+
+// Define generic 3 micro-op types
+
+let Latency = 1, NumMicroOps = 3 in
+def HIP12Write_1c_1ST_1STD_1ALU : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitALU]> {}
+
+let Latency = 3, NumMicroOps = 3 in
+def HIP12Write_3c_1ALU_1ST_1STD : SchedWriteRes<[HIP12UnitALU, HIP12UnitST, HIP12UnitSTD]> {}
+
+let Latency = 7, NumMicroOps = 3 in
+def HIP12Write_7c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 9, NumMicroOps = 3 in
+def HIP12Write_9c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 4, NumMicroOps = 3 in
+def HIP12Write_4c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 6, NumMicroOps = 3 in
+def HIP12Write_6c_3V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
 
 let Latency = 8, NumMicroOps = 3 in
-def HIP12Write_8c_1LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV, HIP12UnitV]> {
-}
+def HIP12Write_8c_1LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 1, NumMicroOps = 3 in
+def HIP12Write_1c_1ST_1STD_1V : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitV]> {}
+
+// Define generic 4 micro-op types
+
+let Latency = 6, NumMicroOps = 4 in
+def HIP12Write_6c_2LD_2ALU : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitALU, HIP12UnitALU]> {}
+
+let Latency = 9, NumMicroOps = 4 in
+def HIP12Write_9c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 12, NumMicroOps = 4 in
+def HIP12Write_12c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
 
 let Latency = 8, NumMicroOps = 4 in
-def HIP12Write_8c_2LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV]> {
-}
+def HIP12Write_8c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 6, NumMicroOps = 4 in
+def HIP12Write_6c_2ALU0134_2V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitALU0134, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 6, NumMicroOps = 4 in
+def HIP12Write_6c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 6, NumMicroOps = 4 in
+def HIP12Write_6c_2V_2ALU0134 : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitALU0134, HIP12UnitALU0134]> {}
+
+let Latency = 8, NumMicroOps = 4 in
+def HIP12Write_8c_2LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 1, NumMicroOps = 4 in
+def HIP12Write_1c_2ST_2STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {}
+
+let Latency = 4, NumMicroOps = 4 in
+def HIP12Write_4c_2V_1ST_1STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitSTD]> {}
+
+let Latency = 9, NumMicroOps = 4 in
+def HIP12Write_9c_4LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD]> {}
+
+// Define generic 5 micro-op types
+
+let Latency = 8, NumMicroOps = 5 in
+def HIP12Write_8c_2LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+// Define generic 6 micro-op types
+
+let Latency = 1, NumMicroOps = 6 in
+def HIP12Write_1c_2ST_2STD_2ALU : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitALU, HIP12UnitALU]> {}
+
+let Latency = 8, NumMicroOps = 6 in
+def HIP12Write_8c_3LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 2, NumMicroOps = 6 in
+def HIP12Write_2c_3ST_3STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {}
+
+let Latency = 1, NumMicroOps = 6 in
+def HIP12Write_1c_2ST_2STD_2V : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 4, NumMicroOps = 6 in
+def HIP12Write_4c_2ST_2STD_2V : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitV, HIP12UnitV]> {}
+
+// Define generic 7 micro-op types
+
+let Latency = 8, NumMicroOps = 7 in
+def HIP12Write_8c_3LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+// Define generic 8 micro-op types
+
+let Latency = 9, NumMicroOps = 8 in
+def HIP12Write_9c_4LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
+
+let Latency = 2, NumMicroOps = 8 in
+def HIP12Write_2c_4ST_4STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {}
+
+let Latency = 4, NumMicroOps = 8 in
+def HIP12Write_4c_4V_2ST_2STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {}
+
+let Latency = 10, NumMicroOps = 8 in
+def HIP12Write_10c_8LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD]> {}
+
+let Latency = 4, NumMicroOps = 8 in
+def HIP12Write_4c_4ST_4STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {}
+
+// Define generic 9 micro-op types
 
 let Latency = 10, NumMicroOps = 9 in
 def HIP12Write_10c_3LD_6V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
 
-let Latency = 8, NumMicroOps = 5 in
-def HIP12Write_8c_2LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 8, NumMicroOps = 6 in
-def HIP12Write_8c_3LD_3V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
+// Define generic 12 micro-op types
 
 let Latency = 11, NumMicroOps = 12 in
-def HIP12Write_11c_4LD_8V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 9, NumMicroOps = 8 in
-def HIP12Write_9c_4LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 8, NumMicroOps = 7 in
-def HIP12Write_8c_3LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 1, NumMicroOps = 4 in
-def HIP12Write_1c_2ST_2STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {
-}
-
-let Latency = 2, NumMicroOps = 6 in
-def HIP12Write_2c_3ST_3STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
-}
-
-let Latency = 2, NumMicroOps = 8 in
-def HIP12Write_2c_4ST_4STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
-}
-
-let Latency = 1, NumMicroOps = 3 in
-def HIP12Write_1c_1ST_1STD_1V : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD, HIP12UnitV]> {
-}
-
-let Latency = 1, NumMicroOps = 6 in
-def HIP12Write_1c_2ST_2STD_2V : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 4, NumMicroOps = 6 in
-def HIP12Write_4c_2ST_2STD_2V : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 4, NumMicroOps = 8 in
-def HIP12Write_4c_4V_2ST_2STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {
-}
+def HIP12Write_11c_4LD_8V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {}
 
 let Latency = 5, NumMicroOps = 12 in
-def HIP12Write_5c_6V_3ST_3STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
-}
+def HIP12Write_5c_6V_3ST_3STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {}
+
+// Define generic 16 micro-op types
 
 let Latency = 5, NumMicroOps = 16 in
-def HIP12Write_5c_8V_4ST_4STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
-}
+def HIP12Write_5c_8V_4ST_4STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {}
 
-let Latency = 4, NumMicroOps = 4 in
-def HIP12Write_4c_2V_1ST_1STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitSTD]> {
-}
+let Latency = 8, NumMicroOps = 16 in
+def HIP12Write_8c_8ST_8STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {}
 
-let Latency = 4, NumMicroOps = 1 in
-def HIP12Write_4c_1V02 : SchedWriteRes<[HIP12UnitV02]> {
-}
-
-let Latency = 2, NumMicroOps = 1 in
-def HIP12Write_2c_1V02 : SchedWriteRes<[HIP12UnitV02]> {
-}
-
-let Latency = 2, NumMicroOps = 2 in
-def HIP12Write_2c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 6, NumMicroOps = 2 in
-def HIP12Write_6c_1V02_1ALU : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU]> {
-}
-
-let Latency = 7, NumMicroOps = 2 in
-def HIP12Write_7c_1V02_1ALU25 : SchedWriteRes<[HIP12UnitV02, HIP12UnitALU25]> {
-}
-
-let Latency = 3, NumMicroOps = 2 in
-def HIP12Write_3c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {
-}
+// Define SVE256 micro-op types
 
 let Latency = 2, NumMicroOps = 1 in
 def HIP12Write_2c_1V02_1V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
@@ -569,44 +547,9 @@ let Latency = 8, NumMicroOps = 4 in
 def HIP12Write_8c_4V02_4V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
 }
 
-let Latency = 9, NumMicroOps = 4 in
-def HIP12Write_9c_4LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD]> {
-}
-
-let Latency = 10, NumMicroOps = 8 in
-def HIP12Write_10c_8LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD]> {
-}
-
-let Latency = 8, NumMicroOps = 2 in
-def HIP12Write_8c_1LD_1V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-}
-
-let Latency = 4, NumMicroOps = 8 in
-def HIP12Write_4c_4ST_4STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
-}
-
-let Latency = 8, NumMicroOps = 16 in
-def HIP12Write_8c_8ST_8STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
-}
-
 let Latency = 9, NumMicroOps = 2 in
 def HIP12Write_9c_1V02_1V13_1ALU25_rc18 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13, HIP12UnitALU25]> {
   let ReleaseAtCycles = [18, 18, 1];
-}
-
-let Latency = 5, NumMicroOps = 1 in
-def HIP12Write_5c_1V_2rc : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [2];
-}
-
-let Latency = 7, NumMicroOps = 1 in
-def HIP12Write_7c_1V_2rc : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [2];
-}
-
-let Latency = 9, NumMicroOps = 1 in
-def HIP12Write_9c_1V_2rc : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [2];
 }
 
 //===----------------------------------------------------------------------===//

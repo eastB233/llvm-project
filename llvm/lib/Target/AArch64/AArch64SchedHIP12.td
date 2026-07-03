@@ -80,6 +80,9 @@ def : WriteRes<WriteLDHi,    []> { let Latency = 4; }
 // Define customized scheduler read/write types specific to the HIP12.
 //===----------------------------------------------------------------------===//
 
+// Define generic 0 micro-op types
+def HIP12Write_0c : SchedWriteRes<[]> { let Latency = 0; }
+
 let Latency = 1, NumMicroOps = 1 in
 def HIP12Write_1c_1B : SchedWriteRes<[HIP12UnitB]> {
 }
@@ -505,6 +508,46 @@ let Latency = 5, NumMicroOps = 2 in
 def HIP12Write_5c_2V02_2V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13]> {
 }
 
+let Latency = 8, NumMicroOps = 2 in
+def HIP12Write_8c_1LD_1V02_1V13 : SchedWriteRes<[HIP12UnitLD, HIP12UnitV02, HIP12UnitV13]> {
+}
+
+let Latency = 8, NumMicroOps = 4 in
+def HIP12Write_8c_2LD_2V02_2V13 : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13]> {
+}
+
+let Latency = 10, NumMicroOps = 9 in
+def HIP12Write_10c_3LD_6V02_6V13 : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
+}
+
+let Latency = 10, NumMicroOps = 6 in
+def HIP12Write_10c_3LD_3V02_3V13 : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
+}
+
+let Latency = 11, NumMicroOps = 12 in
+def HIP12Write_11c_4LD_8V02_8V13 : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
+}
+
+let Latency = 11, NumMicroOps = 8 in
+def HIP12Write_11c_4LD_4V02_4V13 : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
+}
+
+let Latency = 4, NumMicroOps = 3 in
+def HIP12Write_4c_1V02_1V13_1ST_1STD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13, HIP12UnitST, HIP12UnitSTD]> {
+}
+
+let Latency = 4, NumMicroOps = 6 in
+def HIP12Write_4c_2V02_2V13_2ST_2STD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {
+}
+
+let Latency = 7, NumMicroOps = 18 in
+def HIP12Write_7c_6V02_6V13_6ST_6STD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
+}
+
+let Latency = 7, NumMicroOps = 24 in
+def HIP12Write_7c_8V02_8V13_8ST_8STD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
+}
+
 let Latency = 1, NumMicroOps = 2 in
 def HIP12Write_1c_2V : SchedWriteRes<[HIP12UnitV]> {
   let ReleaseAtCycles = [2];
@@ -667,9 +710,8 @@ def HIP12Write_9c_6V : SchedWriteRes<[HIP12UnitV]> {
   let ReleaseAtCycles = [6];
 }
 
-let Latency = 8, NumMicroOps = 8 in
-def HIP12Write_8c_8V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [8];
+let Latency = 8, NumMicroOps = 4 in
+def HIP12Write_8c_4V02_4V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
 }
 
 let Latency = 10, NumMicroOps = 21 in
@@ -688,8 +730,7 @@ def HIP12Write_11c_6LD_8V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
 }
 
 let Latency = 9, NumMicroOps = 4 in
-def HIP12Write_9c_4LD : SchedWriteRes<[HIP12UnitLD]> {
-  let ReleaseAtCycles = [4];
+def HIP12Write_9c_4LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD]> {
 }
 
 let Latency = 9, NumMicroOps = 9 in
@@ -698,8 +739,7 @@ def HIP12Write_9c_4LD_5V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
 }
 
 let Latency = 10, NumMicroOps = 8 in
-def HIP12Write_10c_8LD : SchedWriteRes<[HIP12UnitLD]> {
-  let ReleaseAtCycles = [8];
+def HIP12Write_10c_8LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD]> {
 }
 
 let Latency = 8, NumMicroOps = 2 in
@@ -727,13 +767,11 @@ def HIP12Write_7c_16V_8ST_8STD : SchedWriteRes<[HIP12UnitV, HIP12UnitST, HIP12Un
 }
 
 let Latency = 4, NumMicroOps = 8 in
-def HIP12Write_4c_4ST_4STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [4, 4];
+def HIP12Write_4c_4ST_4STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
 let Latency = 8, NumMicroOps = 16 in
-def HIP12Write_8c_8ST_8STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [8, 8];
+def HIP12Write_8c_8ST_8STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
 let Latency = 2, NumMicroOps = 4 in
@@ -741,9 +779,9 @@ def HIP12Write_2c_2ST_2STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
   let ReleaseAtCycles = [2, 2];
 }
 
-let Latency = 10, NumMicroOps = 60 in
-def HIP12Write_10c_40V_20ALU25 : SchedWriteRes<[HIP12UnitV, HIP12UnitALU25]> {
-  let ReleaseAtCycles = [40, 20];
+let Latency = 9, NumMicroOps = 2 in
+def HIP12Write_9c_1V02_1V13_1ALU25_rc18 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13, HIP12UnitALU25]> {
+  let ReleaseAtCycles = [18, 18, 1];
 }
 
 let Latency = 5, NumMicroOps = 1 in
@@ -3017,15 +3055,15 @@ def : InstRW<[HIP12Write_1c_1V02_1V13], (instregex "^FTSSEL_ZZZ_[HSD]")>;
 
 // Convert, F32 to BF16 SVE256
 // instrs BFCVT, BFCVTNT
-def : InstRW<[HIP12Write_4c_4V], (instrs BFCVT_ZPmZ, BFCVTNT_ZPmZ)>;
+def : InstRW<[HIP12Write_4c_2V02_2V13], (instrs BFCVT_ZPmZ, BFCVTNT_ZPmZ)>;
 
 // Dot product SVE256
 // instrs BFDOT
-def : InstRW<[HIP12Write_6c_4V], (instrs BFDOT_ZZI, BFDOT_ZZZ)>;
+def : InstRW<[HIP12Write_6c_2V02_2V13], (instrs BFDOT_ZZI, BFDOT_ZZZ)>;
 
 // Matrix multiply accumulate SVE256
 // instrs BFMMLA
-def : InstRW<[HIP12Write_8c_8V], (instrs BFMMLA_ZZZ_HtoS)>;
+def : InstRW<[HIP12Write_8c_4V02_4V13], (instrs BFMMLA_ZZZ_HtoS)>;
 
 // Multiply accumulate long SVE256
 // instrs BFMLALB, BFMLALT, BFMLALB, BFMLALT
@@ -3041,7 +3079,7 @@ def : InstRW<[HIP12Write_6c_1LD], (instrs LDR_ZXI)>;
 
 // Load predicate SVE256
 // instrs LDR
-def : InstRW<[HIP12Write_8c_2LD_2V], (instrs LDR_PXI)>;
+def : InstRW<[HIP12Write_8c_1LD_1V02_1V13], (instrs LDR_PXI)>;
 
 // Contiguous load, scalar + imm
 // instrs LD1B, LD1H, LD1W, LD1D, LD1SB, LD1SH, LD1SW
@@ -3059,11 +3097,11 @@ def : InstRW<[HIP12Write_6c_1LD], (instregex "^LD1[BHWD]$",
 
 // Contiguous load broadcast, scalar + imm SVE256
 // instrs LD1RB, LD1RH, LD1RW, LD1RD, LD1RSB, LD1RSH, LD1RSW
-def : InstRW<[HIP12Write_8c_2LD_2V], (instregex "^LD1R[BHWD]_IMM$",
-                                                "^LD1RS?B_[HSD]_IMM$",
-                                                "^LD1RS?H_[SD]_IMM$",
-                                                "^LD1RW_D_IMM$",
-                                                "^LD1RSW_IMM$")>;
+def : InstRW<[HIP12Write_8c_1LD_1V02_1V13], (instregex "^LD1R[BHWD]_IMM$",
+                                                       "^LD1RS?B_[HSD]_IMM$",
+                                                       "^LD1RS?H_[SD]_IMM$",
+                                                       "^LD1RW_D_IMM$",
+                                                       "^LD1RSW_IMM$")>;
 
 // Contiguous load broadcast, scalar + imm
 // instrs LD1RQB, LD1RQH, LD1RQW, LD1RQD
@@ -3105,43 +3143,43 @@ def : InstRW<[HIP12Write_6c_1LD],  (instregex "^LDNF1[BHWD]_IMM$",
 
 // Contiguous Load two structures to two vectors, scalar + imm SVE256
 // instrs LD2B, LD2D, LD2H, LD2W
-def : InstRW<[HIP12Write_8c_3LD_4V], (instregex "^LD2[BHWD]_IMM$")>;
+def : InstRW<[HIP12Write_8c_2LD_2V02_2V13], (instregex "^LD2[BHWD]_IMM$")>;
 
 // Contiguous Load two structures to two vectors, scalar + scalar SVE256
 // instrs LD2B, LD2D, LD2H, LD2W
-def : InstRW<[HIP12Write_8c_3LD_4V], (instregex "^LD2[BHWD]$")>;
+def : InstRW<[HIP12Write_8c_2LD_2V02_2V13], (instregex "^LD2[BHWD]$")>;
 
 // Contiguous Load three structures to three vectors, scalar + imm SVE256
 // instrs LD3B, LD3H, LD3W
-def : InstRW<[HIP12Write_10c_9LD_12V], (instregex "^LD3[BHW]_IMM$")>;
+def : InstRW<[HIP12Write_10c_3LD_6V02_6V13], (instregex "^LD3[BHW]_IMM$")>;
 
 // Contiguous Load three structures to three vectors, scalar + imm SVE256
 // instrs LD3D
-def : InstRW<[HIP12Write_10c_5LD_6V], (instregex "^LD3D_IMM$")>;
+def : InstRW<[HIP12Write_10c_3LD_3V02_3V13], (instregex "^LD3D_IMM$")>;
 
 // Contiguous Load three structures to three vectors, scalar + scalar SVE256
 // instrs LD3B, LD3H, LD3W
-def : InstRW<[HIP12Write_10c_9LD_12V], (instregex "^LD3[BHW]$")>;
+def : InstRW<[HIP12Write_10c_3LD_6V02_6V13], (instregex "^LD3[BHW]$")>;
 
 // Contiguous Load three structures to three vectors, scalar + scalar SVE256
 // instrs LD3D
-def : InstRW<[HIP12Write_10c_5LD_6V], (instregex "^LD3D$")>;
+def : InstRW<[HIP12Write_10c_3LD_3V02_3V13], (instregex "^LD3D$")>;
 
 // Contiguous Load four structures to four vectors, scalar + imm SVE256
 // instrs LD4B, LD4H LD4W
-def : InstRW<[HIP12Write_11c_12LD_16V], (instregex "^LD4[BHW]_IMM$")>;
+def : InstRW<[HIP12Write_11c_4LD_8V02_8V13], (instregex "^LD4[BHW]_IMM$")>;
 
 // Contiguous Load four structures to four vectors, scalar + imm SVE256
 // instrs LD4D
-def : InstRW<[HIP12Write_11c_6LD_8V], (instregex "^LD4D_IMM$")>;
+def : InstRW<[HIP12Write_11c_4LD_4V02_4V13], (instregex "^LD4D_IMM$")>;
 
 // Contiguous Load four structures to four vectors, scalar + scalar SVE256
 // instrs LD4B, LD4H, LD4W
-def : InstRW<[HIP12Write_11c_12LD_16V], (instregex "^LD4[BHW]$")>;
+def : InstRW<[HIP12Write_11c_4LD_8V02_8V13], (instregex "^LD4[BHW]$")>;
 
 // Contiguous Load four structures to four vectors, scalar + scalar SVE256
 // instrs LD4D
-def : InstRW<[HIP12Write_11c_6LD_8V], (instregex "^LD4D$")>;
+def : InstRW<[HIP12Write_11c_4LD_4V02_4V13], (instregex "^LD4D$")>;
 
 // Gather load, vector + imm, 32- bit element size SVE256
 // instrs LD1B, LD1H, LD1W, LD1SB, LD1SH, LD1SW, LDFF1B, LDFF1H, LDFF1W, LDFF1SB, LDFF1SH, LDFF1SW
@@ -3159,7 +3197,7 @@ def : InstRW<[HIP12Write_10c_8LD],
              (instregex "^GLD(FF)?1S?H_S_[SU]XTW_SCALED$",
                         "^GLD(FF)?1W_[SU]XTW_SCALED")>;
 
-// Gather load, 64-bit scaled offset
+// Gather load, 64-bit scaled offset SVE256
 // NOTE: These instructions are not specified in the SOG.
 def : InstRW<[HIP12Write_10c_8LD],
              (instregex "^GLD(FF)?1S?[HW]_D_([SU]XTW_)?SCALED$",
@@ -3171,7 +3209,7 @@ def : InstRW<[HIP12Write_9c_4LD],
               (instregex "^GLD(FF)?1S?[BH]_S_[SU]XTW$",
                          "^GLD(FF)?1W_[SU]XTW$")>;
 
-// Gather load, 64-bit unpacked unscaled offset
+// Gather load, 64-bit unpacked unscaled offset SVE256
 // NOTE: These instructions are not specified in the SOG.
 def : InstRW<[HIP12Write_9c_4LD],
              (instregex "^GLD(FF)?1S?[BHW]_D(_[SU]XTW)?$",
@@ -3183,7 +3221,7 @@ def : InstRW<[HIP12Write_9c_4LD],
 
 // Store from predicate reg
 // instrs STR
-def : InstRW<[HIP12Write_4c_2V_1ST_1STD], (instrs STR_PXI)>;
+def : InstRW<[HIP12Write_4c_1V02_1V13_1ST_1STD], (instrs STR_PXI)>;
 
 // Store from vector reg
 // instrs STR
@@ -3205,28 +3243,28 @@ def : InstRW<[HIP12Write_1c_1ST_1STD], (instregex "^ST1[BWD]$",
 
 // Contiguous store two structures from two vectors, scalar + imm SVE256
 // instrs ST2B, ST2H, ST2W, ST2D
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD], (instregex "^ST2[BHWD]_IMM$")>;
+def : InstRW<[HIP12Write_4c_2V02_2V13_2ST_2STD], (instregex "^ST2[BHWD]_IMM$")>;
 
 // Contiguous store two structures from two vectors, scalar + scalar SVE256
 // instrs ST2B, ST2H, ST2W, ST2D
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD], (instrs ST2H)>;
-def : InstRW<[HIP12Write_4c_4V_2ST_2STD], (instregex "^ST2[BWD]$")>;
+def : InstRW<[HIP12Write_4c_2V02_2V13_2ST_2STD], (instrs ST2H)>;
+def : InstRW<[HIP12Write_4c_2V02_2V13_2ST_2STD], (instregex "^ST2[BWD]$")>;
 
 // Contiguous store three structures from three vectors, scalar + imm SVE256
 // instrs ST3B, ST3H, ST3W, ST3D
-def : InstRW<[HIP12Write_7c_12V_6ST_6STD], (instregex "^ST3[BHWD]_IMM$")>;
+def : InstRW<[HIP12Write_7c_6V02_6V13_6ST_6STD], (instregex "^ST3[BHWD]_IMM$")>;
 
 // Contiguous store three structures from three vectors, scalar + scalar SVE256
 // instrs ST3B, ST3H, ST3W, ST3D
-def : InstRW<[HIP12Write_7c_12V_6ST_6STD], (instregex "^ST3[BHWD]$")>;
+def : InstRW<[HIP12Write_7c_6V02_6V13_6ST_6STD], (instregex "^ST3[BHWD]$")>;
 
 // Contiguous store four structures from four vectors, scalar + imm SVE256
 // instrs ST4B, ST4H, ST4W, ST4D
-def : InstRW<[HIP12Write_7c_16V_8ST_8STD], (instregex "^ST4[BHWD]_IMM$")>;
+def : InstRW<[HIP12Write_7c_8V02_8V13_8ST_8STD], (instregex "^ST4[BHWD]_IMM$")>;
 
 // Contiguous store four structures from four vectors, scalar + scalar SVE256
 // instrs ST4B, ST4H, ST4W, ST4D
-def : InstRW<[HIP12Write_7c_16V_8ST_8STD], (instregex "^ST4[BHWD]$")>;
+def : InstRW<[HIP12Write_7c_8V02_8V13_8ST_8STD], (instregex "^ST4[BHWD]$")>;
 
 // Non-temporal store, scalar + imm
 // instrs STNT1B, STNT1H, STNT1W, STNT1D
@@ -3291,19 +3329,23 @@ def : InstRW<[HIP12Write_4c_4ST_4STD], (instregex "^SST1[BHW]_D$",
 
 // Read first fault register, unpredicated
 // instrs RDFFR
-def : InstRW<[HIP12Write_2c_2V], (instrs RDFFR_P)>;
+def : InstRW<[HIP12Write_2c_1V02_1V13], (instrs RDFFR_P)>;
 
 // Read first fault register, predicated
 // instrs RDFFR
-def : InstRW<[HIP12Write_2c_2V], (instrs RDFFR_PPz)>;
+def : InstRW<[HIP12Write_2c_1V02_1V13], (instrs RDFFR_PPz)>;
 
 // Read first fault register and set flags
 // instrs RDFFRS
-def : InstRW<[HIP12Write_2c_2V], (instrs RDFFRS_PPz)>;
+def : InstRW<[HIP12Write_2c_1V02_1V13], (instrs RDFFRS_PPz)>;
+
+// Set first fault register
+// instrs SETFFR
+def : InstRW<[HIP12Write_0c], (instrs SETFFR)>;
 
 // Write to first fault register
 // instrs WRFFR
-def : InstRW<[HIP12Write_10c_40V_20ALU25], (instrs SETFFR, WRFFR)>;
+def : InstRW<[HIP12Write_9c_1V02_1V13_1ALU25_rc18], (instrs WRFFR)>;
 
 //===----------------------------------------------------------------------===//
 // Prefetch
@@ -3318,20 +3360,20 @@ def : InstRW<[HIP12Write_4c_1LD], (instregex "^PRF[BHWD]")>;
 
 // crypto AES ops SVE256
 // instrs AESD, AESE, AESMC, AESIMC
-def : InstRW<[HIP12Write_2c_2V], (instregex "^AES[DE]_ZZZ_B$",
-                                            "^AESI?MC_ZZ_B$")>;
+def : InstRW<[HIP12Write_2c_1V02_1V13], (instregex "^AES[DE]_ZZZ_B$",
+                                                   "^AESI?MC_ZZ_B$")>;
 
 // Crypto SHA3 ops SVE256
 // instrs BCAX, EOR3, RAX1
-def : InstRW<[HIP12Write_1c_2V], (instregex "^(BCAX|EOR3)_ZZZZ$",
-                                            "^RAX1_ZZZ_D$")>;
+def : InstRW<[HIP12Write_1c_1V02_1V13], (instregex "^(BCAX|EOR3)_ZZZZ$",
+                                                   "^RAX1_ZZZ_D$")>;
 
 // Crypto SHA3 ops SVE256
 // instrs XAR
-def : InstRW<[HIP12Write_2c_2V], (instregex "^XAR_ZZZI_[BHSD]$")>;
+def : InstRW<[HIP12Write_2c_1V02_1V13], (instregex "^XAR_ZZZI_[BHSD]$")>;
 
 // Crypto SM4 ops SVE256
 // instrs SM4E, SM4EKEY
-def : InstRW<[HIP12Write_4c_2V], (instregex "^SM4E(KEY)?_ZZZ_S$")>;
+def : InstRW<[HIP12Write_4c_1V02_1V13], (instregex "^SM4E(KEY)?_ZZZ_S$")>;
 
 } // SchedModel = HIP12Model

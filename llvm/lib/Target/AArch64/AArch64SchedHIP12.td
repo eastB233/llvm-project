@@ -271,16 +271,6 @@ let Latency = 4, NumMicroOps = 2 in
 def HIP12Write_4c_2V : SchedWriteRes<[HIP12UnitV, HIP12UnitV]> {
 }
 
-let Latency = 7, NumMicroOps = 2 in
-def HIP12Write_7c_2V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [2];
-}
-
-let Latency = 9, NumMicroOps = 2 in
-def HIP12Write_9c_2V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [2];
-}
-
 let Latency = 8, NumMicroOps = 4 in
 def HIP12Write_8c_4V : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
@@ -317,11 +307,6 @@ let Latency = 8, NumMicroOps = 4 in
 def HIP12Write_8c_2LD_2V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV]> {
 }
 
-let Latency = 10, NumMicroOps = 11 in
-def HIP12Write_10c_5LD_6V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [5, 6];
-}
-
 let Latency = 10, NumMicroOps = 9 in
 def HIP12Write_10c_3LD_6V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
 }
@@ -340,11 +325,6 @@ def HIP12Write_11c_4LD_8V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD
 
 let Latency = 9, NumMicroOps = 8 in
 def HIP12Write_9c_4LD_4V : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV]> {
-}
-
-let Latency = 10, NumMicroOps = 14 in
-def HIP12Write_10c_6LD_8V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [6, 8];
 }
 
 let Latency = 8, NumMicroOps = 7 in
@@ -379,10 +359,6 @@ let Latency = 4, NumMicroOps = 8 in
 def HIP12Write_4c_4V_2ST_2STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
-let Latency = 5, NumMicroOps = 9 in
-def HIP12Write_5c_3V_3ST_3STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
-}
-
 let Latency = 5, NumMicroOps = 12 in
 def HIP12Write_5c_6V_3ST_3STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
 }
@@ -392,8 +368,7 @@ def HIP12Write_5c_8V_4ST_4STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12Unit
 }
 
 let Latency = 4, NumMicroOps = 4 in
-def HIP12Write_4c_2V_1ST_1STD : SchedWriteRes<[HIP12UnitV, HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [2, 1, 1];
+def HIP12Write_4c_2V_1ST_1STD : SchedWriteRes<[HIP12UnitV, HIP12UnitV, HIP12UnitST, HIP12UnitSTD]> {
 }
 
 let Latency = 4, NumMicroOps = 1 in
@@ -548,66 +523,6 @@ let Latency = 7, NumMicroOps = 24 in
 def HIP12Write_7c_8V02_8V13_8ST_8STD : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
 }
 
-let Latency = 1, NumMicroOps = 2 in
-def HIP12Write_1c_2V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [2];
-}
-
-let Latency = 4, NumMicroOps = 4 in
-def HIP12Write_4c_4V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [4];
-}
-
-let Latency = 9, NumMicroOps = 4 in
-def HIP12Write_9c_2ALU0134_2V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [2, 2];
-}
-
-let Latency = 7, NumMicroOps = 4 in
-def HIP12Write_7c_4V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [4];
-}
-
-let Latency = 5, NumMicroOps = 4 in
-def HIP12Write_5c_2ALU0134_2V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [2, 2];
-}
-
-let Latency = 10, NumMicroOps = 4 in
-def HIP12Write_10c_2ALU0134_2V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [2, 2];
-}
-
-let Latency = 11, NumMicroOps = 4 in
-def HIP12Write_11c_2ALU0134_2V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [2, 2];
-}
-
-let Latency = 11, NumMicroOps = 8 in
-def HIP12Write_11c_4ALU0134_4V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [4, 4];
-}
-
-let Latency = 10, NumMicroOps = 8 in
-def HIP12Write_10c_4ALU0134_4V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [4, 4];
-}
-
-let Latency = 10, NumMicroOps = 12 in
-def HIP12Write_10c_6ALU0134_6V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [6, 6];
-}
-
-let Latency = 11, NumMicroOps = 16 in
-def HIP12Write_11c_8ALU0134_8V : SchedWriteRes<[HIP12UnitALU0134, HIP12UnitV]> {
-  let ReleaseAtCycles = [8, 8];
-}
-
-let Latency = 5, NumMicroOps = 4 in
-def HIP12Write_5c_4V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [4];
-}
-
 let Latency = 5, NumMicroOps = 1 in
 def HIP12Write_5c_1V02_1V13_rc2 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
   let ReleaseAtCycles = [2, 2];
@@ -623,59 +538,9 @@ def HIP12Write_9c_1V02_1V13_rc2 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
   let ReleaseAtCycles = [2, 2];
 }
 
-let Latency = 7, NumMicroOps = 6 in
-def HIP12Write_7c_6V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [6];
-}
-
-let Latency = 8, NumMicroOps = 3 in
-def HIP12Write_8c_3V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [3];
-}
-
-let Latency = 10, NumMicroOps = 8 in
-def HIP12Write_10c_8V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [8];
-}
-
-let Latency = 11, NumMicroOps = 4 in
-def HIP12Write_11c_4V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [4];
-}
-
-let Latency = 13, NumMicroOps = 10 in
-def HIP12Write_13c_10V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [10];
-}
-
-let Latency = 8, NumMicroOps = 6 in
-def HIP12Write_8c_6V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [6];
-}
-
-let Latency = 11, NumMicroOps = 8 in
-def HIP12Write_11c_8V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [8];
-}
-
-let Latency = 14, NumMicroOps = 10 in
-def HIP12Write_14c_10V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [10];
-}
-
-let Latency = 18, NumMicroOps = 8 in
-def HIP12Write_18c_8V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [8];
-}
-
 let Latency = 42, NumMicroOps = 1 in
 def HIP12Write_42c_1V02_1V13_rc18 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV13]> {
   let ReleaseAtCycles = [18, 18];
-}
-
-let Latency = 10, NumMicroOps = 4 in
-def HIP12Write_10c_4V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [4];
 }
 
 let Latency = 26, NumMicroOps = 1 in
@@ -700,42 +565,12 @@ let Latency = 9, NumMicroOps = 3 in
 def HIP12Write_9c_3V02_3V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
 }
 
-let Latency = 12, NumMicroOps = 8 in
-def HIP12Write_12c_8V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [8];
-}
-
-let Latency = 9, NumMicroOps = 6 in
-def HIP12Write_9c_6V : SchedWriteRes<[HIP12UnitV]> {
-  let ReleaseAtCycles = [6];
-}
-
 let Latency = 8, NumMicroOps = 4 in
 def HIP12Write_8c_4V02_4V13 : SchedWriteRes<[HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV02, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13, HIP12UnitV13]> {
 }
 
-let Latency = 10, NumMicroOps = 21 in
-def HIP12Write_10c_9LD_12V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [9, 12];
-}
-
-let Latency = 11, NumMicroOps = 28 in
-def HIP12Write_11c_12LD_16V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [12, 16];
-}
-
-let Latency = 11, NumMicroOps = 14 in
-def HIP12Write_11c_6LD_8V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [6, 8];
-}
-
 let Latency = 9, NumMicroOps = 4 in
 def HIP12Write_9c_4LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, HIP12UnitLD]> {
-}
-
-let Latency = 9, NumMicroOps = 9 in
-def HIP12Write_9c_4LD_5V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-  let ReleaseAtCycles = [4, 5];
 }
 
 let Latency = 10, NumMicroOps = 8 in
@@ -743,27 +578,7 @@ def HIP12Write_10c_8LD : SchedWriteRes<[HIP12UnitLD, HIP12UnitLD, HIP12UnitLD, H
 }
 
 let Latency = 8, NumMicroOps = 2 in
-def HIP12Write_8c_2LD : SchedWriteRes<[HIP12UnitLD]> {
-  let ReleaseAtCycles = [2];
-}
-
-let Latency = 8, NumMicroOps = 2 in
 def HIP12Write_8c_1LD_1V : SchedWriteRes<[HIP12UnitLD, HIP12UnitV]> {
-}
-
-let Latency = 1, NumMicroOps = 4 in
-def HIP12Write_1c_2V_1ST_1STD : SchedWriteRes<[HIP12UnitV, HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [2, 1, 1];
-}
-
-let Latency = 7, NumMicroOps = 24 in
-def HIP12Write_7c_12V_6ST_6STD : SchedWriteRes<[HIP12UnitV, HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [12, 6, 6];
-}
-
-let Latency = 7, NumMicroOps = 32 in
-def HIP12Write_7c_16V_8ST_8STD : SchedWriteRes<[HIP12UnitV, HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [16, 8, 8];
 }
 
 let Latency = 4, NumMicroOps = 8 in
@@ -772,11 +587,6 @@ def HIP12Write_4c_4ST_4STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitS
 
 let Latency = 8, NumMicroOps = 16 in
 def HIP12Write_8c_8ST_8STD : SchedWriteRes<[HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitST, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD, HIP12UnitSTD]> {
-}
-
-let Latency = 2, NumMicroOps = 4 in
-def HIP12Write_2c_2ST_2STD : SchedWriteRes<[HIP12UnitST, HIP12UnitSTD]> {
-  let ReleaseAtCycles = [2, 2];
 }
 
 let Latency = 9, NumMicroOps = 2 in
